@@ -1,0 +1,18 @@
+FUNÇÕES DE AGREGAÇÃO
+
+-    MIN = Valor Mínimo de um conjunto de valores
+-    MAX = Valor Máximo de um conjunto de valores
+-    AVG = Média Aritmética de um conjunto de valores
+-    SUM = Total (Soma) de um conjunto de valores
+-    COUNT = Contar quantidade total de itens
+
+
+ESTRUTURA DE DADOS
+- keys: dicionário ou struct 
+
+
+RELATÓRIO
+- enunciado do problema
+- descrição do problema
+- decisões da solução e sua implementação
+- exemplos de utilização
