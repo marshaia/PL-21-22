@@ -1,21 +1,26 @@
+from operator import imod
+import re
 from tokenizer import *
-from keyReader import * 
+from lineProcessor import * 
 import ply.lex as lex
 import sys
+import json
+
 
 file = open("agregacaoSUM.csv")
 
-lex = getCSVLexer()
+lexer = getCSVLexer()
 
 keyList = []
-firstline = bool(True) 
 for line in file:
-    lex.input(line)
-    if firstline:
-        keyList = readFirstLine(lex)
-        firstline = bool(False)
+    lexer.input(line)
+    if lexer.current_state() == 'firstline':
+        keyList = readFirstLine(lexer)
     else:
-        print("Linha processada")
+        try:
+            dic = processLine(keyList,lexer)
+        except Exception as e:
+            print(e)
+            break
+        print(dic)
 
-
-print(keyList)

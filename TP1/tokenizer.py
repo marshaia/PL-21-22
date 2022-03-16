@@ -25,12 +25,12 @@ def t_firstline_NEWLINE(t):
 
 def t_firstline_MIN(t):
     r'{\d+'
-    t.value = str(t.value).lstrip("{")
+    t.value = int(str(t.value).lstrip("{"))
     return t
 
 def t_firstline_MAX(t):
     r'\d+}'
-    t.value = str(t.value).rstrip("}")
+    t.value = int(str(t.value).rstrip("}"))
     return t
 
 def t_firstline_FUNC(t):
@@ -67,8 +67,7 @@ def t_error(t):
     print('Illegal character')
     exit()
 
-
-
+lex.Lexer.current_state
 
 def getCSVLexer():
     res = lex.lex()
