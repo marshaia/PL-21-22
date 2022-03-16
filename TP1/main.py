@@ -1,16 +1,21 @@
-from numpy import empty
 from tokenizer import *
+from keyReader import * 
 import ply.lex as lex
 import sys
 
 file = open("agregacaoSUM.csv")
 
-lexer = getLexer()
+lex = getCSVLexer()
 
-dic = {}
-
+keyList = []
+firstline = bool(True) 
 for line in file:
-    lexer.input(line)
-    for tok in lexer:
-        print(tok.type)
-        print(tok.value)
+    lex.input(line)
+    if firstline:
+        keyList = readFirstLine(lex)
+        firstline = bool(False)
+    else:
+        print("Linha processada")
+
+
+print(keyList)
