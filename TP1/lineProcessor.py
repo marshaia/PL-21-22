@@ -2,8 +2,8 @@ import re
 
 def convertDicToJSONLine(dic):
     dic = str(dic)
-    dic = re.sub(r'\'([^,:]+)\'(:|,|})',r'"\1"\2',dic)
-    dic = re.sub(r'(, )',r',\n\t\t',dic)
+    dic = re.sub(r'\'([^\']+)\'',r'"\1"',dic)
+    dic = re.sub(r'(", )',r'",\n\t\t',dic)
     dic = re.sub(r'({")',r'\t{\n\t\t"',dic)
     dic = re.sub(r'("})',r'"\n\t}',dic)
     return dic
@@ -65,6 +65,9 @@ def convertNum(num):
 
 
 def processLine(keyList,lexer):
+
+  
+
     res = {}
     for field in keyList:
 

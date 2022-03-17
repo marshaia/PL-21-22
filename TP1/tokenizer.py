@@ -53,7 +53,11 @@ def t_NUM(t):
     t.value = float(t.value)
     return t
 
-t_STRING = r'[^,;]+'
+def t_STRING(t):
+    r'("[^"]+"|[^,;]+)'
+    t.value = str(t.value).lstrip("\"")
+    t.value = str(t.value).rstrip("\"")
+    return t
 
 t_VIRG = r',|;'
 
