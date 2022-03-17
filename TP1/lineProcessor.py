@@ -63,6 +63,12 @@ def convertNum(num):
         return str(int(num))
     return str(num)
 
+def convertNumList(numList):
+    res=[]
+    for num in numList:
+        res.append(convertNum(num))
+    return res
+   
 
 def processLine(keyList,lexer):
 
@@ -100,6 +106,7 @@ def processLine(keyList,lexer):
                     raise
             else:    
                 res[field.get("KEY")] = numList
+                convertNumList(numList)
         
         else:
             tok = lexer.token()

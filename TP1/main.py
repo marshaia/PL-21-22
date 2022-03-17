@@ -4,7 +4,7 @@ from lineProcessor import *
 import sys
 import os
 #preciso deste pra funcionar no meu, ignorem
-filenameCSV ="/home/mirtilo/PL-21-22/TP1/agregacaoSUM.csv"
+filenameCSV ="/home/mirtilo/PL-21-22/TP1/listasInterTam.csv"
 #filenameCSV = "agregacaoSUM.csv"
 #filenameCSV = sys.argv[1]
 filenameJSON = filenameCSV.replace(".csv",".JSON")
