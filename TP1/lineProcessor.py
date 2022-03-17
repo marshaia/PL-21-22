@@ -1,6 +1,12 @@
 import re
 
-from urllib3 import Retry
+def convertDicToJSONLine(dic):
+    dic = str(dic)
+    dic = re.sub(r'\'([^,:]+)\'(:|,|})',r'"\1"\2',dic)
+    dic = re.sub(r'(, )',r',\n\t\t',dic)
+    dic = re.sub(r'({")',r'\t{\n\t\t"',dic)
+    dic = re.sub(r'("})',r'"\n\t}',dic)
+    return dic
 
 
 def readFirstLine(lexer):
