@@ -25,6 +25,7 @@ for line in fileCSV:
     else:
         try:
             dic = processLine(keyList,lexer)
+            print(dic)
         except Exception as e:
             os.remove(filenameJSON)
             print(e)

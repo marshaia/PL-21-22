@@ -6,6 +6,7 @@ def convertDicToJSONLine(dic):
     dic = re.sub(r'(", )',r'",\n\t\t',dic)
     dic = re.sub(r'({")',r'\t{\n\t\t"',dic)
     dic = re.sub(r'("})',r'"\n\t}',dic)
+    dic = re.sub(r'(]})',r']\n\t}',dic)
     return dic
 
 
@@ -105,8 +106,7 @@ def processLine(keyList,lexer):
                 except Exception:
                     raise
             else:    
-                res[field.get("KEY")] = numList
-                convertNumList(numList)
+                res[field.get("KEY")] = convertNumList(numList)
         
         else:
             tok = lexer.token()
