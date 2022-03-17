@@ -3,6 +3,7 @@ import re
 def convertDicToJSONLine(dic):
     dic = str(dic)
     dic = re.sub(r'\'([^\']+)\'',r'"\1"',dic)
+ #   dic = re.sub(r'[(\'.+\',)*(\'.+\')\]',r'[(.+,)*(.+)\]',dic)
     dic = re.sub(r'(", )',r'",\n\t\t',dic)
     dic = re.sub(r'({")',r'\t{\n\t\t"',dic)
     dic = re.sub(r'("})',r'"\n\t}',dic)
