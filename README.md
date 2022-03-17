@@ -9,7 +9,7 @@ Trabalhos Práticos da unidade curricular de Processamento de Linguagens
 
 #
 ## TP1
-Este primeiro projeto tem como objetivo utilizar expressões regulares :
+Este primeiro projeto tem como objetivo converter ficheiros CSV em JSON utilizando expressões regulares.
 
 # 
 ## TP2
