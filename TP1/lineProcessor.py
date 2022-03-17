@@ -41,7 +41,7 @@ def applyFunc(func,numList):
             res += i
         return res
 
-    elif func == "avg":
+    elif func == "media" or func == "avg":
         n = applyFunc("count",numList)
         sum = applyFunc("sum",numList)
         if n == 0:
