@@ -18,17 +18,19 @@ firstEntry = bool(True)
 
 lexer = getCSVLexer()
 keyList = []
+numLine = 0
 
 for line in fileCSV:
     lexer.input(line)
+    numLine += 1
     if lexer.current_state() == 'firstline':
         keyList = readFirstLine(lexer)
     else:
         try:
-            dic = processLine(keyList,lexer)
+            dic = processLine(keyList,lexer,numLine)
         except Exception as e:
             os.remove(filenameJSON)
-            sys.exit("Conversion Failed :(\nCause of error:\n"+str(e))
+            sys.exit("Conversion Failed :(\nCause of error: "+str(e))
         jsonObj = convertDicToJSONLine(dic)
         if not firstEntry:
             fileJSON.write(",\n")

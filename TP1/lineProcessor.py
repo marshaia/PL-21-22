@@ -19,29 +19,29 @@ def applyFunc(func,numList):
     func = func.lower()
 
     if func == "count":
-        res = 0
-        for i in numList:
-            res += 1
-        return res
+        return numList.len()
 
     elif func == "sum":
-        res = 0
-        for i in numList:
-            res += i
-        return res
+        return sum(numList)
 
     elif func == "media" or func == "avg":
-        n = applyFunc("count",numList)
-        sum = applyFunc("sum",numList)
+        n = numList.len()
+        total = sum(numList)
         if n == 0:
             return 0
-        return sum/n
+        return total/n
 
     elif func == "prod":
         res = 1
         for i in numList:
             res *= i
         return res
+    
+    elif func == "max":
+        return max(numList)
+
+    elif func == "min":
+        return min(numList)
 
     else:
         raise Exception('Unrecognized function: '+func)
@@ -59,7 +59,7 @@ def convertNumList(numList):
     return res
    
 
-def processLine(keyList,lexer):
+def processLine(keyList,lexer,numLine):
     res = {}
     for field in keyList:
 
@@ -76,9 +76,9 @@ def processLine(keyList,lexer):
                 tok = lexer.token()
                 if not tok or tok.type == "VIRG":
                     if i < min:
-                        raise Exception('Missing required number on line:'+str(tok.lineno+1)+' col:'+str(tok.lexpos+1)) 
+                        raise Exception('Missing required number on line:'+str(numLine)+' col:'+str(tok.lexpos+1)) 
                 elif tok.type == "STRING":
-                    raise Exception('String value on non-string field in line:'+str(tok.lineno+1)+' col:'+str(tok.lexpos+1)+' -> \x1B[3m'+str(tok.value)+'\x1B[0m') 
+                    raise Exception('String value on non-string field in line:'+str(numLine)+' col:'+str(tok.lexpos+1)+' -> \x1B[3m'+str(tok.value)+'\x1B[0m') 
                 elif tok.type == "NUM":
                     numList.append(tok.value)
                     lexer.token()
@@ -98,6 +98,8 @@ def processLine(keyList,lexer):
             val = tok.value
             if tok.type == "NUM":
                 res[field.get("KEY")] = str(convertNum(val))
+            elif tok.type == "VIRG":
+                raise Exception('Extra comma detected in line:'+str(numLine)+' col:'+str(tok.lexpos+1)+'\nIf u wish to have a literal comma in a field use quotations. "exam,ple" ')
             else:
                 res[field.get("KEY")] = val
             lexer.token()
