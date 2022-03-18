@@ -10,6 +10,7 @@ Trabalhos Práticos da unidade curricular de Processamento de Linguagens
 #
 ## TP1
 Este primeiro projeto tem como objetivo converter ficheiros CSV em JSON utilizando expressões regulares.
+O relatório desenvolvido em LaTEX está disponível para visualização através do seguinte link : https://www.overleaf.com/read/bjccznrbnpkz .
 
 # 
 ## TP2
