@@ -3,7 +3,6 @@ import re
 def convertDicToJSONLine(dic):
     dic = str(dic)
     dic = re.sub(r'\'([^\']+)\'',r'"\1"',dic)
- #   dic = re.sub(r'[(\'.+\',)*(\'.+\')\]',r'[(.+,)*(.+)\]',dic)
     dic = re.sub(r'(", )',r'",\n\t\t',dic)
     dic = re.sub(r'({")',r'\t{\n\t\t"',dic)
     dic = re.sub(r'("})',r'"\n\t}',dic)
@@ -62,8 +61,8 @@ def applyFunc(func,numList):
 
 def convertNum(num):
     if int(num) - num == 0:
-        return str(int(num))
-    return str(num)
+        return int(num)
+    return num
 
 def convertNumList(numList):
     res=[]
@@ -73,9 +72,6 @@ def convertNumList(numList):
    
 
 def processLine(keyList,lexer):
-
-  
-
     res = {}
     for field in keyList:
 
@@ -103,7 +99,7 @@ def processLine(keyList,lexer):
             if field.__contains__("FUNC"):
                 try:
                     func = field.get("FUNC").lower()
-                    res[field.get("KEY")+'_'+func] = convertNum(applyFunc(field.get("FUNC"),numList))
+                    res[field.get("KEY")+'_'+func] = convertNum(applyFunc(func,numList))
                 except Exception:
                     raise
             else:    
@@ -113,7 +109,7 @@ def processLine(keyList,lexer):
             tok = lexer.token()
             val = tok.value
             if tok.type == "NUM":
-                res[field.get("KEY")] = convertNum(val)
+                res[field.get("KEY")] = str(convertNum(val))
             else:
                 res[field.get("KEY")] = val
             lexer.token()
