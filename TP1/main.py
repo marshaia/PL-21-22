@@ -1,11 +1,11 @@
-from fileinput import filename
 from tokenizer import *
 from lineProcessor import * 
-import sys
+from JSONconverter import *
 import os
+import sys
 
 #preciso deste pra funcionar no meu, ignorem
-filenameCSV ="listasInterTam.csv"
+filenameCSV ="agregacaoSUM.csv"
 #filenameCSV = "agregacaoSUM.csv"
 #filenameCSV = sys.argv[1]
 filenameJSON = filenameCSV.replace(".csv",".JSON")
@@ -28,8 +28,7 @@ for line in fileCSV:
             dic = processLine(keyList,lexer)
         except Exception as e:
             os.remove(filenameJSON)
-            print(e)
-            break
+            sys.exit("Conversion Failed :(\nCause of error:\n"+str(e))
         jsonObj = convertDicToJSONLine(dic)
         if not firstEntry:
             fileJSON.write(",\n")

@@ -1,15 +1,3 @@
-import re
-
-def convertDicToJSONLine(dic):
-    dic = str(dic)
-    dic = re.sub(r'\'([^\']+)\'',r'"\1"',dic)
-    dic = re.sub(r'(", )',r'",\n\t\t',dic)
-    dic = re.sub(r'({")',r'\t{\n\t\t"',dic)
-    dic = re.sub(r'("})',r'"\n\t}',dic)
-    dic = re.sub(r'(]})',r']\n\t}',dic)
-    return dic
-
-
 def readFirstLine(lexer):
     res = []
     count = 0
@@ -88,9 +76,9 @@ def processLine(keyList,lexer):
                 tok = lexer.token()
                 if not tok or tok.type == "VIRG":
                     if i < min:
-                        raise Exception('Missing required number on line:'+str(tok.lineno)+' col:'+str(tok.lexpos)) 
+                        raise Exception('Missing required number on line:'+str(tok.lineno+1)+' col:'+str(tok.lexpos+1)) 
                 elif tok.type == "STRING":
-                    raise Exception('String value on non-string field in line:'+str(tok.lineno)+' col:'+str(tok.lexpos)) 
+                    raise Exception('String value on non-string field in line:'+str(tok.lineno+1)+' col:'+str(tok.lexpos+1)+' -> \x1B[3m'+str(tok.value)+'\x1B[0m') 
                 elif tok.type == "NUM":
                     numList.append(tok.value)
                     lexer.token()
