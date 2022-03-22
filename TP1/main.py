@@ -5,8 +5,8 @@ import os
 import sys
 
 #preciso deste pra funcionar no meu, ignorem
-filenameCSV ="agregacaoSUM.csv"
-#filenameCSV = "agregacaoSUM.csv"
+#filenameCSV ="/home/mirtilo/PL-21-22/TP1/CSV/agregacaoSUM.csv"
+filenameCSV = "agregacaoSUM.csv"
 #filenameCSV = sys.argv[1]
 filenameJSON = filenameCSV.replace(".csv",".JSON")
 fileCSV = open(filenameCSV,'r')
