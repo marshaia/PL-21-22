@@ -24,13 +24,13 @@ def t_firstline_NEWLINE(t):
     pass
 
 def t_firstline_MIN(t):
-    r'{\d+'
-    t.value = int(str(t.value).lstrip("{"))
+    r'{\d+(,|})'
+    t.value = int(str(t.value).strip("{,}"))
     return t
 
 def t_firstline_MAX(t):
     r'\d+}'
-    t.value = int(str(t.value).rstrip("}"))
+    t.value = int(str(t.value).strip(",}"))
     return t
 
 def t_firstline_FUNC(t):
@@ -38,12 +38,12 @@ def t_firstline_FUNC(t):
     t.value = str(t.value).lstrip(":")
     return t
 
-t_firstline_KEY = r'[^,{]+'
+t_firstline_KEY = r'[^,{;]+'
 
-t_firstline_ignore = " ,"
+t_firstline_ignore = " ,;"
 
 def t_firstline_error(t):
-    print('Illegal character')
+    print('Illegal character in column: '+str(t.lexpos+1))
     exit()
 
 
@@ -55,8 +55,7 @@ def t_NUM(t):
 
 def t_STRING(t):
     r'("[^"]+"|[^,;]+)'
-    t.value = str(t.value).lstrip("\"")
-    t.value = str(t.value).rstrip("\"")
+    t.value = str(t.value).strip("\"")
     return t
 
 t_VIRG = r',|;'
@@ -71,9 +70,8 @@ def t_error(t):
     print('Illegal character')
     exit()
 
-lex.Lexer.current_state
-
 def getCSVLexer():
     res = lex.lex()
+    res.linha = 0
     res.begin('firstline')
     return res

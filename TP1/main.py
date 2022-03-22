@@ -18,16 +18,21 @@ firstEntry = bool(True)
 
 lexer = getCSVLexer()
 keyList = []
-numLine = 0
 
 for line in fileCSV:
     lexer.input(line)
-    numLine += 1
+    lexer.linha += 1
     if lexer.current_state() == 'firstline':
-        keyList = readFirstLine(lexer)
+        try:
+            keyList = readFirstLine(lexer)
+            print(keyList)
+        except Exception as e:
+            os.remove(filenameJSON)
+            sys.exit("Header Malfunction :(\nCause of error: "+str(e))
+        
     else:
         try:
-            dic = processLine(keyList,lexer,numLine)
+            dic = processLine(keyList,lexer)
         except Exception as e:
             os.remove(filenameJSON)
             sys.exit("Conversion Failed :(\nCause of error: "+str(e))

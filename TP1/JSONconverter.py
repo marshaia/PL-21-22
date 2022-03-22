@@ -19,6 +19,7 @@ def convertDicToJSONLine(dic):
     dic = re.sub(r'("|\d|]), ',r'\1,\n\t\t',dic)
 
 
+
     # Converte início da entrada com a identação correta
     # {
     #             "Número": "264",
@@ -26,7 +27,6 @@ def convertDicToJSONLine(dic):
     #             "Curso": "Ciência Política",
     #             "Notas_sum": 76}
     dic = re.sub(r'({")',r'\t{\n\t\t"',dic)
-
 
     # Converte o último atributo com a identação correta
     # {

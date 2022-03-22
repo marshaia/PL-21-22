@@ -1,16 +1,36 @@
+import re
+
+
+allFunc = ["count","sum","media","min","prod","max","min"]
+
 def readFirstLine(lexer):
     res = []
     count = 0
+    typeRead = "none"
+
     for tok in lexer:
         dic = {}
         if (tok.type == "KEY"):
             dic["KEY"] = tok.value        
             res.append(dic)
-            count = count + 1
+            count += 1
         else:
-            dic = res[count-1]
-            dic[tok.type] = tok.value
-            res[count-1] = dic
+            if typeRead == "none":
+                raise Exception("Missing KEY value in column: "+str(tok.lexpos+1))
+            elif tok.type == "MIN" and typeRead != "KEY":
+                raise Exception("Missing KEY value in column: "+str(tok.lexpos+1))
+            elif tok.type == "MAX" and typeRead != "MIN":
+                raise Exception("Missing MIN value in column: "+str(tok.lexpos+1))
+            elif tok.type == "FUNC" and (typeRead != "MIN" and typeRead != "MAX"):
+                raise Exception("Missing interval value in column: "+str(tok.lexpos+1))
+            elif tok.type == "FUNC" and not allFunc.__contains__(tok.value):
+                raise Exception("Unknown Function: "+str(tok.value))
+            else:
+                dic = res[count-1]
+                dic[tok.type] = tok.value
+                res[count-1] = dic
+
+        typeRead = tok.type
 
     return res
 
@@ -19,13 +39,13 @@ def applyFunc(func,numList):
     func = func.lower()
 
     if func == "count":
-        return numList.len()
+        return len(numList)
 
     elif func == "sum":
         return sum(numList)
 
     elif func == "media" or func == "avg":
-        n = numList.len()
+        n = len(numList)
         total = sum(numList)
         if n == 0:
             return 0
@@ -48,6 +68,8 @@ def applyFunc(func,numList):
 
 
 def convertNum(num):
+    if type(num) == str:
+        return num
     if int(num) - num == 0:
         return int(num)
     return num
@@ -59,13 +81,13 @@ def convertNumList(numList):
     return res
    
 
-def processLine(keyList,lexer,numLine):
+def processLine(keyList,lexer):
     res = {}
     for field in keyList:
 
         #CASO O FIELD CONTENHA 1 OU MAIS ELEMS
         if field.__contains__("MIN"):
-            numList = []
+            valList = []
 
             min = field.get("MIN")
             max = min
@@ -76,22 +98,22 @@ def processLine(keyList,lexer,numLine):
                 tok = lexer.token()
                 if not tok or tok.type == "VIRG":
                     if i < min:
-                        raise Exception('Missing required number on line:'+str(numLine)+' col:'+str(tok.lexpos+1)) 
-                elif tok.type == "STRING":
-                    raise Exception('String value on non-string field in line:'+str(numLine)+' col:'+str(tok.lexpos+1)+' -> \x1B[3m'+str(tok.value)+'\x1B[0m') 
-                elif tok.type == "NUM":
-                    numList.append(tok.value)
+                        raise Exception('Missing required field on line:'+str(lexer.linha)+' col:'+str(tok.lexpos+1)) 
+                elif (tok.type == "STRING") and field.__contains__("FUNC") and (not field.get("FUNC").lower().__eq__("count")):
+                    raise Exception('String value on non-string field in line:'+str(lexer.linha)+' col:'+str(tok.lexpos+1)+' -> \x1B[3m'+str(tok.value)+'\x1B[0m') 
+                else:
+                    valList.append(tok.value)
                     lexer.token()
             
             ##CASO HAJA CAMPO DE FUNCÃO, APLICA-A, SENÃO GRAVA
             if field.__contains__("FUNC"):
                 try:
                     func = field.get("FUNC").lower()
-                    res[field.get("KEY")+'_'+func] = convertNum(applyFunc(func,numList))
+                    res[field.get("KEY")+'_'+func] = convertNum(applyFunc(func,valList))
                 except Exception:
                     raise
             else:    
-                res[field.get("KEY")] = convertNumList(numList)
+                res[field.get("KEY")] = convertNumList(valList)
         
         else:
             tok = lexer.token()
@@ -99,7 +121,7 @@ def processLine(keyList,lexer,numLine):
             if tok.type == "NUM":
                 res[field.get("KEY")] = str(convertNum(val))
             elif tok.type == "VIRG":
-                raise Exception('Extra comma detected in line:'+str(numLine)+' col:'+str(tok.lexpos+1)+'\nIf u wish to have a literal comma in a field use quotations. "exam,ple" ')
+                raise Exception('Extra comma detected in line:'+str(lexer.linha)+' col:'+str(tok.lexpos+1)+'\nIf u wish to have a literal comma in a field use quotations. "exam,ple" ')
             else:
                 res[field.get("KEY")] = val
             lexer.token()
