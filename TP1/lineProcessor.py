@@ -98,7 +98,10 @@ def processLine(keyList,lexer):
                 tok = lexer.token()
                 if not tok or tok.type == "VIRG":
                     if i < min:
-                        raise Exception('Missing required field on line:'+str(lexer.linha)+' col:'+str(tok.lexpos+1)) 
+                        if not tok:
+                            raise Exception('Missing required field on line:'+str(lexer.linha)) 
+                        else:
+                            raise Exception('Missing required field on line:'+str(lexer.linha)+' col:'+str(tok.lexpos+1)) 
                 elif (tok.type == "STRING") and field.__contains__("FUNC") and (not field.get("FUNC").lower().__eq__("count")):
                     raise Exception('String value on non-string field in line:'+str(lexer.linha)+' col:'+str(tok.lexpos+1)+' -> \x1B[3m'+str(tok.value)+'\x1B[0m') 
                 else:

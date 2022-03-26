@@ -13,8 +13,7 @@ tokens = [
     "NEWLINE",
     "NUM",
     "STRING",
-    "VIRG",
-    "ERRO"
+    "VIRG"
 ]
 
 # t_TOKEN para identificar a expressão do token
@@ -38,13 +37,12 @@ def t_firstline_FUNC(t):
     t.value = str(t.value).lstrip(":")
     return t
 
-t_firstline_KEY = r'[^,{;]+'
+t_firstline_KEY = r'[^,{;\n]+'
 
 t_firstline_ignore = " ,;"
 
 def t_firstline_error(t):
-    print('Illegal character in column: '+str(t.lexpos+1))
-    exit()
+    raise Exception('Illegal character detected on first line in column: '+str(t.lexpos+1))
 
 
 
@@ -54,21 +52,17 @@ def t_NUM(t):
     return t
 
 def t_STRING(t):
-    r'("[^"]+"|[^,;]+)'
+    r'("[^"]+"|[^,;\n]+)'
     t.value = str(t.value).strip("\"")
     return t
 
 t_VIRG = r',|;'
 
 
-
-t_ERRO = r'.'
-
 t_ignore = " \n\t"
 
 def t_error(t):
-    print('Illegal character')
-    exit()
+    raise Exception('Illegal character detected on line: '+str(t.lexer.linha)+' column: '+str(t.lexpos+1))
 
 def getCSVLexer():
     res = lex.lex()

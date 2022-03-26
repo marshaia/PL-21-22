@@ -4,13 +4,17 @@ from JSONconverter import *
 import os
 import sys
 
-#preciso deste pra funcionar no meu, ignorem
-#filenameCSV ="/home/mirtilo/PL-21-22/TP1/CSV/agregacaoSUM.csv"
-filenameCSV = "agregacaoSUM.csv"
-#filenameCSV = sys.argv[1]
-filenameJSON = filenameCSV.replace(".csv",".JSON")
-fileCSV = open(filenameCSV,'r')
-fileJSON = open(filenameJSON,'w+')
+try:
+    filenameCSV = sys.argv[1]
+    if not filenameCSV.__contains__(".csv"):
+        raise FileNotFoundError("Input File must be a CSV file")
+    filenameJSON = filenameCSV.replace(".csv",".JSON")
+    fileCSV = open(filenameCSV,'r')
+    fileJSON = open(filenameJSON,'w+')
+except FileNotFoundError as e:
+    sys.exit("Initialization Failed: "+str(e))
+except IndexError as e:
+    sys.exit("Initialization Failed: No input file given")
 
 
 fileJSON.write("[\n")
@@ -20,12 +24,18 @@ lexer = getCSVLexer()
 keyList = []
 
 for line in fileCSV:
-    lexer.input(line)
-    lexer.linha += 1
+
+    try:
+        lexer.input(line)
+        lexer.linha += 1
+    except Exception as e:
+        os.remove(filenameJSON)
+        sys.exit("Tokenizer Malfunction :(\nCause of error: "+str(e))
+
+
     if lexer.current_state() == 'firstline':
         try:
             keyList = readFirstLine(lexer)
-            print(keyList)
         except Exception as e:
             os.remove(filenameJSON)
             sys.exit("Header Malfunction :(\nCause of error: "+str(e))
@@ -45,4 +55,5 @@ for line in fileCSV:
 fileJSON.write("\n]")
 fileJSON.close()
 fileCSV.close()
-print("DONE! :D")
+print("Conversion terminated successfully")
+print("Output file: "+str(filenameJSON))

@@ -8,7 +8,7 @@ def convertDicToJSONLine(dic):
 
     # TROCA PLICAS POR ASPAS ('Chave' -> "Chave")
     # {"Número": "264", "Nome": "Marcelo Sousa", "Curso": "Ciência Política", "Notas_sum": 76}
-    dic = re.sub(r'\'([^\']+)\'',r'"\1"',dic)
+    dic = re.sub(r'(\'|\")([^\'\"]+)\1',r'"\2"',dic)
 
 
     # Converte fim de atributos (no meio) com a identação correta
