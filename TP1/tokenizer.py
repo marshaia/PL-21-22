@@ -1,10 +1,11 @@
 import ply.lex as lex
 
+#Estado firstline, para a leitura de tokens na primeira linha do CSV
 states = (
     ('firstline','exclusive'),
 )
 
-# TEM DE SER O NOME "TOKENS"
+#Todos os Tokens da linguagem
 tokens = [
     "MIN",
     "MAX",
@@ -16,7 +17,8 @@ tokens = [
     "VIRG"
 ]
 
-# t_TOKEN para identificar a expressão do token
+#---------------REGRAS TOKENS Firstline--------------------
+
 def t_firstline_NEWLINE(t):
     r'\n'
     t.lexer.begin('INITIAL')
@@ -46,6 +48,8 @@ def t_firstline_error(t):
 
 
 
+#---------------REGRAS TOKENS INITIAL--------------------
+
 def t_NUM(t):
     r'-?\d+(\.\d+)?'
     t.value = float(t.value)
@@ -58,12 +62,14 @@ def t_STRING(t):
 
 t_VIRG = r',|;'
 
-
 t_ignore = " \n\t"
 
 def t_error(t):
     raise Exception('Illegal character detected on line: '+str(t.lexer.linha)+' column: '+str(t.lexpos+1))
 
+
+
+#Função de construção do lexer
 def getCSVLexer():
     res = lex.lex()
     res.linha = 0
