@@ -58,7 +58,7 @@ for line in fileCSV:
         fileJSON.write(jsonObj)
         firstEntry = bool(False)
 
-#Escrita Final e Terminação
+#Escrita Final e Finalização
 fileJSON.write("\n]")
 fileJSON.close()
 fileCSV.close()

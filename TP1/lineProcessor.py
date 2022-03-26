@@ -1,7 +1,10 @@
 import re
 
 
-allFunc = ["count","sum","media","min","prod","max","min"]
+def validFunction(function):
+    function = str(function.lower())
+    allFunc = ["count","sum","media","min","prod","max","min"]
+    return allFunc.__contains__(function)
 
 def readFirstLine(lexer):
     res = []
@@ -23,7 +26,7 @@ def readFirstLine(lexer):
                 raise Exception("Missing MIN value in column: "+str(tok.lexpos+1))
             elif tok.type == "FUNC" and (typeRead != "MIN" and typeRead != "MAX"):
                 raise Exception("Missing interval value in column: "+str(tok.lexpos+1))
-            elif tok.type == "FUNC" and not allFunc.__contains__(tok.value):
+            elif tok.type == "FUNC" and not validFunction(str(tok.value)):
                 raise Exception("Unknown Function: "+str(tok.value))
             else:
                 dic = res[count-1]
@@ -36,35 +39,35 @@ def readFirstLine(lexer):
 
 
 def applyFunc(func,numList):
-    func = func.lower()
+    funcL = func.lower()
 
-    if func == "count":
+    if funcL == "count":
         return len(numList)
 
-    elif func == "sum":
+    elif funcL == "sum":
         return sum(numList)
 
-    elif func == "media" or func == "avg":
+    elif funcL == "media" or funcL == "avg":
         n = len(numList)
         total = sum(numList)
         if n == 0:
             return 0
         return total/n
 
-    elif func == "prod":
+    elif funcL == "prod":
         res = 1
         for i in numList:
             res *= i
         return res
     
-    elif func == "max":
+    elif funcL == "max":
         return max(numList)
 
-    elif func == "min":
+    elif funcL == "min":
         return min(numList)
 
     else:
-        raise Exception('Unrecognized function: '+func)
+        raise Exception('Unrecognized function: '+funcL)
 
 
 def convertNum(num):
