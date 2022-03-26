@@ -7,22 +7,25 @@ import sys
 
 #Verificação de argumentos e ficheiro
 try:
-    filenameCSV = sys.argv[1]
-    if not filenameCSV.__contains__(".csv"):
+    filenameCSV = sys.argv[1] # Capta o nome do ficheiro
+
+    if not filenameCSV.__contains__(".csv"): # Verifica se o ficheiro tem a extensão ".csv"
         raise FileNotFoundError("Input File must be a CSV file")
-    filenameJSON = filenameCSV.replace(".csv",".JSON")
-    fileCSV = open(filenameCSV,'r')
-    fileJSON = open(filenameJSON,'w+')
+
+    filenameJSON = filenameCSV.replace(".csv",".JSON") # Contrói o nome do ficheiro de output com a extensão ".JSON"
+    fileCSV = open(filenameCSV,'r') # Abre o ficheiro de input para leitura
+    fileJSON = open(filenameJSON,'w+') # Abre o ficheiro de output para escrita
 except FileNotFoundError as e:
     sys.exit("Initialization Failed: "+str(e))
 except IndexError as e:
     sys.exit("Initialization Failed: No input file given")
 
-#Escrita Inicial JSON
+
+# Escrita Inicial JSON
 fileJSON.write("[\n")
 firstEntry = bool(True)
 
-#Montar o Lexer
+# Montar o Lexer
 lexer = getCSVLexer()
 keyList = []
 
@@ -36,7 +39,7 @@ for line in fileCSV:
         os.remove(filenameJSON)
         sys.exit("Tokenizer Malfunction :(\nCause of error: "+str(e))
 
-    #Se é a primeira linha, gera a lista de atributos
+    # Se é a primeira linha, gera a lista de atributos
     if lexer.current_state() == 'firstline':
         try:
             keyList = readFirstLine(lexer)
@@ -44,13 +47,14 @@ for line in fileCSV:
             os.remove(filenameJSON)
             sys.exit("Header Malfunction :(\nCause of error: "+str(e))
         
-    #Senão, processa com a linha com a lista de atributos
+    # Senão, processa com a linha com a lista de atributos
     else:
         try:
             dic = processLine(keyList,lexer)
         except Exception as e:
             os.remove(filenameJSON)
             sys.exit("Conversion Failed :(\nCause of error: "+str(e))
+            
         #Conversão e escrita no ficheiro JSON
         jsonObj = convertDicToJSONLine(dic)
         if not firstEntry:

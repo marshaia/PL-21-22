@@ -1,82 +1,104 @@
 import re
 
 
+
+# Método que valida a função de agregação presente no ficheiro de input
+# ao confirmar a sua presença na lista de funções disponíveis no programa.
 def validFunction(function):
     function = str(function.lower())
     allFunc = ["count","sum","media","min","prod","max","min"]
     return allFunc.__contains__(function)
 
+
+
+# Método responsável pela leitura e interpretação do cabeçalho do ficheiro de input.
 def readFirstLine(lexer):
-    res = []
+    res = []    # Lista de armazenamento das informações dos vários campos
     count = 0
-    typeRead = "none"
+    typeRead = "none" # Variável auxiliar para verificar o token lido anteriormente
 
     for tok in lexer:
-        dic = {}
-        if (tok.type == "KEY"):
-            dic["KEY"] = tok.value        
+        dic = {} # Cria um dicionário para cada campo para armazenar as suas informações
+
+        if (tok.type == "KEY"):     # Se for uma chave vai criar uma nova entrada no dicionário
+            dic["KEY"] = tok.value  # e coloca-o na lista res      
             res.append(dic)
             count += 1
         else:
-            if typeRead == "none":
+            if typeRead == "none": # Se ler qualquer token sem ter lido nenhuma KEY antes
                 raise Exception("Missing KEY value in column: "+str(tok.lexpos+1))
-            elif tok.type == "MIN" and typeRead != "KEY":
+
+            elif tok.type == "MIN" and typeRead != "KEY": # Se ler um mínimo sem ter lido uma KEY antes
                 raise Exception("Missing KEY value in column: "+str(tok.lexpos+1))
-            elif tok.type == "MAX" and typeRead != "MIN":
+
+            elif tok.type == "MAX" and typeRead != "MIN": # Se ler um máximo sem ter lido um mínimo
                 raise Exception("Missing MIN value in column: "+str(tok.lexpos+1))
-            elif tok.type == "FUNC" and (typeRead != "MIN" and typeRead != "MAX"):
+
+            elif tok.type == "FUNC" and (typeRead != "MIN" and typeRead != "MAX"): # Se leu uma função sem ter nenhuma lista para aplicar no campo
                 raise Exception("Missing interval value in column: "+str(tok.lexpos+1))
-            elif tok.type == "FUNC" and not validFunction(str(tok.value)):
+
+            elif tok.type == "FUNC" and not validFunction(str(tok.value)): # Se leu uma função não válida no campo
                 raise Exception("Unknown Function: "+str(tok.value))
-            else:
+
+            else: # Caso contrário adiciona a nova informação ao dicionário do campo respetivo
                 dic = res[count-1]
                 dic[tok.type] = tok.value
                 res[count-1] = dic
 
-        typeRead = tok.type
+        typeRead = tok.type     # Atualiza a variável do tipo lido
 
     return res
 
 
+
+# Método que aplica a função do campo aos seus elementos (lista) 
 def applyFunc(func,numList):
     funcL = func.lower()
 
-    if funcL == "count":
+    if funcL == "count":    # Aplica a função de count
         return len(numList)
 
-    elif funcL == "sum":
+    elif funcL == "sum":    # Aplica a função de soma
         return sum(numList)
 
-    elif funcL == "media" or funcL == "avg":
+    elif funcL == "media" or funcL == "avg": # Aplica a função de média
         n = len(numList)
         total = sum(numList)
         if n == 0:
             return 0
         return total/n
 
-    elif funcL == "prod":
+    elif funcL == "prod":   # Aplica a função de produtório
         res = 1
         for i in numList:
             res *= i
         return res
     
-    elif funcL == "max":
+    elif funcL == "max":    # Aplica a função de máximo
         return max(numList)
 
-    elif funcL == "min":
+    elif funcL == "min":    # Aplica a função de mínimo
         return min(numList)
 
-    else:
+    else: # Caso a função não seja reconhecida
         raise Exception('Unrecognized function: '+funcL)
 
 
-def convertNum(num):
-    if type(num) == str:
-        return num
-    if int(num) - num == 0:
-        return int(num)
-    return num
 
+# VIC PLEASE A PARTIR DAQUI FICOU PARA TI CAUSE IM DUMB :D         
+# É MESMO ATÉ AO FINAL DO FICHEIRO, MAS DE RESTO JÁ FIZ TUDO      <--------------- NOTA
+# PLEASE REVê <333333   --- JOANA 
+
+# Método que converte floats em inteiros (caso estes não contenham casas decimais)
+def convertNum(num):
+    if type(num) == str:    # Se for uma string, devolve como tal
+        return num
+    if int(num) - num == 0: # Se for um float sem casas decimais, devolve como inteiro
+        return int(num)
+    return num              # Caso contrário devolve o elemento
+
+
+# Método que converte uma lista de elementos em números
 def convertNumList(numList):
     res=[]
     for num in numList:
@@ -84,6 +106,10 @@ def convertNumList(numList):
     return res
    
 
+
+
+# Método que processa o conteúdo do ficheiro input através da informação
+# do cabeçalho e dos tokens da linguagem
 def processLine(keyList,lexer):
     res = {}
     for field in keyList:
