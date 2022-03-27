@@ -152,11 +152,14 @@ def processLine(keyList,lexer):
         #CASO O FIELD/CHAVE SEJA UMA CHAVE SIMPLES, APENAS LÊ O CAMPO
         else:
             tok = lexer.token()
+            if not tok:
+                raise Exception('Empty field detected at the end of line:'+str(lexer.linha))
+            elif tok.type == "VIRG":
+                raise Exception('Empty field detected in line:'+str(lexer.linha)+' col:'+str(tok.lexpos+1))
+            
             val = tok.value
             if tok.type == "NUM":
                 res[field.get("KEY")] = str(convertNum(val))
-            elif tok.type == "VIRG":
-                raise Exception('Extra comma detected in line:'+str(lexer.linha)+' col:'+str(tok.lexpos+1)+'\nIf u wish to have a literal comma in a field use quotations. "exam,ple" ')
             else:
                 res[field.get("KEY")] = val
             lexer.token()

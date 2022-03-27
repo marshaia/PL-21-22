@@ -30,6 +30,8 @@ def convertDicToJSONLine(dic):
     #             "Notas_sum": 76}
     dic = re.sub(r'({")',r'\t{\n\t\t"',dic)
 
+
+
     # Converte o último atributo com a identação correta
     # {
     #             "Número": "264",
