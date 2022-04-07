@@ -97,7 +97,35 @@ tokenFunc : FSTR
           | FFLOAT
           | FDOUBLE
 
+
 lexRegra : lexIgnore
          | lexLiterals
          | lexError
 
+lexIgnore : LEXIGNORE '=' STRING
+
+lexLiterals : LEXLITERALS '=' STRING
+
+lexError : LEXERROR '=' '(' STRING lexErrorOP
+
+lexErrorOP : ')'
+           | ',' code ')'
+
+code : instructions
+
+instructions : INSTRUCTION
+             | instructions ';' INSTRUCTION
+
+
+
+
+yacc: yaccParametros
+
+yaccParametros : 
+               | yaccParametros yaccParametro
+
+yaccParametro : yaccVar
+              | yaccRegra
+              | yaccGram
+
+#later xd
