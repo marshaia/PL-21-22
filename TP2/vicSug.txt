@@ -12,7 +12,7 @@ DUMP = (r'(dump|DUMP)')
 
 %error = ("Mensagem de erro",t.lexer.skip)
 
-#se não escrito def t_error predefindo como:
+# se não escrito def t_error predefindo como:
 #
 # def t_error(t):
 #     print("Illegal Character:",t.value[0])
@@ -32,8 +32,8 @@ DUMP = (r'(dump|DUMP)')
 
 
 #declarar variavies...? #temos que fazer "parser.ola = 0"
-ola = 0
-tabelaIDs = {}
+&ola = 0
+&tabelaIDs = {}
 
 
 #distingue-se SNT: palavaras minusculas 
@@ -68,64 +68,3 @@ def getVar():
     else:
         print("Variável '"+str(p[1])+"' não definida.\nInicializada a 0")
         p[0] = 0
-
-
-
-
--------------------END---------------------
-
-prog: contexto
-
-contexto: lex
-        | yacc
-
-lex: lexParametros
-
-lexParametros : 
-              | lexParametros lexParametro
-
-lexParametro : lexToken
-             | lexRegra
-
-lexToken : TOKENID '=' '(' ER lexTokenOp
-
-lexTokenOp : ')'
-           | ',' tokenFunc ')'
-
-tokenFunc : FSTR
-          | FINT
-          | FFLOAT
-          | FDOUBLE
-
-
-lexRegra : lexIgnore
-         | lexLiterals
-         | lexError
-
-lexIgnore : LEXIGNORE '=' STRING
-
-lexLiterals : LEXLITERALS '=' STRING
-
-lexError : LEXERROR '=' '(' STRING lexErrorOP
-
-lexErrorOP : ')'
-           | ',' code ')'
-
-code : instructions
-
-instructions : INSTRUCTION
-             | instructions ';' INSTRUCTION
-
-
-
-
-yacc: yaccParametros
-
-yaccParametros : 
-               | yaccParametros yaccParametro
-
-yaccParametro : yaccVar
-              | yaccRegra
-              | yaccGram
-
-#later xd

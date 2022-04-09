@@ -1,0 +1,66 @@
+prog: contextos
+
+contextos: 
+         | contextos contexto
+
+contexto: LEXSTART lex
+        | YACCSTART yacc
+        | comment
+        | END
+
+lex: lexParametros
+
+lexParametros : lexParametro
+              | lexParametros lexParametro
+
+lexParametro : lexToken
+             | lexRegra
+
+lexToken : TOKENID '=' '(' ER lexTokenOp
+
+lexTokenOp : ')'
+           | ',' tokenFunc ')'
+
+tokenFunc : FSTR
+          | FINT
+          | FFLOAT
+          | FDOUBLE
+
+
+lexRegra : lexIgnore
+         | lexLiterals
+         | comError
+
+lexIgnore : LEXIGNORE '=' STRING
+
+lexLiterals : LEXLITERALS '=' STRING
+
+comError : COMERROR '=' '(' STRING comErrorOP
+
+comErrorOP : ')'
+           | ',' code ')'
+
+code : instructions
+
+instructions : INSTRUCTION
+             | instructions ';' INSTRUCTION
+
+
+
+
+yacc: yaccParametros
+
+yaccParametros : yaccParametro
+               | yaccParametros yaccParametro
+
+yaccParametro : yaccVar
+              | yaccRegra
+              | yaccGram
+
+yaccRegra : comError
+
+yaccVar : YACCVAR '=' YACCVALUE
+
+yaccGram : YACCGRAM ':' YACCGRAMVALUE YACCGRAMCOM
+
+comment : COMMENT
