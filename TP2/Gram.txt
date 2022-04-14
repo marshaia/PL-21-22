@@ -1,6 +1,12 @@
-prog: LEXSTART lex YACCSTART yacc END
+prog : lexOp yaccOp END
 
-lex: lexParametros
+lexOp : 
+      | LEXSTART lex
+
+yaccOp : 
+       | YACCSTART yacc
+
+lex : lexParametros
 
 lexParametros : lexParametro
               | lexParametros lexParametro
@@ -38,7 +44,7 @@ skipOps : SKIP
 
 
 
-yacc: yaccParametros
+yacc : yaccParametros
 
 yaccParametros : yaccParametro
                | yaccParametros yaccParametro
@@ -52,14 +58,17 @@ yaccRegra : comError
 
 yaccPrecedence : YACCPRECEDENCE '=' '(' yaccPreTuplos ')'
 
-yaccPreTuplos: yaccPreTuplo
-             | yaccPreTuplos ',' yaccPreTuplo
+yaccPreTuplos : yaccPreTuplo
+              | yaccPreTuplos ',' yaccPreTuplo
 
-yaccPreTuplo: '(' STRING ',' STRING yaccPreTuploOP 
+yaccPreTuplo : '(' STRING ',' STRING yaccPreTuploOP 
 
-yaccPreTuploOP: ')'
-              | ',' STRING yaccPreTuploOP
+yaccPreTuploOP : ')'
+               | ',' STRING yaccPreTuploOP
 
 yaccVar : YACCVAR YACCVALUE
 
-yaccGram : YACCGRAM ':' YACCGRAMVALUE YACCGRAMCOM
+yaccGram : YACCGRAM YACCGRAMVALUE yaccGramOp
+
+yaccGramOp :
+           | YACCGRAMCOM

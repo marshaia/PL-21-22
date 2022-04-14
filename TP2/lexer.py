@@ -65,21 +65,25 @@ def t_yacc_END(t):
 
 def t_yacc_YACCVAR(t):
     r'[a-zA-Z_]+\ {0,}='
+    t.value = str(t.value).strip("= ")
     t.lexer.begin("yaccvarvalue") #r'[a-zA-Z_]+ {0,}='
     return t
 
 def t_yaccvarvalue_YACCVALUE(t):
-    r'(\[ {0,}\]|\{ {0,}\}|-?\d+(.\d+)?|\"[^"]+\")'
+    r'(\[\ {0,}\]|\{ {0,}\}|-?\d+(.\d+)?|\"[^"]+\")'
+    t.value = str(t.value).strip(" ")
     t.lexer.begin("yacc")
     return t
 
 def t_yacc_YACCGRAM(t):
     r'[a-zA-Z_]+\ {0,}:'
+    t.value = str(t.value).strip(": ")
     t.lexer.begin("yaccgram")
     return t
 
 def t_yaccgram_YACCGRAMVALUE(t):
     r'([^\n]+|$empty)'
+    t.value = str(t.value).strip(" ")
     t.lexer.begin("yacc")
     return t
 

@@ -37,7 +37,7 @@ DUMP = (r'(dump|DUMP)')
 ola = "ola"
 val = 1
 tabelaIDs = {}
-lista = []
+lista = [   ]
 
 
 #distingue-se SNT: palavaras minusculas 
