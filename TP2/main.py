@@ -1,6 +1,6 @@
 from lexer import getLexer
 
-f = open("vicSug.txt","r")
+f = open("Exemplo.txt","r")
 r = f.read()
 
 lexer = getLexer()

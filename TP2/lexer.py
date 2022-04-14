@@ -1,36 +1,33 @@
 import re
 import ply.lex as lex
+from urllib3 import Retry
 
-literals = ["=","(",")",",",";",":"]
-tokens = ["LEXSTART","YACCSTART","END","TOKENID","ER","FSTR","FINT","FFLOAT",
-        "FDOUBLE","LEXIGNORE","LEXLITERALS","STRING","COMERROR",
-        "INSTRUCTION","YACCVAR","YACCVALUE","YACCGRAM","YACCGRAMVALUE","YACCGRAMCOM","COMMENT"]
+literals = ["=","(",")",",",":"]
+tokens = ["LEXSTART","YACCSTART","END","ER","TOKENID","FSTR","FINT","FFLOAT","TOKENEND",
+        "SKIP","NOSKIP","FDOUBLE","LEXIGNORE","LEXLITERALS","STRING","COMERROR","YACCVAR",
+        "YACCVALUE","YACCGRAM","YACCGRAMVALUE","YACCGRAMCOM","YACCPRECEDENCE","COMMENT"]
 
 states = (
     ('lex','inclusive'),
     ('yacc','inclusive'),
-    ('outside','exclusive'),
     ('yaccgram','inclusive'),
     ('yaccvarvalue','inclusive'),
+    ('outside','exclusive'),
 )
 
-def t_LEXSTART(t):
+##---------OUTSIDE------------
+
+def t_outside_LEXSTART(t):
     r'%%LEX'
     t.lexer.begin("lex")
     return t
 
-def t_YACCSTART(t):
-    r'%%YACC'
-    t.lexer.begin("yacc")
-    return t
+t_outside_ignore = "=,():"
 
-def t_END(t):
-    r'%%'
-    t.lexer.begin("outside")
-    return t
+def t_outside_error(t):
+    t.lexer.skip(1)
 
-
-t_lex_TOKENID = r'[A-Z]+'
+##--------------LEX----------
 
 t_lex_ER = r'r\'.+\''
 
@@ -42,72 +39,83 @@ t_lex_FFLOAT = r'float'
 
 t_lex_FDOUBLE = r'double'
 
+t_lex_TOKENID = r'[A-Z_][a-z-A-Z_]*'
+
 t_lex_LEXIGNORE = r'%ignore'
 
 t_lex_LEXLITERALS = r'%literals'
 
-def t_yacc_YACCVAR(t):
-    r'&[a-zA-Z_]+'
-    t.lexer.begin("yaccvarvalue")
-    return t
-
-def t_yaccvarvalue_YACCVALUE(t):
-    r'([^\n#=]+|\"[^"]\")'
-    t.lexer.begin("yacc")
-    return t
-
-
-def t_yacc_YACCGRAM(t):
-    r'[a-z]+'
-    t.lexer.begin("yaccgram")
-    return t
-
-t_yacc_YACCGRAMCOM = r'{.+}'
+t_lex_TOKENEND = r'%tokenEnd'
 
 
 
-def t_yaccgram_YACCGRAMVALUE(t):
-    r'[^{\n:]+'
-    t.lexer.begin("yacc")
-    return t
-
-
-def t_COMMENT(t):
-    r'\#[^\n]*' 
-    return t
-
-t_STRING = r'f?\".+\"'
-
-t_COMERROR = r'%error' 
-
-t_INSTRUCTION = r'[a-zA-Z\.\[\]0-9 ]+' #HELP
-
-
-t_ignore = " \n\t\r"
-
-
-
-def t_outside_LEXSTART(t):
-    r'%%LEX'
-    t.lexer.begin("lex")
-    return t
-
-def t_outside_YACCSTART(t):
+def t_lex_YACCSTART(t):
     r'%%YACC'
     t.lexer.begin("yacc")
     return t
 
-t_outside_ignore = "=(),;:"
 
-def t_outside_error(t):
-    t.lexer.skip(1)
+##--------YACC----------------
+
+def t_yacc_END(t):
+    r'%%'
+    t.lexer.begin("outside")
+    return t
 
 
+def t_yacc_YACCVAR(t):
+    r'[a-zA-Z_]+\ {0,}='
+    t.lexer.begin("yaccvarvalue") #r'[a-zA-Z_]+ {0,}='
+    return t
 
+def t_yaccvarvalue_YACCVALUE(t):
+    r'(\[ {0,}\]|\{ {0,}\}|-?\d+(.\d+)?|\"[^"]+\")'
+    t.lexer.begin("yacc")
+    return t
+
+def t_yacc_YACCGRAM(t):
+    r'[a-zA-Z_]+\ {0,}:'
+    t.lexer.begin("yaccgram")
+    return t
+
+def t_yaccgram_YACCGRAMVALUE(t):
+    r'([^\n]+|$empty)'
+    t.lexer.begin("yacc")
+    return t
+
+def t_yacc_YACCGRAMCOM(t):
+    r'\{(.|\n)*?\}'
+    return t
+
+def t_yacc_YACCPRECEDENCE(t):
+    r'%precedence'
+    return t
+
+
+##-------INITIAL----------
+
+t_SKIP = r'skip'
+
+t_NOSKIP = r'noskip'
+
+def t_COMERROR(t):
+    r'%error'
+    return t
+
+def t_COMMENT(t):
+    r'\#.*'
+
+def t_STRING(t):
+    r'\"[^"]*\"'
+    return t
 
 def t_error(t):
-    print("Illegal Character:",t.value[0])
-    t.lexer.skip
+    print("Illegal Character REEE:",t.value[0])
+    exit()
+
+t_ignore = " \n\t\r"
+
+
 
 
 def getLexer():

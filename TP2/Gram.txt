@@ -1,12 +1,4 @@
-prog: contextos
-
-contextos: 
-         | contextos contexto
-
-contexto: LEXSTART lex
-        | YACCSTART yacc
-        | comment
-        | END
+prog: LEXSTART lex YACCSTART yacc END
 
 lex: lexParametros
 
@@ -29,6 +21,7 @@ tokenFunc : FSTR
 
 lexRegra : lexIgnore
          | lexLiterals
+         | TOKENEND
          | comError
 
 lexIgnore : LEXIGNORE '=' STRING
@@ -38,13 +31,10 @@ lexLiterals : LEXLITERALS '=' STRING
 comError : COMERROR '=' '(' STRING comErrorOP
 
 comErrorOP : ')'
-           | ',' code ')'
+           | ',' skipOps ')'
 
-code : instructions
-
-instructions : INSTRUCTION
-             | instructions ';' INSTRUCTION
-
+skipOps : SKIP
+        | NOSKIP
 
 
 
@@ -58,9 +48,18 @@ yaccParametro : yaccVar
               | yaccGram
 
 yaccRegra : comError
+          | yaccPrecedence
 
-yaccVar : YACCVAR '=' YACCVALUE
+yaccPrecedence : YACCPRECEDENCE '=' '(' yaccPreTuplos ')'
+
+yaccPreTuplos: yaccPreTuplo
+             | yaccPreTuplos ',' yaccPreTuplo
+
+yaccPreTuplo: '(' STRING ',' STRING yaccPreTuploOP 
+
+yaccPreTuploOP: ')'
+              | ',' STRING yaccPreTuploOP
+
+yaccVar : YACCVAR YACCVALUE
 
 yaccGram : YACCGRAM ':' YACCGRAMVALUE YACCGRAMCOM
-
-comment : COMMENT
