@@ -1,4 +1,3 @@
-from ntpath import join
 import ply.yacc as yacc
 from lexer import getLexer
 from lexer import tokens
@@ -228,13 +227,14 @@ def joinLists(l1,l2):
         final.append(elem)  
     return final
 
-def getParser():
-    parser = yacc.yacc()
-    lexer = getLexer()
+
+def setVariables(parser):
     parser.myTokens = []
     parser.myIgnore = ""
     parser.myLiterals = ""
     parser.myLexError = {}
+    parser.myLexError["Mensagem"] = "Erro Léxico"
+    parser.myLexError["Comando"] = 'skip'
     parser.myReadLiterals = False
     parser.myReadIgnore = False
     parser.myReadLexError = False
@@ -242,6 +242,14 @@ def getParser():
     parser.myVariables = []
     parser.myProductions = []
     parser.myYaccError = {}
+    parser.myYaccError["Mensagem"] = "Erro Gramático"
+    parser.myYaccError["Comando"] = 'skip'
     parser.myReadPrecedence = False
     parser.myReadYaccError = False
+    parser
+
+def getParser():
+    parser = yacc.yacc()
+    lexer = getLexer()
+    setVariables(parser)
     return parser
