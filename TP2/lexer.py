@@ -3,9 +3,9 @@ import ply.lex as lex
 from urllib3 import Retry
 
 literals = ["=","(",")",",",":"]
-tokens = ["LEXSTART","YACCSTART","END","ER","TOKENID","FSTR","FINT","FFLOAT","TOKENEND",
+tokens = ["LEXSTART","YACCSTART","END","ER","TOKENID","FSTR","FINT","FFLOAT",
         "SKIP","NOSKIP","FDOUBLE","LEXIGNORE","LEXLITERALS","STRING","COMERROR","YACCVAR",
-        "YACCVALUE","YACCGRAM","YACCGRAMVALUE","YACCGRAMCOM","YACCPRECEDENCE","COMMENT"]
+        "YACCVALUE","YACCPROD","YACCPRODVALUE","YACCPRODCOM","YACCPRECEDENCE","COMMENT"]
 
 states = (
     ('lex','inclusive'),
@@ -50,8 +50,6 @@ t_lex_LEXIGNORE = r'%ignore'
 
 t_lex_LEXLITERALS = r'%literals'
 
-t_lex_TOKENEND = r'%tokenEnd'
-
 
 # def t_lex_END(t):
 #     r'%%'
@@ -83,19 +81,19 @@ def t_yaccvarvalue_YACCVALUE(t):
     t.lexer.begin("yacc")
     return t
 
-def t_yacc_YACCGRAM(t):
+def t_yacc_YACCPROD(t):
     r'[a-zA-Z_]+\ {0,}:'
     t.value = str(t.value).strip(": ")
     t.lexer.begin("yaccgram")
     return t
 
-def t_yaccgram_YACCGRAMVALUE(t):
+def t_yaccgram_YACCPRODVALUE(t):
     r'([^\n]+|$empty)'
     t.value = str(t.value).strip(" ")
     t.lexer.begin("yacc")
     return t
 
-def t_yacc_YACCGRAMCOM(t):
+def t_yacc_YACCPRODCOM(t):
     r'\{(.|\n)*?\}'
     return t
 

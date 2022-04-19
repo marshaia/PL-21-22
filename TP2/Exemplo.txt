@@ -19,7 +19,6 @@ ID = (r'[a-zA-Z_]\w*')       #default str né
 Print = (r'(print|PRINT)')      
 Read = (r'(read|READ)')
 DUMP = (r'(dump|DUMP)')
-%tokenEnd
 
 %error = ("Mensagem de erro",skip)
 

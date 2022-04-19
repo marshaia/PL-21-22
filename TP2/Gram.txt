@@ -28,7 +28,6 @@ tokenFunc : FSTR
 
 lexRegra : lexIgnore
          | lexLiterals
-         | TOKENEND
          | comError
 
 lexIgnore : LEXIGNORE '=' STRING
@@ -52,7 +51,7 @@ yaccParametros :
 
 yaccParametro : yaccVar
               | yaccRegra
-              | yaccGram
+              | yaccProd
 
 yaccRegra : comError
           | yaccPrecedence
@@ -69,7 +68,7 @@ yaccPreTuploOP : ')'
 
 yaccVar : YACCVAR YACCVALUE
 
-yaccGram : YACCGRAM YACCGRAMVALUE yaccGramOp
+yaccProd : YACCPRODID YACCPRODVALUE yaccProdOp
 
-yaccGramOp :
-           | YACCGRAMCOM
+yaccProdOp :
+           | YACCPRODCOM
