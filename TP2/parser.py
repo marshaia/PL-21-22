@@ -148,6 +148,10 @@ def p_yaccParametro_gram(p):
 
 def p_yaccRegra_error(p):
     "yaccRegra : comError"
+    if p.parser.myReadYaccError:
+        raise Exception("Yacc Error rule duplicated")
+    p.parser.myYaccError = p[1]
+    p.parser.myReadYaccError = True
 def p_yaccRegra_precedence(p):
     "yaccRegra : yaccPrecedence"
 
