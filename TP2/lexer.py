@@ -22,6 +22,11 @@ def t_outside_LEXSTART(t):
     t.lexer.begin("lex")
     return t
 
+def t_outside_YACCSTART(t):
+    r'%%YACC'
+    t.lexer.begin("yacc")
+    return t
+
 t_outside_ignore = "=,():"
 
 def t_outside_error(t):
@@ -48,19 +53,22 @@ t_lex_LEXLITERALS = r'%literals'
 t_lex_TOKENEND = r'%tokenEnd'
 
 
-
-def t_lex_YACCSTART(t):
-    r'%%YACC'
-    t.lexer.begin("yacc")
-    return t
+# def t_lex_END(t):
+#     r'%%'
+#     t.lexer.begin("outside")
+#     return t
+# def t_lex_YACCSTART(t):
+#     r'%%YACC'
+#     t.lexer.begin("yacc")
+#     return t
 
 
 ##--------YACC----------------
 
-def t_yacc_END(t):
-    r'%%'
-    t.lexer.begin("outside")
-    return t
+# def t_yacc_END(t):
+#     r'%%'
+#     t.lexer.begin("outside")
+#     return t
 
 
 def t_yacc_YACCVAR(t):
@@ -111,6 +119,11 @@ def t_COMMENT(t):
 
 def t_STRING(t):
     r'\"[^"]*\"'
+    return t
+
+def t_END(t):
+    r'%%\s'
+    t.lexer.begin("outside")
     return t
 
 def t_error(t):

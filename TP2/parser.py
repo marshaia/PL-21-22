@@ -5,27 +5,27 @@ from lexer import tokens
 
 
 def p_prog(p):
-    "prog : lexOp yaccOp END"
+    "prog : contextos"
 
 
-def p_lexOp_empty(p):
-    "lexOp : "
-def p_lexOp_lex(p):
-    "lexOp : LEXSTART lex"
+def p_contextos_singl(p):
+    "contextos : contexto END"
+def p_contextos_multi(p):
+    "contextos : contextos contexto END"
 
 
-def p_yaccOp_empty(p):
-    "yaccOp : "
-def p_yaccOp_yacc(p):
-    "yaccOp : YACCSTART yacc"
+def p_contexto_lex(p):
+    "contexto : LEXSTART lex"
+def p_contexto_yacc(p):
+    "contexto : YACCSTART yacc"
 
 
 def p_lex(p):
     "lex : lexParametros"
 
 
-def p_lexParametros_single(p):
-    "lexParametros : lexParametro"
+def p_lexParametros_empty(p):
+    "lexParametros : "
 def p_lexParametros_multi(p):
     "lexParametros : lexParametros lexParametro"
 
@@ -97,8 +97,8 @@ def p_yacc(p):
     "yacc : yaccParametros"
 
 
-def p_yaccParametros_single(p):
-    "yaccParametros : yaccParametro"
+def p_yaccParametros_empty(p):
+    "yaccParametros : "
 def p_yaccParametros_multi(p):
     "yaccParametros : yaccParametros yaccParametro"
 

@@ -1,14 +1,15 @@
-prog : lexOp yaccOp END
+prog : contextos
 
-lexOp : 
-      | LEXSTART lex
+contextos : contexto END
+          | contextos contexto END
 
-yaccOp : 
-       | YACCSTART yacc
+contexto : LEXSTART lex
+         | YACCSTART yacc
+
 
 lex : lexParametros
 
-lexParametros : lexParametro
+lexParametros : 
               | lexParametros lexParametro
 
 lexParametro : lexToken
@@ -46,7 +47,7 @@ skipOps : SKIP
 
 yacc : yaccParametros
 
-yaccParametros : yaccParametro
+yaccParametros : 
                | yaccParametros yaccParametro
 
 yaccParametro : yaccVar

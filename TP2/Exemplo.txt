@@ -4,7 +4,9 @@ dsjahdkjashdka
 
 
 %%YACC
-"lol gotcha"
+
+
+%%
 
 %%LEX
 %ignore = " \n\t\r"
@@ -27,6 +29,7 @@ DUMP = (r'(dump|DUMP)')
 #     print("Illegal Character:",t.value[0])
 #     t.lexer.skip
 
+%%
 %%YACC
 
 #fuck precedencia, all my homies hate precedencia
