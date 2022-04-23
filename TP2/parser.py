@@ -200,9 +200,13 @@ def p_yaccVar(p):
 def p_yaccProd(p):
     "yaccProd : YACCPROD YACCPRODVALUE yaccProdOp"
     prod = {}
-    prod["ProdName"] = p[1]
-    prod["Value"] = p[2]
+    prod["ProdName"] = p[1] 
+    if p[2] == "$empty":
+        prod["Value"] = ""
+    else:
+        prod["Value"] = p[2]
     prod["Code"] = p[3]
+
     p.parser.myProductions.append(prod)
 
 
