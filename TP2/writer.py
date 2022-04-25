@@ -88,3 +88,32 @@ def strAllProductions(prodList,literals):
         res += "\n"
 
     return res
+
+
+def strLex(parser):
+    res = ""    
+    res += strLiterals(parser.myLiterals)
+    res += strTokenList(parser.myTokens)
+    res += "\n\n"+strAllTokens(parser.myTokens)
+    res += strIgnore(parser.myIgnore)
+    res += "\n"+strError(parser.myLexError,"lex")
+    return res
+
+def strYacc(parser):
+    res = ""
+    res += strPrecedence(parser.myPrecedence)
+    res += "\n"+strAllProductions(parser.myProductions,parser.myLiterals)
+    res += strError(parser.myYaccError,"yacc")  
+    res += "\n\nparser = yacc.yacc()\n"  
+    res += strVariables(parser.myVariables)
+    return res
+
+def strFinalFile(parser):
+    res = ""
+    res += "import ply.lex as lex\nimport ply.yacc as yacc\n\n"
+    res += "\n#-------------------- LEX MODULE -------------------\n\n"
+    res += strLex(parser)
+    res += "\n#------------------- YACC MODULE --------------------\n\n"
+    res += strYacc(parser)
+    res += "\n#Tradução PLY-Simples concluída"
+    return res

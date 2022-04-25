@@ -1,44 +1,71 @@
+import sys
 from parser import getParser
 from lexer import getLexer
-from writer import *
-
-def strLex(parser):
-    res = ""    
-    res += strLiterals(parser.myLiterals)
-    res += strTokenList(parser.myTokens)
-    res += "\n\n"+strAllTokens(parser.myTokens)
-    res += strIgnore(parser.myIgnore)
-    res += "\n"+strError(parser.myLexError,"lex")
-    return res
-
-def strYacc(parser):
-    res = ""
-    res += strPrecedence(parser.myPrecedence)
-    res += "\n"+strAllProductions(parser.myProductions,parser.myLiterals)
-    res += strError(parser.myYaccError,"yacc")  
-    res += "\n\nparser = yacc.yacc()\n"  
-    res += strVariables(parser.myVariables)
-    return res
-
-def strFinalFile(parser):
-    res = ""
-    res += "import ply.lex as lex\nimport ply.yacc as yacc\n\n"
-    res += "\n#LEX---------------\n\n"
-    res += strLex(parser)
-    res += "\n#YACC---------------\n\n"
-    res += strYacc(parser)
-    res += "\n#Tradução PLY-Simples concluída"
-    return res
+from writer import strFinalFile
 
 
-finput = open("Exemplo.txt","r")
+#   [fileINPUT]   [OPTIONS]     [fileOUTPUT]
+#     argv[1]      argv[2]        argv[3]
+
+# Verificação de argumentos e ficheiro
+
+# dois = bool(False)
+# try:
+#     filenameInput = sys.argv[1] # Capta o nome do ficheiro
+
+#     fileOPTION = sys.argv[2] # Capta a opção de output dos ficheiros
+
+#     if fileOPTION.__eq__("1"):
+#         filenameOutput = sys.argv[3] + ".py"
+
+#     elif fileOPTION.__eq__("2"):
+#         dois = bool(True)
+#         filenameOutputLex = sys.argv[3] + "_Lex.py"
+#         filenameOutputYacc = sys.argv[3] + "_Yacc.py"
+        
+
+# except FileNotFoundError as e:
+#     sys.exit("Initialization Failed: "+str(e))
+# except IndexError as e:
+#     sys.exit("Initialization Failed :(((( ")
+
+
+
+finput = open(filenameInput,"r")
 rinput = finput.read()
 
 parser = getParser()
 parser.parse(rinput)
 
-foutput = open("Exemplo.py","w+")
+foutput = open(filenameOutput,"w+")
 foutput.write(strFinalFile(parser))
+
+# Fazer um check qualquer se são dois ou um ficheiro de output
+# if not dois:
+#     foutput = open(filenameOutput,"w+")
+#     foutput.write(strFinalFile(parser))
+
+# elif dois:
+#     foutputLex = open(filenameOutputLex, "w+")
+#     foutputLex.write()
+
+#     foutputYacc = open(filenameOutputYacc,"w+")
+#     foutputYacc.write()
+
+
+
+
+
+
+
+# finput = open("Exemplo.txt","r")
+# rinput = finput.read()
+
+# parser = getParser()
+# parser.parse(rinput)
+
+# foutput = open("Exemplo.py","w+")
+# foutput.write(strFinalFile(parser))
 
 
 # print(parser.myTokens)
