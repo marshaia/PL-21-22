@@ -1,3 +1,4 @@
+from dataclasses import replace
 import re
 
 def strLiterals(literals):
@@ -27,8 +28,15 @@ def strToken(tokenDic):
 def strIgnore(ignore):
     return f"t_ignore = {ignore}\n"
 
-def strError(error):
-    res = f"def t_error(t):\n\tprint({error['Mensagem']})\n\t"
+def strError(error,strdef):
+    res = ""
+    if strdef == "lex":
+        res += f"def t_error(t):"
+    else:
+        res += f"def p_error(p):"
+
+    res += f"\n\tprint({error['Mensagem']})\n\t"
+
     if error['Comando'] == "skip":
         res += "t.lexer.skip(1)\n"
     else:
@@ -36,7 +44,9 @@ def strError(error):
     return res
 
 def strPrecedence(prec):
-    return f"precedence = {prec}\n"
+    res = f"precedence = {prec}\n"
+    res = re.sub(r'\'',r'',res)
+    return res
 
 def strVariables(varlist):
     res = ""
@@ -44,9 +54,15 @@ def strVariables(varlist):
         res += f"parser.{var['VarName']} = {var['Value']}\n"
     return res
 
-def strProduction(prod,num):
+def strProduction(prod,num,literals):
     res = f"def p_{prod['ProdName']}_p{num}(p):\n\t"
-    res += f"\"{prod['ProdName']} : {prod['Value']}\"\n"
+    res += f"\"{prod['ProdName']} : "
+
+    prodVal = str(prod['Value'])
+    literals = literals.strip("\"")
+    for lit in literals:
+        prodVal = prodVal.replace(lit,"'"+str(lit)+"'")
+    res += ""+prodVal+"\"\n"
 
     code = prod['Code']
     if not code == "":
@@ -57,7 +73,7 @@ def strProduction(prod,num):
     
     return res
 
-def strAllProductions(prodList):
+def strAllProductions(prodList,literals):
     res = ""
     prodRead = {}
     for prod in prodList:
@@ -68,7 +84,7 @@ def strAllProductions(prodList):
             prodRead[name] = val + 1
         else:
             prodRead[name] = 1
-        res += strProduction(prod,prodRead[name])
+        res += strProduction(prod,prodRead[name],literals)
         res += "\n"
 
     return res

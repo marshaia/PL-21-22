@@ -51,10 +51,10 @@ comandos : comandos comando ;
 comando : ID = exp      
 {p.parser.tabelaIDs[p[1]] = p[3]}
 
-comando : PRINT exp     
+comando : Print exp     
 {print(p[2])}
 
-comando : READ exp 
+comando : Read exp 
 {r = int(input());p.parser.tabelaIDs[p[2]] = r}
 
 comando : DUMP          
