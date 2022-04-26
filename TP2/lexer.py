@@ -5,7 +5,7 @@ from urllib3 import Retry
 literals = ["=","(",")",",",":"]
 tokens = ["LEXSTART","YACCSTART","END","ER","TOKENID","FSTR","FINT","FFLOAT",
         "SKIP","NOSKIP","FDOUBLE","LEXIGNORE","LEXLITERALS","STRING","COMERROR","YACCVAR",
-        "YACCVALUE","YACCPROD","YACCPRODVALUE","YACCPRODCOM","YACCPRECEDENCE","COMMENT"]
+        "YACCVALUE","YACCPROD","YACCPRODVALUE","YACCPRODCOM","YACCPRECEDENCE","COMMENT","NEWLINE"]
 
 states = (
     ('lex','inclusive'),
@@ -26,6 +26,10 @@ def t_outside_YACCSTART(t):
     r'%%YACC'
     t.lexer.begin("yacc")
     return t
+
+def t_outside_NEWLINE(t):
+    r'\n'
+    t.lexer.lineno += 1
 
 t_outside_ignore = "=,():"
 
@@ -112,6 +116,10 @@ def t_COMERROR(t):
     r'%error'
     return t
 
+def t_NEWLINE(t):
+    r'\n'
+    t.lexer.lineno += 1
+
 def t_COMMENT(t):
     r'\#.*'
 
@@ -121,6 +129,8 @@ def t_STRING(t):
 
 def t_END(t):
     r'%%\s'
+    if "\n" in str(t.value):
+        t.lexer.lineno += 1
     t.lexer.begin("outside")
     return t
 
@@ -128,7 +138,7 @@ def t_error(t):
     print("Illegal Character REEE:",t.value[0])
     exit()
 
-t_ignore = " \n\t\r"
+t_ignore = " \t\r"
 
 
 

@@ -37,16 +37,6 @@ rinput = finput.read()
 parser = getParser()
 parser.parse(rinput)
 
-
-tmp = getLexer()
-tmp.input(rinput)
-for tok in tmp:
-    print(tok)
-
-
-foutput = open("Exemplo.py","w+")
-foutput.write(strFinalFile(parser))
-
 # Fazer um check qualquer se são dois ou um ficheiro de output
 # if not dois:
 #     foutput = open(filenameOutput,"w+")

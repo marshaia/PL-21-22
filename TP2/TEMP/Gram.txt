@@ -1,0 +1,93 @@
+prog : contextos
+
+contextos : contexto END
+          | contextos contexto END
+
+contexto : LEXSTART lex
+         | YACCSTART yacc
+
+
+lex : lexParametros
+
+lexParametros : 
+              | lexParametros lexParametro
+
+lexParametro : lexToken
+             | lexRegra
+
+lexToken : lexContext ID '=' ER tokenFunc
+
+lexContext : 
+           | '(' ID ')'
+
+tokenFunc : 
+          | FSTR
+          | FINT
+          | FFLOAT
+
+lexRegra : lexIgnore
+         | lexLiterals
+         | lexContext
+         | comError
+
+lexIgnore : LEXIGNORE '=' STRING
+
+lexLiterals : LEXLITERALS '=' STRING
+
+lexContext : LEXCONTEXT '=' '[' lexContexTuplos ']'
+
+lexContexTuplos : lexContexTuplo
+                | lexContexTuplos ',' lexContexTuplo
+
+lexContexTuplo : '(' STRING ',' STRING ')'
+
+
+comError : COMERROR '=' comErrorMessage skipOps
+
+comErrorMessage : 
+                | STRING
+
+skipOps : SKIP
+        | NOSKIP
+
+
+
+yacc : yaccParametros
+
+yaccParametros : 
+               | yaccParametros yaccParametro
+
+yaccParametro : yaccVar
+              | yaccRegra
+              | yaccProd
+
+yaccRegra : comError
+          | yaccPrecedence
+
+yaccPrecedence : YACCPRECEDENCE '=' '(' yaccPreTuplos ')'
+
+yaccPreTuplos : yaccPreTuplo
+              | yaccPreTuplos ',' yaccPreTuplo
+
+yaccPreTuplo : '(' STRING ',' STRING yaccPreTuploOP 
+
+yaccPreTuploOP : ')'
+               | ',' STRING yaccPreTuploOP
+
+yaccVar : ID '=' VarValue
+
+VarValue : STRING
+         | NUMVAL
+         | EMPTYLIST
+         | EMPTYDIC
+
+yaccProd : ID yaccProdAlias ':' yaccProdValue yaccProdCod
+
+yaccProdAlias : 
+              | '(' ID ')'
+
+yaccProdValue : 
+              | STRING
+
+yaccProdCod :
+            | CODIGO
