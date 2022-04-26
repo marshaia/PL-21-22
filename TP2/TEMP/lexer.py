@@ -4,7 +4,7 @@ from urllib3 import Retry
 
 literals = ["=","(",")",",",":","[","]"]
 tokens = ["LEXSTART","YACCSTART","END","ID","COMERROR","SKIP","NOSKIP","STRING","COMMENT","NEWLINE",
-        "ER","FSTR","FINT","FFLOAT","LEXIGNORE","LEXLITERALS","LEXCONTEXT",
+        "ER","FSTR","FINT","FFLOAT","LEXIGNORE","LEXLITERALS","LEXCONTEXT","CHANGECONTEXT",
         "NUMVAL","EMPTYLIST","EMPTYDIC","CODIGO","YACCPRECEDENCE"]
 
 states = (
@@ -50,6 +50,8 @@ t_lex_LEXLITERALS = r'%(?i:literals)'
 
 t_lex_LEXCONTEXT = r'%(?i:contexts)'
 
+t_lex_CHANGECONTEXT = r'%(?i:begin)'
+
 
 
 ##--------YACC----------------
@@ -87,7 +89,7 @@ t_SKIP = r'%(?i:skip)'
 
 t_NOSKIP = r'%(?i:noskip)'
 
-t_STRING = r'\"[^"]*\"'
+t_STRING = r'(f?\"[^"]*\")|(\'[^\']*\')'
 
 def t_COMMENT(t):
     r'\#.*'
@@ -112,11 +114,11 @@ def getLexer():
     return lexer
 
 
-finput = open("Exemplo.txt","r")
-rinput = finput.read()
+# finput = open("Exemplo.txt","r")
+# rinput = finput.read()
 
-lexer = getLexer()
-lexer.input(rinput)
+# lexer = getLexer()
+# lexer.input(rinput)
 
-for tok in lexer:
-    print(tok)
+# for tok in lexer:
+#     print(tok)

@@ -15,9 +15,9 @@ lexParametros :
 lexParametro : lexToken
              | lexRegra
 
-lexToken : lexContext ID '=' ER tokenFunc
+lexToken :  ID context '=' ER tokenFunc changeContext
 
-lexContext : 
+context : 
            | '(' ID ')'
 
 tokenFunc : 
@@ -25,16 +25,19 @@ tokenFunc :
           | FINT
           | FFLOAT
 
+changeContext : 
+              | CHANGECONTEXT ID
+
 lexRegra : lexIgnore
          | lexLiterals
-         | lexContext
+         | lexContexts
          | comError
 
-lexIgnore : LEXIGNORE '=' STRING
+lexIgnore : LEXIGNORE context '=' STRING
 
-lexLiterals : LEXLITERALS '=' STRING
+lexLiterals : LEXLITERALS context '=' STRING
 
-lexContext : LEXCONTEXT '=' '[' lexContexTuplos ']'
+lexContexts : LEXCONTEXT '=' '[' lexContexTuplos ']'
 
 lexContexTuplos : lexContexTuplo
                 | lexContexTuplos ',' lexContexTuplo
@@ -42,7 +45,7 @@ lexContexTuplos : lexContexTuplo
 lexContexTuplo : '(' STRING ',' STRING ')'
 
 
-comError : COMERROR '=' comErrorMessage skipOps
+comError : COMERROR context '=' comErrorMessage skipOps
 
 comErrorMessage : 
                 | STRING

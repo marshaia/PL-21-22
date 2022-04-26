@@ -2,6 +2,7 @@ import sys
 from parser import getParser
 from lexer import getLexer
 from writer import strFinalFile
+import json
 
 
 #   [fileINPUT]   [OPTIONS]     [fileOUTPUT]
@@ -36,6 +37,9 @@ rinput = finput.read()
 
 parser = getParser()
 parser.parse(rinput)
+
+out = open("Exemplo.JSON","w+")
+json.dump(parser.mylex,out,indent = 4)
 
 # Fazer um check qualquer se são dois ou um ficheiro de output
 # if not dois:
