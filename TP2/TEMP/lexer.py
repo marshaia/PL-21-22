@@ -36,6 +36,11 @@ def t_outside_error(t):
 
 ##--------------LEX----------
 
+def t_lex_YACCSTART(t):
+    r'%%(?i:YACC)'
+    t.lexer.begin("yacc")
+    return t
+
 t_lex_ER = r'r\'.+\''
 
 t_lex_FSTR = r'%(?i:str)'
@@ -55,6 +60,11 @@ t_lex_CHANGECONTEXT = r'%(?i:begin)'
 
 
 ##--------YACC----------------
+
+def t_yac_LEXSTART(t):
+    r'%%(?i:LEX)'
+    t.lexer.begin("lex")
+    return t
 
 def t_yacc_NUMVAL(t):
     r'-?\d+(.\d+)?'
@@ -114,6 +124,7 @@ def getLexer():
     return lexer
 
 
+# DEBUG LEXER
 # finput = open("Exemplo.txt","r")
 # rinput = finput.read()
 

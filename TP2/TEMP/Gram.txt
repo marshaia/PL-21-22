@@ -1,10 +1,15 @@
-prog : contextos
+prog : seccoes
 
-contextos : contexto END
-          | contextos contexto END
+seccoes : seccao
+        | seccoes seccao
 
-contexto : LEXSTART lex
-         | YACCSTART yacc
+seccao : LEXSTART lex termino
+       | YACCSTART yacc termino
+
+termino : END
+        | seccao
+
+
 
 
 lex : lexParametros
@@ -42,7 +47,7 @@ lexContexts : LEXCONTEXT '=' '[' lexContexTuplos ']'
 lexContexTuplos : lexContexTuplo
                 | lexContexTuplos ',' lexContexTuplo
 
-lexContexTuplo : '(' STRING ',' STRING ')'
+lexContexTuplo : '(' ID ',' ID ')'
 
 
 comError : COMERROR context '=' comErrorMessage skipOps
@@ -55,6 +60,7 @@ skipOps : SKIP
 
 
 
+
 yacc : yaccParametros
 
 yaccParametros : 
@@ -64,8 +70,8 @@ yaccParametro : yaccVar
               | yaccRegra
               | yaccProd
 
-yaccRegra : comError
-          | yaccPrecedence
+yaccRegra : yaccPrecedence
+          | comError
 
 yaccPrecedence : YACCPRECEDENCE '=' '(' yaccPreTuplos ')'
 

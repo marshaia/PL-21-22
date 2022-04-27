@@ -16,9 +16,9 @@ dsjahdkjashdka
 %contexts = [(banana,inclusive),(laranja,exclusive)]
 
 
-#Tokens sempre em maiusculas (por causa do yacc em baixo)
-INT (banana) = r'\d+' %INT %begin laranja          #float,double,str
-ID (laranja) = r'[a-zA-Z_]\w*'                     #default str né
+#Tokens
+INT (banana) = r'\d+' %INT %begin laranja          
+ID (laranja) = r'[a-zA-Z_]\w*'                    
 Print = r'(print|PRINT)' %begin banana    
 Print (banana) = r'(print|PRINT)' %begin INITIAL 
 Read = r'(read|READ)'
@@ -27,16 +27,12 @@ DUMP = r'(dump|DUMP)'
 %error = "Mensagem de erro" %skip
 %error (laranja) = %noskip
 
-# se não escrito def t_error predefindo como:
-#
-# def t_error(t):
-#     print("Illegal Character:",t.value[0])
-#     t.lexer.skip
 
-%%END
+
+
 %%YACC
 
-#fuck precedencia, all my homies hate precedencia
+
 
 %precedence = (("left","+"),("left","-"))
 
