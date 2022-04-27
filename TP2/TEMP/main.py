@@ -31,74 +31,68 @@ import json
 #     sys.exit("Initialization Failed :(((( ")
 
 
+def readArguments(argv):
+    flagList = ["-i","-input","-o","-output","-help","-divide","-debug","-wall"]
+    arguments = {}
+    arguments["input"] = ""
+    arguments["output"] = ""
+    arguments["help"] = False
+    arguments["divide"] = False
+    arguments["debug"] = False
+    arguments["wall"] = False
+    argv.pop(0)
+    argslen = len(argv)
+    skip = False
+    for i in range (0,argslen):
 
-finput = open("Exemplo.txt","r")
-rinput = finput.read()
+        if skip:
+            skip = False
 
-parser = getParser()
-parser.parse(rinput)
+        elif argv[i][0] == '-':
 
-out = open("Exemplo.JSON","w+")
-json.dump(parser.mylex,out,indent = 4)
-out.write('\n' * 6)
-json.dump(parser.myyacc,out,indent = 4)
-out.write('\n' * 6)
-out.write("LexRead:"+str(parser.mylexRead)+"\n")
-out.write("YaccRead:"+str(parser.myyaccRead)+"\n")
-out.write("ContextRead:"+str(parser.mylexContextRead)+"\n")
+            if argv[i] not in flagList:
+                raise Exception("Opção desconhecida "+str(argv[i]))
 
-# Fazer um check qualquer se são dois ou um ficheiro de output
-# if not dois:
-#     foutput = open(filenameOutput,"w+")
-#     foutput.write(strFinalFile(parser))
+            if argv[i] == "-input" or argv[i] == "-i":
+                if i+1 >= argslen or argv[i+1][0] == "-":
+                    raise Exception("Ficheiro de Entrada em falta")
+                if arguments["input"] != "":
+                    raise Exception("Ficheiro de Entrada repetido")
+                arguments["input"] = argv[i+1]
+                skip = True
+            elif argv[i] == "-output" or argv[i] == "-o":
+                if i+1 >= argslen or argv[i+1][0] == "-":
+                    raise Exception("Ficheiro de Saída em falta")
+                if arguments["output"] != "":
+                    raise Exception("Ficheiro de Saída repetido")
+                arguments["output"] = argv[i+1]
+                skip = True
+            else:
+                arguments[argv[i]] = True
+                
+        else:
+            if arguments["input"] != "":
+                    raise Exception("Ficheiro de Entrada repetido")
+            arguments["input"] = argv[i]
 
-# elif dois:
-#     foutputLex = open(filenameOutputLex, "w+")
-#     foutputLex.write()
-
-#     foutputYacc = open(filenameOutputYacc,"w+")
-#     foutputYacc.write()
+    return arguments
 
 
+print(readArguments(sys.argv))
 
-
-
-
-
+#-------------JSON
 # finput = open("Exemplo.txt","r")
 # rinput = finput.read()
 
 # parser = getParser()
 # parser.parse(rinput)
 
-# foutput = open("Exemplo.py","w+")
-# foutput.write(strFinalFile(parser))
-
-
-# print(parser.myTokens)
-# print(parser.myIgnore)
-# print(parser.myLiterals)
-# print(parser.myLexError)
-# print(parser.myPrecedence)
-# print(parser.myVariables)
-# print(parser.myProductions)
-# print(parser.myYaccError)
-# print("")
-# print("")
-# print("")
-
-
-# print(strAllTokens(parser.myTokens))
-# print(strTokenList(parser.myTokens))
-# print(strLiterals(parser.myLiterals))
-# print(strIgnore(parser.myIgnore))
-# print(strError(parser.myLexError))
-# print(strError(parser.myYaccError))
-# print(strVariables(parser.myVariables))
-# print(strPrecedence(parser.myPrecedence))
-
-# # for prod in parser.myProductions:
-# #     print(strProduction(prod,1))
-
-# print(strAllProductions(parser.myProductions))
-
+# out = open("Exemplo.JSON","w+")
+# json.dump(parser.mylex,out,indent = 4)
+# out.write('\n' * 6)
+# json.dump(parser.myyacc,out,indent = 4)
+# out.write('\n' * 6)
+# out.write("LexRead:"+str(parser.mylexRead)+"\n")
+# out.write("YaccRead:"+str(parser.myyaccRead)+"\n")
+# out.write("ContextRead:"+str(parser.mylexContextRead)+"\n")
+#------------------
