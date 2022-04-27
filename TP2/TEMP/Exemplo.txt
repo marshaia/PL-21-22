@@ -38,7 +38,7 @@ DUMP = r'(dump|DUMP)'
 
 #declarar variavies...? #temos que fazer "parser.ola = 0"
 ola = "ola"
-val = 1
+val = 90
 tabelaIDs = %newdict
 lista = [   ]
 
@@ -55,9 +55,8 @@ comando : "ID = exp"
 comando : "Print exp"     
 {print(p[2])}
 
-comando : "Read exp" 
-{r = int(input())
-p.parser.tabelaIDs[p[2]] = r}
+comando (Read): "Read exp" 
+{r = int(input());p.parser.tabelaIDs[p[2]] = r}
 
 comando : "DUMP"          
 {print(p.parser.tabelaIDs)}

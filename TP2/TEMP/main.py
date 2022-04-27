@@ -40,6 +40,12 @@ parser.parse(rinput)
 
 out = open("Exemplo.JSON","w+")
 json.dump(parser.mylex,out,indent = 4)
+out.write('\n' * 6)
+json.dump(parser.myyacc,out,indent = 4)
+out.write('\n' * 6)
+out.write("LexRead:"+str(parser.mylexRead)+"\n")
+out.write("YaccRead:"+str(parser.myyaccRead)+"\n")
+out.write("ContextRead:"+str(parser.mylexContextRead)+"\n")
 
 # Fazer um check qualquer se são dois ou um ficheiro de output
 # if not dois:
