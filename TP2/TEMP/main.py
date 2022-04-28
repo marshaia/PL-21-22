@@ -32,14 +32,13 @@ import json
 
 
 def readArguments(argv):
-    flagList = ["-i","-input","-o","-output","-help","-divide","-debug","-wall"]
+    flagList = ["-input","-output","-help","-divide","-debug","-wall","-verbose"]
     arguments = {}
-    arguments["input"] = ""
-    arguments["output"] = ""
-    arguments["help"] = False
-    arguments["divide"] = False
-    arguments["debug"] = False
-    arguments["wall"] = False
+    arguments["-input"] = ""
+    arguments["-output"] = ""
+    for flag in flagList:
+        if flag != "-input" and flag != "-output":
+            arguments[flag] = False
     argv.pop(0)
     argslen = len(argv)
     skip = False
@@ -53,46 +52,89 @@ def readArguments(argv):
             if argv[i] not in flagList:
                 raise Exception("Opção desconhecida "+str(argv[i]))
 
-            if argv[i] == "-input" or argv[i] == "-i":
+            if argv[i] == "-input" or argv[i] == "-output":
                 if i+1 >= argslen or argv[i+1][0] == "-":
-                    raise Exception("Ficheiro de Entrada em falta")
-                if arguments["input"] != "":
-                    raise Exception("Ficheiro de Entrada repetido")
-                arguments["input"] = argv[i+1]
-                skip = True
-            elif argv[i] == "-output" or argv[i] == "-o":
-                if i+1 >= argslen or argv[i+1][0] == "-":
-                    raise Exception("Ficheiro de Saída em falta")
-                if arguments["output"] != "":
-                    raise Exception("Ficheiro de Saída repetido")
-                arguments["output"] = argv[i+1]
+                    raise Exception("Ficheiro de "+argv[i].strip("-")+" em falta")
+                if arguments[argv[i]] != "":
+                    raise Exception("Ficheiro de "+argv[i].strip("-")+" repetido")
+                arguments[argv[i]] = argv[i+1]
                 skip = True
             else:
                 arguments[argv[i]] = True
                 
         else:
-            if arguments["input"] != "":
-                    raise Exception("Ficheiro de Entrada repetido")
-            arguments["input"] = argv[i]
+            if arguments["-input"] != "":
+                    raise Exception("Ficheiro de input repetido")
+            arguments["-input"] = argv[i]
+    
+    if arguments["-input"] == "":
+        raise Exception("Ficheiro de input em falta")
 
     return arguments
 
 
-print(readArguments(sys.argv))
+def progHelp():
+    help = """Help
+I helped
+Yay"""
+    return help
 
-#-------------JSON
-# finput = open("Exemplo.txt","r")
-# rinput = finput.read()
+def printVerbose(msg):
+    global args
+    if args["-verbose"]:
+        print("Verbose: "+str(msg))
 
-# parser = getParser()
-# parser.parse(rinput)
+def printWarning(msg):
+    global args
+    if args["-wall"]:
+        print("WARNING: "+str(msg))
 
-# out = open("Exemplo.JSON","w+")
-# json.dump(parser.mylex,out,indent = 4)
-# out.write('\n' * 6)
-# json.dump(parser.myyacc,out,indent = 4)
-# out.write('\n' * 6)
-# out.write("LexRead:"+str(parser.mylexRead)+"\n")
-# out.write("YaccRead:"+str(parser.myyaccRead)+"\n")
-# out.write("ContextRead:"+str(parser.mylexContextRead)+"\n")
-#------------------
+
+def verifyData(parser):
+    for context in parser.mylex:
+        if parser.mylex[context]["tipo"] == "None":
+            raise Exception("Contexto '"+str(context)+"' declarado implicitamente, sem declaração explicita.")
+    
+
+
+
+#-----START HERE-----------
+
+global args
+#------------READ ARGS
+try:
+    args = readArguments(sys.argv)
+except Exception as e:
+    print("ERROR-ARGS: "+str(e))
+    exit(1)
+
+
+#------------HELP FLAG
+if args["-help"]:
+    print(progHelp())
+    exit(0)
+
+#------------READ & PARSE
+printVerbose("Iniciando a leitura do ficheiro "+args["-input"])
+finput = open(args["-input"],"r")
+rinput = finput.read()
+parser = getParser()
+parser.parse(rinput)
+printVerbose("Ficheiro lido com sucesso")
+
+
+#-------------DEBUG FLAG
+if args["-debug"]:
+    print("DEBUG: A descarregar os conteúdos do parser em 'debug.JSON'")
+    debugExtra = {}
+    debugExtra["LexRead"] = parser.mylexRead
+    debugExtra["YaccRead"] = parser.myyaccRead
+    debugExtra["ContextRead"] = parser.mylexContextRead
+    debugfile = open("debug.JSON","w+")
+    json.dump([parser.mylex,parser.myyacc,debugExtra],debugfile,indent = 4)
+    debugfile.close()
+
+
+#-------------VERIFIER
+verifyData(parser)
+printVerbose("Verificado!")
