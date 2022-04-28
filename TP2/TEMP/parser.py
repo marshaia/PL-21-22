@@ -40,7 +40,7 @@ def p_lexParametros_empty(p):
     "lexParametros : "
 def p_lexParametros_multi(p):
     "lexParametros : lexParametros lexParametro"
-    p.parser.mylexRead = True
+    p.parser.mycontents["lexRead"] = True
 
 
 def p_lexParametro_token(p):
@@ -62,12 +62,10 @@ def p_lexToken(p):
                 msg += " no contexto "+p[2] 
             raise Exception(msg)
     #Adição à lista
-    tokenDic = {}
-    tokenDic["nome"] = p[1]
-    tokenDic["ER"] = p[4]
-    tokenDic["funcao"] = p[5]
-    tokenDic["begin"] = p[6] 
+    tokenDic = {"nome":p[1], "ER":p[4], "funcao":p[5], "begin":p[6]}
     p.parser.mylex[p[2]]["tokens"].append(tokenDic)
+    if p[1] not in p.parser.mycontents["tokenlist"]:
+        p.parser.mycontents["tokenlist"].append(p[1])
         
     
 def p_context_empty(p):
@@ -117,6 +115,7 @@ def p_lexRegra_error(p):
         msg = "Parâmetro Error repetido (Lex)"
         if contexto != "INITIAL":
             msg += " no contexto '"+contexto+"'"
+        msg += " na linha "+str(p.lineno(1))
         raise Exception(msg)
     #Adição
     if p[1]["mensagem"] != "None":
@@ -135,6 +134,7 @@ def p_lexIgnore(p):
         msg = "Parâmetro Ignore repetido"
         if p[2] != "INITIAL":
             msg += " no contexto '"+p[2]+"'" 
+        msg += " na linha "+str(p.lineno(1))
         raise Exception(msg)
     #Adição
     p.parser.mylex[p[2]]["ignore"] = p[4]
@@ -151,18 +151,22 @@ def p_lexLiterals(p):
         msg = "Parâmetro Literals repetido"
         if p[2] != "INITIAL":
             msg += " no contexto '"+p[2]+"'"
+        msg += " na linha "+str(p.lineno(1))
         raise Exception(msg)
     #Adição
     p.parser.mylex[p[2]]["literals"] = p[4]
     p.parser.mylex[p[2]]["literalsRead"] = True
+    for chr in p[4]:
+        if chr not in p.parser.mycontents["literalslist"]:
+            p.parser.mycontents["literalslist"].append(chr)
 
 
 def p_lexContexts(p):
     "lexContexts : LEXCONTEXT '=' '[' lexContexTuplos ']'"
     #Verifica duplicação de contextos
-    if p.parser.mylexContextRead:
-        raise Exception("Parâmetro Contexts repetido")
-    p.parser.mylexContextRead = True
+    if p.parser.mycontents["lexContextRead"]:
+        raise Exception("Parâmetro Contexts repetido na linha "+str(p.lineno(1)))
+    p.parser.mycontents["lexContextRead"] = True
 
 
 def p_lexContexTuplos_singl(p):
@@ -175,7 +179,7 @@ def p_lexContexTuplo(p):
     "lexContexTuplo : '(' ID ',' ID ')'"
     #Verifica tipo de contexto
     if p[4] != "exclusive" and p[4] != "inclusive":
-        raise Exception("Tipo de contexto inválido no contexto '"+p[2]+"' ("+p[4]+")")
+        raise Exception("Tipo de contexto inválido no contexto '"+p[2]+"' ("+p[4]+") na linha "+str(p.lineno(4)))
     #Verifica existência do contexto
     if p[2] not in p.parser.mylex:
         p.parser.mylex[p[2]] = generateLexContextDic()
@@ -222,7 +226,7 @@ def p_yaccParametros_empty(p):
     "yaccParametros : "
 def p_yaccParametros_multi(p):
     "yaccParametros : yaccParametros yaccParametro"
-    p.parser.myyaccRead = True
+    p.parser.mycontents["yaccRead"] = True
 
 
 def p_yaccParametro_var(p):
@@ -248,7 +252,7 @@ def p_yaccRegra_error(p):
 def p_yaccPrecedence(p):
     "yaccPrecedence : YACCPRECEDENCE '=' '(' yaccPreTuplos ')'"
     if p.parser.myyacc["precedenceRead"]:
-        raise Exception("Parâmetro Precedence repetido")
+        raise Exception("Parâmetro Precedence repetido na linha "+str(p.lineno(1)))
     p.parser.myyacc["precedence"] = p[4]
     p.parser.myyacc["precedenceRead"] = True
 
@@ -266,7 +270,7 @@ def p_PreTuplo(p):
     tipo = p[2].lower().strip("\"'")
     fst = p[4].lower().strip("\"'")
     if tipo != "left" and tipo != "right":
-        raise Exception("Tipo de precedência inválido ("+p[2]+")")
+        raise Exception("Tipo de precedência inválido ("+p[2]+") na linha "+str(p.lineno(2)))
     p[0] = tuple([tipo,fst] + p[5])
 
 
@@ -282,7 +286,7 @@ def p_yaccVar(p):
     "yaccVar : ID '=' VarValue"
     for var in p.parser.myyacc["variables"]:
         if var[0] == p[1]:
-            raise Exception("Nome de variável "+p[1]+" repetido")
+            raise Exception("Nome de variável "+p[1]+" repetido na linha "+str(p.lineno(1)))
     var = (p[1],p[3])
     p.parser.myyacc["variables"].append(var)
 
@@ -307,21 +311,20 @@ def p_yaccProd(p):
     if p[2] != "":
         for prod in p.parser.myyacc["productions"]:
             if prod["nome"] == p[1] and prod["alias"] == p[2]:
-                raise Exception("Duas produções com alias repetido ("+p[1]+"/"+p[2]+")")
+                raise Exception("Duas produções com alias repetido ("+p[1]+"/"+p[2]+") na linha "+str(p.lineno(1)))
     #incrementa contador da producao
     if p[1] not in p.parser.myyacc["aliascounter"]:
         p.parser.myyacc["aliascounter"][p[1]] = 0
     p.parser.myyacc["aliascounter"][p[1]] += 1
     #Monta e adiciona
-    prod={}
-    prod["nome"] = p[1]
+    prod={"nome" : p[1],"conteudo" : p[4],"codigo" : p[5]}
     if p[2] != "":
         prod["alias"] = p[2]
     else:
         prod["alias"] = "p"+str(p.parser.myyacc["aliascounter"][p[1]])
-    prod["conteudo"] = p[4]
-    prod["codigo"] = p[5]
     p.parser.myyacc["productions"].append(prod)
+    if p[1] not in p.parser.mycontents["prodlist"]:
+        p.parser.mycontents["prodlist"].append(p[1])
 
 
 def p_yaccProdAlias_empty(p):
@@ -354,7 +357,8 @@ def p_yaccProdCod_singl(p):
 
 
 def p_error(p):
-    print("Parser Error '"+p.value[0]+"' on line "+str(p.lineno))
+    raise Exception("Erro Sintáxico: '"+p.value+"' na linha "+str(p.lineno))
+
 
 
 
@@ -389,9 +393,7 @@ def generateLexContextDic():
     dic["literalsRead"] = False
     dic["ignore"] = ""
     dic["ignoreRead"] = False
-    error = {}
-    error["mensagem"] = "Erro léxico"
-    error["comando"] = "skip"
+    error = {"mensagem":"Erro léxico","comando":"skip"}
     dic["error"] = error
     dic["errorRead"] = False
     return dic
@@ -423,9 +425,7 @@ def generateYaccDefaultDic():
     dic["precedenceRead"] = False
     dic["variables"] = []
     dic["productions"] = []
-    error = {}
-    error["mensagem"] = "Erro Gramático"
-    error["comando"] = "skip"
+    error = {"mensagem":"Erro Sintáxico","comando":"skip"}
     dic["error"] = error
     dic["errorRead"] = False
     dic["aliascounter"] = {}
@@ -439,10 +439,9 @@ def getParser():
 
     parser.mylex = {}
     parser.myyacc = {}
-    parser.mylexRead = False
-    parser.myyaccRead = False
-    parser.mylexContextRead = False
 
+    parser.mycontents = {"lexRead":False,"yaccRead":False,
+    "lexContextRead":False,"tokenlist":[],"prodlist":[],"literalslist":[]}
     dic = generateLexContextDic()
     dic["tipo"] = "exclusive"
     parser.mylex["INITIAL"] = dic

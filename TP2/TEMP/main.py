@@ -79,10 +79,16 @@ I helped
 Yay"""
     return help
 
+def debugDump(parser):
+    print("DEBUG: A descarregar os conteúdos do parser em 'debug.JSON'")
+    debugfile = open("debug.JSON","w+")
+    json.dump([parser.mylex,parser.myyacc,parser.mycontents],debugfile,indent = 4)
+    debugfile.close()
+
 def printVerbose(msg):
     global args
     if args["-verbose"]:
-        print("Verbose: "+str(msg))
+        print(str(msg))
 
 def printWarning(msg):
     global args
@@ -125,15 +131,7 @@ printVerbose("Ficheiro lido com sucesso")
 
 #-------------DEBUG FLAG
 if args["-debug"]:
-    print("DEBUG: A descarregar os conteúdos do parser em 'debug.JSON'")
-    debugExtra = {}
-    debugExtra["LexRead"] = parser.mylexRead
-    debugExtra["YaccRead"] = parser.myyaccRead
-    debugExtra["ContextRead"] = parser.mylexContextRead
-    debugfile = open("debug.JSON","w+")
-    json.dump([parser.mylex,parser.myyacc,debugExtra],debugfile,indent = 4)
-    debugfile.close()
-
+    debugDump(parser)
 
 #-------------VERIFIER
 verifyData(parser)
