@@ -97,11 +97,43 @@ def printWarning(msg):
 
 
 def verifyData(parser):
-    for context in parser.mylex:
-        if parser.mylex[context]["tipo"] == "None":
-            raise Exception("Contexto '"+str(context)+"' declarado implicitamente, sem declaração explicita.")
-    
 
+    if not parser.mycontents["lexRead"]:
+        printWarning("Nenhum bloco LEX lido, impossível verificar as produções")
+        return
+
+    for context in parser.mylex:
+        #CHECK Contextos Nulos
+        if parser.mylex[context]["tipo"] == "None":
+            raise Exception("Contexto '"+str(context)+"' declarado implicitamente mas sem declaração explicita.")
+
+        if parser.mylex[context]["tipo"] == "exclusive":
+            #CHECK Regra IGNORE
+            if not parser.mylex[context]["ignoreRead"]:
+                msg = "Parâmetro Ignore em falta"
+                if context != "INITIAL":
+                    msg += " no contexto exclusivo '"+str(context)+"'"
+                msg += ". Valor por defeito utilizado"
+                printWarning(msg)
+
+            #CHECK Regra ERROR
+            if not parser.mylex[context]["errorRead"]:
+                msg = "Parâmetro Error em falta (Lex)"
+                if context != "INITIAL":
+                    msg += " no contexto exclusivo '"+str(context)+"'"
+                msg += ". Valor por defeito utilizado"
+                printWarning(msg)
+    
+    for prod in parser.myyacc["productions"]:
+        words = prod["conteudo"].strip("\"").split()
+        for word in words:
+            if (word not in parser.mycontents["tokenlist"]) and (word not in parser.mycontents["literalslist"]) and (word not in parser.mycontents["prodlist"]):
+                raise Exception("Termo desconhecido '"+word+"' encontrado na produção -> "+prod["nome"]+" ("+prod["alias"]+") : "+prod["conteudo"])
+        
+            
+            
+    
+    
 
 
 #-----START HERE-----------

@@ -64,6 +64,7 @@ def p_lexToken(p):
     #Adição à lista
     tokenDic = {"nome":p[1], "ER":p[4], "funcao":p[5], "begin":p[6]}
     p.parser.mylex[p[2]]["tokens"].append(tokenDic)
+    #Adiciona token à lista final
     if p[1] not in p.parser.mycontents["tokenlist"]:
         p.parser.mycontents["tokenlist"].append(p[1])
         
@@ -156,6 +157,7 @@ def p_lexLiterals(p):
     #Adição
     p.parser.mylex[p[2]]["literals"] = p[4]
     p.parser.mylex[p[2]]["literalsRead"] = True
+    #Adição à lista de literais
     for chr in p[4]:
         if chr not in p.parser.mycontents["literalslist"]:
             p.parser.mycontents["literalslist"].append(chr)
@@ -241,8 +243,10 @@ def p_yaccRegra_precedence(p):
     "yaccRegra : yaccPrecedence"
 def p_yaccRegra_error(p):
     "yaccRegra : comError"
+    #Check Flag
     if p.parser.myyacc["errorRead"]:
         raise Exception("Parâmetro Error repetido (Yacc)")
+    #Default value override
     if p[1]["mensagem"] != "None":
         p.parser.myyacc["error"]["mensagem"] = p[1]["mensagem"]
     p.parser.myyacc["error"]["comando"] = p[1]["comando"]
@@ -323,6 +327,7 @@ def p_yaccProd(p):
     else:
         prod["alias"] = "p"+str(p.parser.myyacc["aliascounter"][p[1]])
     p.parser.myyacc["productions"].append(prod)
+    #Adiciona à lista de producoes
     if p[1] not in p.parser.mycontents["prodlist"]:
         p.parser.mycontents["prodlist"].append(p[1])
 
