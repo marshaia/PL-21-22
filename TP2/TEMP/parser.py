@@ -75,6 +75,9 @@ def p_context_empty(p):
 def p_context_singl(p):
     "context : '(' ID ')'"
     p[0] = p[2]
+def p_context_singlNoPar(p):
+    "context : ID"
+    p[0] = p[1]
 
 
 def p_tokenFunc_empty(p):
@@ -95,6 +98,9 @@ def p_changeContext_empty(p):
     "changeContext : "
     p[0] = ""
 def p_changeContext_singl(p):
+    "changeContext : CHANGECONTEXT '(' ID ')'" 
+    p[0] = p[3] 
+def p_changeContext_singlNoPar(p):
     "changeContext : CHANGECONTEXT ID" 
     p[0] = p[2] 
 
@@ -338,6 +344,9 @@ def p_yaccProdAlias_empty(p):
 def p_yaccProdAlias_singl(p):
     "yaccProdAlias : '(' ID ')'"
     p[0] = p[2]
+def p_yaccProdAlias_singlNoPar(p):
+    "yaccProdAlias : ID"
+    p[0] = p[1]
 
 
 def p_yaccProdValue_empty(p):
@@ -345,7 +354,7 @@ def p_yaccProdValue_empty(p):
     p[0] = ""
 def p_yaccProdValue_singl(p):
     "yaccProdValue : STRING"
-    p[0] = p[1]
+    p[0] = p[1].strip("\"")
 
 
 def p_yaccProdCod_empty(p):

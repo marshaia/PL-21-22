@@ -23,7 +23,8 @@ lexParametro : lexToken
 lexToken :  ID context '=' ER tokenFunc changeContext
 
 context : 
-           | '(' ID ')'
+        | '(' ID ')'
+        | ID
 
 tokenFunc : 
           | FSTR
@@ -31,7 +32,7 @@ tokenFunc :
           | FFLOAT
 
 changeContext : 
-              | CHANGECONTEXT ID
+              | CHANGECONTEXT context
 
 lexRegra : lexIgnore
          | lexLiterals
@@ -94,6 +95,7 @@ yaccProd : ID yaccProdAlias ':' yaccProdValue yaccProdCod
 
 yaccProdAlias : 
               | '(' ID ')'
+              | ID
 
 yaccProdValue : 
               | STRING

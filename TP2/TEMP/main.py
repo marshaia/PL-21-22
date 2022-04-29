@@ -125,7 +125,7 @@ def verifyData(parser):
                 printWarning(msg)
     
     for prod in parser.myyacc["productions"]:
-        words = prod["conteudo"].strip("\"").split()
+        words = prod["conteudo"].split()
         for word in words:
             if (word not in parser.mycontents["tokenlist"]) and (word not in parser.mycontents["literalslist"]) and (word not in parser.mycontents["prodlist"]):
                 raise Exception("Termo desconhecido '"+word+"' encontrado na produção -> "+prod["nome"]+" ("+prod["alias"]+") : "+prod["conteudo"])
@@ -154,10 +154,17 @@ if args["-help"]:
 
 #------------READ & PARSE
 printVerbose("Iniciando a leitura do ficheiro "+args["-input"])
-finput = open(args["-input"],"r")
-rinput = finput.read()
-parser = getParser()
-parser.parse(rinput)
+
+try:
+    finput = open(args["-input"],"r")
+    rinput = finput.read()
+    parser = getParser()
+    parser.parse(rinput)
+except Exception as e:
+    print("ERROR: "+str(e))
+    exit(1)
+
+
 printVerbose("Ficheiro lido com sucesso")
 
 
@@ -166,5 +173,10 @@ if args["-debug"]:
     debugDump(parser)
 
 #-------------VERIFIER
-verifyData(parser)
+try:
+    verifyData(parser)
+except Exception as e:
+    print("ERROR: "+str(e))
+    exit(1)
+
 printVerbose("Verificado!")
