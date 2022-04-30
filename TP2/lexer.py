@@ -2,28 +2,26 @@ import re
 import ply.lex as lex
 from urllib3 import Retry
 
-literals = ["=","(",")",",",":"]
-tokens = ["LEXSTART","YACCSTART","END","ER","TOKENID","FSTR","FINT","FFLOAT",
-        "SKIP","NOSKIP","FDOUBLE","LEXIGNORE","LEXLITERALS","STRING","COMERROR","YACCVAR",
-        "YACCVALUE","YACCPROD","YACCPRODVALUE","YACCPRODCOM","YACCPRECEDENCE","COMMENT","NEWLINE"]
+literals = ["=","(",")",",",":","[","]"]
+tokens = ["LEXSTART","YACCSTART","END","ID","COMERROR","SKIP","NOSKIP","STRING","COMMENT","NEWLINE",
+        "ER","FSTR","FINT","FFLOAT","LEXIGNORE","LEXLITERALS","LEXCONTEXT","CHANGECONTEXT",
+        "NUMVAL","EMPTYLIST","EMPTYDIC","CODIGO","YACCPRECEDENCE"]
 
 states = (
     ('lex','inclusive'),
     ('yacc','inclusive'),
-    ('yaccgram','inclusive'),
-    ('yaccvarvalue','inclusive'),
     ('outside','exclusive'),
 )
 
 ##---------OUTSIDE------------
 
 def t_outside_LEXSTART(t):
-    r'%%LEX'
+    r'%%(?i:LEX)'
     t.lexer.begin("lex")
     return t
 
 def t_outside_YACCSTART(t):
-    r'%%YACC'
+    r'%%(?i:YACC)'
     t.lexer.begin("yacc")
     return t
 
@@ -31,111 +29,88 @@ def t_outside_NEWLINE(t):
     r'\n'
     t.lexer.lineno += 1
 
-t_outside_ignore = "=,():"
+t_outside_ignore = "=,():[]"
 
 def t_outside_error(t):
     t.lexer.skip(1)
 
 ##--------------LEX----------
 
+def t_lex_YACCSTART(t):
+    r'%%(?i:YACC)'
+    t.lexer.begin("yacc")
+    return t
+
 t_lex_ER = r'r\'.+\''
 
-t_lex_FSTR = r'str'
+t_lex_FSTR = r'%(?i:str)'
 
-t_lex_FINT = r'int'
+t_lex_FINT = r'%(?i:int)'
 
-t_lex_FFLOAT = r'float'
+t_lex_FFLOAT = r'%(?i:float)'
 
-t_lex_FDOUBLE = r'double'
+t_lex_LEXIGNORE = r'%(?i:ignore)'
 
-t_lex_TOKENID = r'[A-Z_][a-z-A-Z_]*'
+t_lex_LEXLITERALS = r'%(?i:literals)'
 
-t_lex_LEXIGNORE = r'%ignore'
+t_lex_LEXCONTEXT = r'%(?i:contexts)'
 
-t_lex_LEXLITERALS = r'%literals'
+t_lex_CHANGECONTEXT = r'%(?i:begin)'
 
-
-# def t_lex_END(t):
-#     r'%%'
-#     t.lexer.begin("outside")
-#     return t
-# def t_lex_YACCSTART(t):
-#     r'%%YACC'
-#     t.lexer.begin("yacc")
-#     return t
 
 
 ##--------YACC----------------
 
-# def t_yacc_END(t):
-#     r'%%'
-#     t.lexer.begin("outside")
-#     return t
-
-
-def t_yacc_YACCVAR(t):
-    r'[a-zA-Z_]+\ {0,}='
-    t.value = str(t.value).strip("= ")
-    t.lexer.begin("yaccvarvalue") #r'[a-zA-Z_]+ {0,}='
+def t_yac_LEXSTART(t):
+    r'%%(?i:LEX)'
+    t.lexer.begin("lex")
     return t
 
-def t_yaccvarvalue_YACCVALUE(t):
-    r'(\[\ {0,}\]|\{ {0,}\}|-?\d+(.\d+)?|\"[^"]+\")'
-    t.value = str(t.value).strip(" ")
-    t.lexer.begin("yacc")
+def t_yacc_NUMVAL(t):
+    r'-?\d+(.\d+)?'
+    if "." in str(t.value):
+        t.value = float(t.value)
+    else:
+        t.value = int(t.value)
     return t
 
-def t_yacc_YACCPROD(t):
-    r'[a-zA-Z_]+\ {0,}:'
-    t.value = str(t.value).strip(": ")
-    t.lexer.begin("yaccgram")
-    return t
+t_yacc_EMPTYLIST = r'\[\ *\]'
 
-def t_yaccgram_YACCPRODVALUE(t):
-    r'([^\n]+|$empty)'
-    t.value = str(t.value).strip(" ")
-    t.lexer.begin("yacc")
-    return t
+t_yacc_EMPTYDIC = r'%((?i:newdict)|(?i:dict)|(?i:dic)|(?i:newdic))'
 
-def t_yacc_YACCPRODCOM(t):
-    r'\{(.|\n)*?\}'
-    return t
+t_yacc_CODIGO = r'\{(.|\n)*?\}'
 
-def t_yacc_YACCPRECEDENCE(t):
-    r'%precedence'
-    return t
+t_yacc_YACCPRECEDENCE = r'%precedence'
+
 
 
 ##-------INITIAL----------
 
-t_SKIP = r'skip'
-
-t_NOSKIP = r'noskip'
-
-def t_COMERROR(t):
-    r'%error'
+def t_END(t):
+    r'%%(?i:END)'
+    t.lexer.begin("outside")
     return t
+
+t_ID = r'[a-zA-Z_]\w*'
+
+t_COMERROR = r'%(?i:error)'
+
+t_SKIP = r'%(?i:skip)'
+
+t_NOSKIP = r'%(?i:noskip)'
+
+t_STRING = r'(f?\"[^"]*\")|(\'[^\']*\')'
+
+def t_COMMENT(t):
+    r'\#.*'
 
 def t_NEWLINE(t):
     r'\n'
     t.lexer.lineno += 1
 
-def t_COMMENT(t):
-    r'\#.*'
-
-def t_STRING(t):
-    r'\"[^"]*\"'
-    return t
-
-def t_END(t):
-    r'%%\s'
-    if "\n" in str(t.value):
-        t.lexer.lineno += 1
-    t.lexer.begin("outside")
-    return t
 
 def t_error(t):
-    print("Illegal Character REEE:",t.value[0])
+    print("Illegal Character ("+str(t.value[0])+") on line "+str(t.lexer.lineno))
     exit()
 
 t_ignore = " \t\r"
@@ -147,3 +122,14 @@ def getLexer():
     lexer = lex.lex()
     lexer.begin("outside")
     return lexer
+
+
+# DEBUG LEXER
+# finput = open("Exemplo.txt","r")
+# rinput = finput.read()
+
+# lexer = getLexer()
+# lexer.input(rinput)
+
+# for tok in lexer:
+#     print(tok)

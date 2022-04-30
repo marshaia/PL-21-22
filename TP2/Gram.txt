@@ -1,10 +1,15 @@
-prog : contextos
+prog : seccoes
 
-contextos : contexto END
-          | contextos contexto END
+seccoes : seccao
+        | seccoes seccao
 
-contexto : LEXSTART lex
-         | YACCSTART yacc
+seccao : LEXSTART lex termino
+       | YACCSTART yacc termino
+
+termino : END
+        | seccao
+
+
 
 
 lex : lexParametros
@@ -15,32 +20,45 @@ lexParametros :
 lexParametro : lexToken
              | lexRegra
 
-lexToken : TOKENID '=' '(' ER lexTokenOp
+lexToken :  ID context '=' ER tokenFunc changeContext
 
-lexTokenOp : ')'
-           | ',' tokenFunc ')'
+context : 
+        | '(' ID ')'
+        | ID
 
-tokenFunc : FSTR
+tokenFunc : 
+          | FSTR
           | FINT
           | FFLOAT
-          | FDOUBLE
 
+changeContext : 
+              | CHANGECONTEXT context
 
 lexRegra : lexIgnore
          | lexLiterals
+         | lexContexts
          | comError
 
-lexIgnore : LEXIGNORE '=' STRING
+lexIgnore : LEXIGNORE context '=' STRING
 
 lexLiterals : LEXLITERALS '=' STRING
 
-comError : COMERROR '=' '(' STRING comErrorOP
+lexContexts : LEXCONTEXT '=' '[' lexContexTuplos ']'
 
-comErrorOP : ')'
-           | ',' skipOps ')'
+lexContexTuplos : lexContexTuplo
+                | lexContexTuplos ',' lexContexTuplo
+
+lexContexTuplo : '(' ID ',' ID ')'
+
+
+comError : COMERROR context '=' comErrorMessage skipOps
+
+comErrorMessage : 
+                | STRING
 
 skipOps : SKIP
         | NOSKIP
+
 
 
 
@@ -53,8 +71,8 @@ yaccParametro : yaccVar
               | yaccRegra
               | yaccProd
 
-yaccRegra : comError
-          | yaccPrecedence
+yaccRegra : yaccPrecedence
+          | comError
 
 yaccPrecedence : YACCPRECEDENCE '=' '(' yaccPreTuplos ')'
 
@@ -66,9 +84,21 @@ yaccPreTuplo : '(' STRING ',' STRING yaccPreTuploOP
 yaccPreTuploOP : ')'
                | ',' STRING yaccPreTuploOP
 
-yaccVar : YACCVAR YACCVALUE
+yaccVar : ID '=' VarValue
 
-yaccProd : YACCPRODID YACCPRODVALUE yaccProdOp
+VarValue : STRING
+         | NUMVAL
+         | EMPTYLIST
+         | EMPTYDIC
 
-yaccProdOp :
-           | YACCPRODCOM
+yaccProd : ID yaccProdAlias ':' yaccProdValue yaccProdCod
+
+yaccProdAlias : 
+              | '(' ID ')'
+              | ID
+
+yaccProdValue : 
+              | STRING
+
+yaccProdCod :
+            | CODIGO

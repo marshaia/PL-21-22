@@ -6,93 +6,94 @@ dsjahdkjashdka
 %%YACC
 
 
-%% 
+%%end 
 
 %%LEX
-%ignore = " \n\t\r"
+
 %literals = "+-*/()=;"
 
+%ignore = " \n\t\r"
+%contexts = [(banana,inclusive),(laranja,exclusive)]
 
-#Tokens sempre em maiusculas (por causa do yacc em baixo)
-INT = (r'\d+',int)           #float,double,str
-ID = (r'[a-zA-Z_]\w*')       #default str né
-Print = (r'(print|PRINT)')      
-Read = (r'(read|READ)')
-DUMP = (r'(dump|DUMP)')
 
-%error = ("Mensagem de erro",skip)
+#Tokens
+INT (banana) = r'\d+' %INT %begin laranja          
+ID laranja = r'[a-zA-Z_]\w*'                    
+Print = r'(print|PRINT)' %begin banana    
+Print (banana) = r'(print|PRINT)' %begin INITIAL 
+Read = r'(read|READ)'
+DUMP = r'(dump|DUMP)' %begin
 
-# se não escrito def t_error predefindo como:
-#
-# def t_error(t):
-#     print("Illegal Character:",t.value[0])
-#     t.lexer.skip
+%error = "Mensagem de erro" %skip
+%error (laranja) = %noskip
 
-%%
+
+
+
 %%YACC
 
-#fuck precedencia, all my homies hate precedencia
+
 
 %precedence = (("left","+"),("left","-"))
 
 #declarar variavies...? #temos que fazer "parser.ola = 0"
 ola = "ola"
-val = 1
-tabelaIDs = {}
+val = 90
+tabelaIDs = %newdict
 lista = [   ]
 
 
 #distingue-se SNT: palavaras minusculas 
 #simbolos literais podemos tentar fazer sem ' '
 
-prog : comandos
-comandos : $empty 
-comandos : comandos comando ;
-comando : ID = exp      
+prog : "comandos"
+comandos (empty) :  
+comandos rec : "comandos comando ;"
+comando : "ID = exp" 
 {p.parser.tabelaIDs[p[1]] = p[3]}
 
-comando : Print exp     
+comando : "Print exp"     
 {print(p[2])}
 
-comando : Read exp 
+comando (Read): "Read exp" 
 {r = int(input());p.parser.tabelaIDs[p[2]] = r}
 
-comando : DUMP          
+comando : "DUMP"          
 {print(p.parser.tabelaIDs)}
 
-exp : aexp
+exp : "aexp"
 {p[0] = p[1]}
 
-aexp : termo            
+aexp : "termo"            
 {p[0] = p[1]}
 
-aexp : aexp + termo     
+aexp : "aexp '+' termo"     
 {p[0] = p[1] + p[3]}
 
-aexp : aexp - termo     
+aexp : "aexp - termo"     
 {p[0] = p[1] - p[3]}
 
-termo : fator           
+termo (fator) : "fator"           
 {p[0] = p[1]}
 
-termo : termo * INT     
+termo (mul) : "termo * INT"     
 {p[0] = p[1] * p[3]}
 
-termo : termo / INT     
+termo (div) : "termo / INT"     
 {p[0] = p[1] / p[3]}
 
-fator : INT             
+fator : "INT"             
 {p[0] = p[1]}
 
-fator : ID              
+fator : "ID"              
 {getVar()}
 
-fator : ( exp )         
+fator : "( exp )"         
 {p[0] = p[2]}
 
-%error = ("Mensagem",noskip)
+%error = %skip
 
-%%
+%%end
 
 def getVar():
     if p[1] in p.parser.tabelaIDs:

@@ -1,0 +1,1373 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    COMMENT
+    NEWLINE
+
+Grammar
+
+Rule 0     S' -> prog
+Rule 1     prog -> seccoes
+Rule 2     seccoes -> seccao
+Rule 3     seccoes -> seccoes seccao
+Rule 4     seccao -> LEXSTART lex termino
+Rule 5     seccao -> YACCSTART yacc termino
+Rule 6     termino -> END
+Rule 7     termino -> seccao
+Rule 8     lex -> lexParametros
+Rule 9     lexParametros -> <empty>
+Rule 10    lexParametros -> lexParametros lexParametro
+Rule 11    lexParametro -> lexToken
+Rule 12    lexParametro -> lexRegra
+Rule 13    lexToken -> ID context = ER tokenFunc changeContext
+Rule 14    context -> <empty>
+Rule 15    context -> ( ID )
+Rule 16    context -> ID
+Rule 17    tokenFunc -> <empty>
+Rule 18    tokenFunc -> FSTR
+Rule 19    tokenFunc -> FINT
+Rule 20    tokenFunc -> FFLOAT
+Rule 21    changeContext -> <empty>
+Rule 22    changeContext -> CHANGECONTEXT context
+Rule 23    lexRegra -> lexIgnore
+Rule 24    lexRegra -> lexLiterals
+Rule 25    lexRegra -> lexContexts
+Rule 26    lexRegra -> comError
+Rule 27    lexIgnore -> LEXIGNORE context = STRING
+Rule 28    lexLiterals -> LEXLITERALS context = STRING
+Rule 29    lexContexts -> LEXCONTEXT = [ lexContexTuplos ]
+Rule 30    lexContexTuplos -> lexContexTuplo
+Rule 31    lexContexTuplos -> lexContexTuplos , lexContexTuplo
+Rule 32    lexContexTuplo -> ( ID , ID )
+Rule 33    comError -> COMERROR context = comErrorMessage skipOps
+Rule 34    comErrorMessage -> <empty>
+Rule 35    comErrorMessage -> STRING
+Rule 36    skipOps -> SKIP
+Rule 37    skipOps -> NOSKIP
+Rule 38    yacc -> yaccParametros
+Rule 39    yaccParametros -> <empty>
+Rule 40    yaccParametros -> yaccParametros yaccParametro
+Rule 41    yaccParametro -> yaccVar
+Rule 42    yaccParametro -> yaccRegra
+Rule 43    yaccParametro -> yaccProd
+Rule 44    yaccRegra -> yaccPrecedence
+Rule 45    yaccRegra -> comError
+Rule 46    yaccPrecedence -> YACCPRECEDENCE = ( yaccPreTuplos )
+Rule 47    yaccPreTuplos -> yaccPreTuplo
+Rule 48    yaccPreTuplos -> yaccPreTuplos , yaccPreTuplo
+Rule 49    yaccPreTuplo -> ( STRING , STRING yaccPreTuploOP
+Rule 50    yaccPreTuploOP -> )
+Rule 51    yaccPreTuploOP -> , STRING yaccPreTuploOP
+Rule 52    yaccVar -> ID = VarValue
+Rule 53    VarValue -> STRING
+Rule 54    VarValue -> NUMVAL
+Rule 55    VarValue -> EMPTYLIST
+Rule 56    VarValue -> EMPTYDIC
+Rule 57    yaccProd -> ID yaccProdAlias : yaccProdValue yaccProdCod
+Rule 58    yaccProdAlias -> <empty>
+Rule 59    yaccProdAlias -> ( ID )
+Rule 60    yaccProdAlias -> ID
+Rule 61    yaccProdValue -> <empty>
+Rule 62    yaccProdValue -> STRING
+Rule 63    yaccProdCod -> <empty>
+Rule 64    yaccProdCod -> CODIGO
+
+Terminals, with rules where they appear
+
+(                    : 15 32 46 49 59
+)                    : 15 32 46 50 59
+,                    : 31 32 48 49 51
+:                    : 57
+=                    : 13 27 28 29 33 46 52
+CHANGECONTEXT        : 22
+CODIGO               : 64
+COMERROR             : 33
+COMMENT              : 
+EMPTYDIC             : 56
+EMPTYLIST            : 55
+END                  : 6
+ER                   : 13
+FFLOAT               : 20
+FINT                 : 19
+FSTR                 : 18
+ID                   : 13 15 16 32 32 52 57 59 60
+LEXCONTEXT           : 29
+LEXIGNORE            : 27
+LEXLITERALS          : 28
+LEXSTART             : 4
+NEWLINE              : 
+NOSKIP               : 37
+NUMVAL               : 54
+SKIP                 : 36
+STRING               : 27 28 35 49 49 51 53 62
+YACCPRECEDENCE       : 46
+YACCSTART            : 5
+[                    : 29
+]                    : 29
+error                : 
+
+Nonterminals, with rules where they appear
+
+VarValue             : 52
+changeContext        : 13
+comError             : 26 45
+comErrorMessage      : 33
+context              : 13 22 27 28 33
+lex                  : 4
+lexContexTuplo       : 30 31
+lexContexTuplos      : 29 31
+lexContexts          : 25
+lexIgnore            : 23
+lexLiterals          : 24
+lexParametro         : 10
+lexParametros        : 8 10
+lexRegra             : 12
+lexToken             : 11
+prog                 : 0
+seccao               : 2 3 7
+seccoes              : 1 3
+skipOps              : 33
+termino              : 4 5
+tokenFunc            : 13
+yacc                 : 5
+yaccParametro        : 40
+yaccParametros       : 38 40
+yaccPreTuplo         : 47 48
+yaccPreTuploOP       : 49 51
+yaccPreTuplos        : 46 48
+yaccPrecedence       : 44
+yaccProd             : 43
+yaccProdAlias        : 57
+yaccProdCod          : 57
+yaccProdValue        : 57
+yaccRegra            : 42
+yaccVar              : 41
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . prog
+    (1) prog -> . seccoes
+    (2) seccoes -> . seccao
+    (3) seccoes -> . seccoes seccao
+    (4) seccao -> . LEXSTART lex termino
+    (5) seccao -> . YACCSTART yacc termino
+
+    LEXSTART        shift and go to state 4
+    YACCSTART       shift and go to state 5
+
+    prog                           shift and go to state 1
+    seccoes                        shift and go to state 2
+    seccao                         shift and go to state 3
+
+state 1
+
+    (0) S' -> prog .
+
+
+
+state 2
+
+    (1) prog -> seccoes .
+    (3) seccoes -> seccoes . seccao
+    (4) seccao -> . LEXSTART lex termino
+    (5) seccao -> . YACCSTART yacc termino
+
+    $end            reduce using rule 1 (prog -> seccoes .)
+    LEXSTART        shift and go to state 4
+    YACCSTART       shift and go to state 5
+
+    seccao                         shift and go to state 6
+
+state 3
+
+    (2) seccoes -> seccao .
+
+    LEXSTART        reduce using rule 2 (seccoes -> seccao .)
+    YACCSTART       reduce using rule 2 (seccoes -> seccao .)
+    $end            reduce using rule 2 (seccoes -> seccao .)
+
+
+state 4
+
+    (4) seccao -> LEXSTART . lex termino
+    (8) lex -> . lexParametros
+    (9) lexParametros -> .
+    (10) lexParametros -> . lexParametros lexParametro
+
+    ID              reduce using rule 9 (lexParametros -> .)
+    LEXIGNORE       reduce using rule 9 (lexParametros -> .)
+    LEXLITERALS     reduce using rule 9 (lexParametros -> .)
+    LEXCONTEXT      reduce using rule 9 (lexParametros -> .)
+    COMERROR        reduce using rule 9 (lexParametros -> .)
+    END             reduce using rule 9 (lexParametros -> .)
+    LEXSTART        reduce using rule 9 (lexParametros -> .)
+    YACCSTART       reduce using rule 9 (lexParametros -> .)
+
+    lex                            shift and go to state 7
+    lexParametros                  shift and go to state 8
+
+state 5
+
+    (5) seccao -> YACCSTART . yacc termino
+    (38) yacc -> . yaccParametros
+    (39) yaccParametros -> .
+    (40) yaccParametros -> . yaccParametros yaccParametro
+
+    ID              reduce using rule 39 (yaccParametros -> .)
+    YACCPRECEDENCE  reduce using rule 39 (yaccParametros -> .)
+    COMERROR        reduce using rule 39 (yaccParametros -> .)
+    END             reduce using rule 39 (yaccParametros -> .)
+    LEXSTART        reduce using rule 39 (yaccParametros -> .)
+    YACCSTART       reduce using rule 39 (yaccParametros -> .)
+
+    yacc                           shift and go to state 9
+    yaccParametros                 shift and go to state 10
+
+state 6
+
+    (3) seccoes -> seccoes seccao .
+
+    LEXSTART        reduce using rule 3 (seccoes -> seccoes seccao .)
+    YACCSTART       reduce using rule 3 (seccoes -> seccoes seccao .)
+    $end            reduce using rule 3 (seccoes -> seccoes seccao .)
+
+
+state 7
+
+    (4) seccao -> LEXSTART lex . termino
+    (6) termino -> . END
+    (7) termino -> . seccao
+    (4) seccao -> . LEXSTART lex termino
+    (5) seccao -> . YACCSTART yacc termino
+
+    END             shift and go to state 12
+    LEXSTART        shift and go to state 4
+    YACCSTART       shift and go to state 5
+
+    termino                        shift and go to state 11
+    seccao                         shift and go to state 13
+
+state 8
+
+    (8) lex -> lexParametros .
+    (10) lexParametros -> lexParametros . lexParametro
+    (11) lexParametro -> . lexToken
+    (12) lexParametro -> . lexRegra
+    (13) lexToken -> . ID context = ER tokenFunc changeContext
+    (23) lexRegra -> . lexIgnore
+    (24) lexRegra -> . lexLiterals
+    (25) lexRegra -> . lexContexts
+    (26) lexRegra -> . comError
+    (27) lexIgnore -> . LEXIGNORE context = STRING
+    (28) lexLiterals -> . LEXLITERALS context = STRING
+    (29) lexContexts -> . LEXCONTEXT = [ lexContexTuplos ]
+    (33) comError -> . COMERROR context = comErrorMessage skipOps
+
+    END             reduce using rule 8 (lex -> lexParametros .)
+    LEXSTART        reduce using rule 8 (lex -> lexParametros .)
+    YACCSTART       reduce using rule 8 (lex -> lexParametros .)
+    ID              shift and go to state 17
+    LEXIGNORE       shift and go to state 22
+    LEXLITERALS     shift and go to state 23
+    LEXCONTEXT      shift and go to state 24
+    COMERROR        shift and go to state 25
+
+    lexParametro                   shift and go to state 14
+    lexToken                       shift and go to state 15
+    lexRegra                       shift and go to state 16
+    lexIgnore                      shift and go to state 18
+    lexLiterals                    shift and go to state 19
+    lexContexts                    shift and go to state 20
+    comError                       shift and go to state 21
+
+state 9
+
+    (5) seccao -> YACCSTART yacc . termino
+    (6) termino -> . END
+    (7) termino -> . seccao
+    (4) seccao -> . LEXSTART lex termino
+    (5) seccao -> . YACCSTART yacc termino
+
+    END             shift and go to state 12
+    LEXSTART        shift and go to state 4
+    YACCSTART       shift and go to state 5
+
+    termino                        shift and go to state 26
+    seccao                         shift and go to state 13
+
+state 10
+
+    (38) yacc -> yaccParametros .
+    (40) yaccParametros -> yaccParametros . yaccParametro
+    (41) yaccParametro -> . yaccVar
+    (42) yaccParametro -> . yaccRegra
+    (43) yaccParametro -> . yaccProd
+    (52) yaccVar -> . ID = VarValue
+    (44) yaccRegra -> . yaccPrecedence
+    (45) yaccRegra -> . comError
+    (57) yaccProd -> . ID yaccProdAlias : yaccProdValue yaccProdCod
+    (46) yaccPrecedence -> . YACCPRECEDENCE = ( yaccPreTuplos )
+    (33) comError -> . COMERROR context = comErrorMessage skipOps
+
+    END             reduce using rule 38 (yacc -> yaccParametros .)
+    LEXSTART        reduce using rule 38 (yacc -> yaccParametros .)
+    YACCSTART       reduce using rule 38 (yacc -> yaccParametros .)
+    ID              shift and go to state 31
+    YACCPRECEDENCE  shift and go to state 34
+    COMERROR        shift and go to state 25
+
+    yaccParametro                  shift and go to state 27
+    yaccVar                        shift and go to state 28
+    yaccRegra                      shift and go to state 29
+    yaccProd                       shift and go to state 30
+    yaccPrecedence                 shift and go to state 32
+    comError                       shift and go to state 33
+
+state 11
+
+    (4) seccao -> LEXSTART lex termino .
+
+    LEXSTART        reduce using rule 4 (seccao -> LEXSTART lex termino .)
+    YACCSTART       reduce using rule 4 (seccao -> LEXSTART lex termino .)
+    $end            reduce using rule 4 (seccao -> LEXSTART lex termino .)
+
+
+state 12
+
+    (6) termino -> END .
+
+    LEXSTART        reduce using rule 6 (termino -> END .)
+    YACCSTART       reduce using rule 6 (termino -> END .)
+    $end            reduce using rule 6 (termino -> END .)
+
+
+state 13
+
+    (7) termino -> seccao .
+
+    LEXSTART        reduce using rule 7 (termino -> seccao .)
+    YACCSTART       reduce using rule 7 (termino -> seccao .)
+    $end            reduce using rule 7 (termino -> seccao .)
+
+
+state 14
+
+    (10) lexParametros -> lexParametros lexParametro .
+
+    ID              reduce using rule 10 (lexParametros -> lexParametros lexParametro .)
+    LEXIGNORE       reduce using rule 10 (lexParametros -> lexParametros lexParametro .)
+    LEXLITERALS     reduce using rule 10 (lexParametros -> lexParametros lexParametro .)
+    LEXCONTEXT      reduce using rule 10 (lexParametros -> lexParametros lexParametro .)
+    COMERROR        reduce using rule 10 (lexParametros -> lexParametros lexParametro .)
+    END             reduce using rule 10 (lexParametros -> lexParametros lexParametro .)
+    LEXSTART        reduce using rule 10 (lexParametros -> lexParametros lexParametro .)
+    YACCSTART       reduce using rule 10 (lexParametros -> lexParametros lexParametro .)
+
+
+state 15
+
+    (11) lexParametro -> lexToken .
+
+    ID              reduce using rule 11 (lexParametro -> lexToken .)
+    LEXIGNORE       reduce using rule 11 (lexParametro -> lexToken .)
+    LEXLITERALS     reduce using rule 11 (lexParametro -> lexToken .)
+    LEXCONTEXT      reduce using rule 11 (lexParametro -> lexToken .)
+    COMERROR        reduce using rule 11 (lexParametro -> lexToken .)
+    END             reduce using rule 11 (lexParametro -> lexToken .)
+    LEXSTART        reduce using rule 11 (lexParametro -> lexToken .)
+    YACCSTART       reduce using rule 11 (lexParametro -> lexToken .)
+
+
+state 16
+
+    (12) lexParametro -> lexRegra .
+
+    ID              reduce using rule 12 (lexParametro -> lexRegra .)
+    LEXIGNORE       reduce using rule 12 (lexParametro -> lexRegra .)
+    LEXLITERALS     reduce using rule 12 (lexParametro -> lexRegra .)
+    LEXCONTEXT      reduce using rule 12 (lexParametro -> lexRegra .)
+    COMERROR        reduce using rule 12 (lexParametro -> lexRegra .)
+    END             reduce using rule 12 (lexParametro -> lexRegra .)
+    LEXSTART        reduce using rule 12 (lexParametro -> lexRegra .)
+    YACCSTART       reduce using rule 12 (lexParametro -> lexRegra .)
+
+
+state 17
+
+    (13) lexToken -> ID . context = ER tokenFunc changeContext
+    (14) context -> .
+    (15) context -> . ( ID )
+    (16) context -> . ID
+
+    =               reduce using rule 14 (context -> .)
+    (               shift and go to state 37
+    ID              shift and go to state 35
+
+    context                        shift and go to state 36
+
+state 18
+
+    (23) lexRegra -> lexIgnore .
+
+    ID              reduce using rule 23 (lexRegra -> lexIgnore .)
+    LEXIGNORE       reduce using rule 23 (lexRegra -> lexIgnore .)
+    LEXLITERALS     reduce using rule 23 (lexRegra -> lexIgnore .)
+    LEXCONTEXT      reduce using rule 23 (lexRegra -> lexIgnore .)
+    COMERROR        reduce using rule 23 (lexRegra -> lexIgnore .)
+    END             reduce using rule 23 (lexRegra -> lexIgnore .)
+    LEXSTART        reduce using rule 23 (lexRegra -> lexIgnore .)
+    YACCSTART       reduce using rule 23 (lexRegra -> lexIgnore .)
+
+
+state 19
+
+    (24) lexRegra -> lexLiterals .
+
+    ID              reduce using rule 24 (lexRegra -> lexLiterals .)
+    LEXIGNORE       reduce using rule 24 (lexRegra -> lexLiterals .)
+    LEXLITERALS     reduce using rule 24 (lexRegra -> lexLiterals .)
+    LEXCONTEXT      reduce using rule 24 (lexRegra -> lexLiterals .)
+    COMERROR        reduce using rule 24 (lexRegra -> lexLiterals .)
+    END             reduce using rule 24 (lexRegra -> lexLiterals .)
+    LEXSTART        reduce using rule 24 (lexRegra -> lexLiterals .)
+    YACCSTART       reduce using rule 24 (lexRegra -> lexLiterals .)
+
+
+state 20
+
+    (25) lexRegra -> lexContexts .
+
+    ID              reduce using rule 25 (lexRegra -> lexContexts .)
+    LEXIGNORE       reduce using rule 25 (lexRegra -> lexContexts .)
+    LEXLITERALS     reduce using rule 25 (lexRegra -> lexContexts .)
+    LEXCONTEXT      reduce using rule 25 (lexRegra -> lexContexts .)
+    COMERROR        reduce using rule 25 (lexRegra -> lexContexts .)
+    END             reduce using rule 25 (lexRegra -> lexContexts .)
+    LEXSTART        reduce using rule 25 (lexRegra -> lexContexts .)
+    YACCSTART       reduce using rule 25 (lexRegra -> lexContexts .)
+
+
+state 21
+
+    (26) lexRegra -> comError .
+
+    ID              reduce using rule 26 (lexRegra -> comError .)
+    LEXIGNORE       reduce using rule 26 (lexRegra -> comError .)
+    LEXLITERALS     reduce using rule 26 (lexRegra -> comError .)
+    LEXCONTEXT      reduce using rule 26 (lexRegra -> comError .)
+    COMERROR        reduce using rule 26 (lexRegra -> comError .)
+    END             reduce using rule 26 (lexRegra -> comError .)
+    LEXSTART        reduce using rule 26 (lexRegra -> comError .)
+    YACCSTART       reduce using rule 26 (lexRegra -> comError .)
+
+
+state 22
+
+    (27) lexIgnore -> LEXIGNORE . context = STRING
+    (14) context -> .
+    (15) context -> . ( ID )
+    (16) context -> . ID
+
+    =               reduce using rule 14 (context -> .)
+    (               shift and go to state 37
+    ID              shift and go to state 35
+
+    context                        shift and go to state 38
+
+state 23
+
+    (28) lexLiterals -> LEXLITERALS . context = STRING
+    (14) context -> .
+    (15) context -> . ( ID )
+    (16) context -> . ID
+
+    =               reduce using rule 14 (context -> .)
+    (               shift and go to state 37
+    ID              shift and go to state 35
+
+    context                        shift and go to state 39
+
+state 24
+
+    (29) lexContexts -> LEXCONTEXT . = [ lexContexTuplos ]
+
+    =               shift and go to state 40
+
+
+state 25
+
+    (33) comError -> COMERROR . context = comErrorMessage skipOps
+    (14) context -> .
+    (15) context -> . ( ID )
+    (16) context -> . ID
+
+    =               reduce using rule 14 (context -> .)
+    (               shift and go to state 37
+    ID              shift and go to state 35
+
+    context                        shift and go to state 41
+
+state 26
+
+    (5) seccao -> YACCSTART yacc termino .
+
+    LEXSTART        reduce using rule 5 (seccao -> YACCSTART yacc termino .)
+    YACCSTART       reduce using rule 5 (seccao -> YACCSTART yacc termino .)
+    $end            reduce using rule 5 (seccao -> YACCSTART yacc termino .)
+
+
+state 27
+
+    (40) yaccParametros -> yaccParametros yaccParametro .
+
+    ID              reduce using rule 40 (yaccParametros -> yaccParametros yaccParametro .)
+    YACCPRECEDENCE  reduce using rule 40 (yaccParametros -> yaccParametros yaccParametro .)
+    COMERROR        reduce using rule 40 (yaccParametros -> yaccParametros yaccParametro .)
+    END             reduce using rule 40 (yaccParametros -> yaccParametros yaccParametro .)
+    LEXSTART        reduce using rule 40 (yaccParametros -> yaccParametros yaccParametro .)
+    YACCSTART       reduce using rule 40 (yaccParametros -> yaccParametros yaccParametro .)
+
+
+state 28
+
+    (41) yaccParametro -> yaccVar .
+
+    ID              reduce using rule 41 (yaccParametro -> yaccVar .)
+    YACCPRECEDENCE  reduce using rule 41 (yaccParametro -> yaccVar .)
+    COMERROR        reduce using rule 41 (yaccParametro -> yaccVar .)
+    END             reduce using rule 41 (yaccParametro -> yaccVar .)
+    LEXSTART        reduce using rule 41 (yaccParametro -> yaccVar .)
+    YACCSTART       reduce using rule 41 (yaccParametro -> yaccVar .)
+
+
+state 29
+
+    (42) yaccParametro -> yaccRegra .
+
+    ID              reduce using rule 42 (yaccParametro -> yaccRegra .)
+    YACCPRECEDENCE  reduce using rule 42 (yaccParametro -> yaccRegra .)
+    COMERROR        reduce using rule 42 (yaccParametro -> yaccRegra .)
+    END             reduce using rule 42 (yaccParametro -> yaccRegra .)
+    LEXSTART        reduce using rule 42 (yaccParametro -> yaccRegra .)
+    YACCSTART       reduce using rule 42 (yaccParametro -> yaccRegra .)
+
+
+state 30
+
+    (43) yaccParametro -> yaccProd .
+
+    ID              reduce using rule 43 (yaccParametro -> yaccProd .)
+    YACCPRECEDENCE  reduce using rule 43 (yaccParametro -> yaccProd .)
+    COMERROR        reduce using rule 43 (yaccParametro -> yaccProd .)
+    END             reduce using rule 43 (yaccParametro -> yaccProd .)
+    LEXSTART        reduce using rule 43 (yaccParametro -> yaccProd .)
+    YACCSTART       reduce using rule 43 (yaccParametro -> yaccProd .)
+
+
+state 31
+
+    (52) yaccVar -> ID . = VarValue
+    (57) yaccProd -> ID . yaccProdAlias : yaccProdValue yaccProdCod
+    (58) yaccProdAlias -> .
+    (59) yaccProdAlias -> . ( ID )
+    (60) yaccProdAlias -> . ID
+
+    =               shift and go to state 43
+    :               reduce using rule 58 (yaccProdAlias -> .)
+    (               shift and go to state 45
+    ID              shift and go to state 42
+
+    yaccProdAlias                  shift and go to state 44
+
+state 32
+
+    (44) yaccRegra -> yaccPrecedence .
+
+    ID              reduce using rule 44 (yaccRegra -> yaccPrecedence .)
+    YACCPRECEDENCE  reduce using rule 44 (yaccRegra -> yaccPrecedence .)
+    COMERROR        reduce using rule 44 (yaccRegra -> yaccPrecedence .)
+    END             reduce using rule 44 (yaccRegra -> yaccPrecedence .)
+    LEXSTART        reduce using rule 44 (yaccRegra -> yaccPrecedence .)
+    YACCSTART       reduce using rule 44 (yaccRegra -> yaccPrecedence .)
+
+
+state 33
+
+    (45) yaccRegra -> comError .
+
+    ID              reduce using rule 45 (yaccRegra -> comError .)
+    YACCPRECEDENCE  reduce using rule 45 (yaccRegra -> comError .)
+    COMERROR        reduce using rule 45 (yaccRegra -> comError .)
+    END             reduce using rule 45 (yaccRegra -> comError .)
+    LEXSTART        reduce using rule 45 (yaccRegra -> comError .)
+    YACCSTART       reduce using rule 45 (yaccRegra -> comError .)
+
+
+state 34
+
+    (46) yaccPrecedence -> YACCPRECEDENCE . = ( yaccPreTuplos )
+
+    =               shift and go to state 46
+
+
+state 35
+
+    (16) context -> ID .
+
+    =               reduce using rule 16 (context -> ID .)
+    ID              reduce using rule 16 (context -> ID .)
+    LEXIGNORE       reduce using rule 16 (context -> ID .)
+    LEXLITERALS     reduce using rule 16 (context -> ID .)
+    LEXCONTEXT      reduce using rule 16 (context -> ID .)
+    COMERROR        reduce using rule 16 (context -> ID .)
+    END             reduce using rule 16 (context -> ID .)
+    LEXSTART        reduce using rule 16 (context -> ID .)
+    YACCSTART       reduce using rule 16 (context -> ID .)
+
+
+state 36
+
+    (13) lexToken -> ID context . = ER tokenFunc changeContext
+
+    =               shift and go to state 47
+
+
+state 37
+
+    (15) context -> ( . ID )
+
+    ID              shift and go to state 48
+
+
+state 38
+
+    (27) lexIgnore -> LEXIGNORE context . = STRING
+
+    =               shift and go to state 49
+
+
+state 39
+
+    (28) lexLiterals -> LEXLITERALS context . = STRING
+
+    =               shift and go to state 50
+
+
+state 40
+
+    (29) lexContexts -> LEXCONTEXT = . [ lexContexTuplos ]
+
+    [               shift and go to state 51
+
+
+state 41
+
+    (33) comError -> COMERROR context . = comErrorMessage skipOps
+
+    =               shift and go to state 52
+
+
+state 42
+
+    (60) yaccProdAlias -> ID .
+
+    :               reduce using rule 60 (yaccProdAlias -> ID .)
+
+
+state 43
+
+    (52) yaccVar -> ID = . VarValue
+    (53) VarValue -> . STRING
+    (54) VarValue -> . NUMVAL
+    (55) VarValue -> . EMPTYLIST
+    (56) VarValue -> . EMPTYDIC
+
+    STRING          shift and go to state 54
+    NUMVAL          shift and go to state 55
+    EMPTYLIST       shift and go to state 56
+    EMPTYDIC        shift and go to state 57
+
+    VarValue                       shift and go to state 53
+
+state 44
+
+    (57) yaccProd -> ID yaccProdAlias . : yaccProdValue yaccProdCod
+
+    :               shift and go to state 58
+
+
+state 45
+
+    (59) yaccProdAlias -> ( . ID )
+
+    ID              shift and go to state 59
+
+
+state 46
+
+    (46) yaccPrecedence -> YACCPRECEDENCE = . ( yaccPreTuplos )
+
+    (               shift and go to state 60
+
+
+state 47
+
+    (13) lexToken -> ID context = . ER tokenFunc changeContext
+
+    ER              shift and go to state 61
+
+
+state 48
+
+    (15) context -> ( ID . )
+
+    )               shift and go to state 62
+
+
+state 49
+
+    (27) lexIgnore -> LEXIGNORE context = . STRING
+
+    STRING          shift and go to state 63
+
+
+state 50
+
+    (28) lexLiterals -> LEXLITERALS context = . STRING
+
+    STRING          shift and go to state 64
+
+
+state 51
+
+    (29) lexContexts -> LEXCONTEXT = [ . lexContexTuplos ]
+    (30) lexContexTuplos -> . lexContexTuplo
+    (31) lexContexTuplos -> . lexContexTuplos , lexContexTuplo
+    (32) lexContexTuplo -> . ( ID , ID )
+
+    (               shift and go to state 67
+
+    lexContexTuplos                shift and go to state 65
+    lexContexTuplo                 shift and go to state 66
+
+state 52
+
+    (33) comError -> COMERROR context = . comErrorMessage skipOps
+    (34) comErrorMessage -> .
+    (35) comErrorMessage -> . STRING
+
+    SKIP            reduce using rule 34 (comErrorMessage -> .)
+    NOSKIP          reduce using rule 34 (comErrorMessage -> .)
+    STRING          shift and go to state 69
+
+    comErrorMessage                shift and go to state 68
+
+state 53
+
+    (52) yaccVar -> ID = VarValue .
+
+    ID              reduce using rule 52 (yaccVar -> ID = VarValue .)
+    YACCPRECEDENCE  reduce using rule 52 (yaccVar -> ID = VarValue .)
+    COMERROR        reduce using rule 52 (yaccVar -> ID = VarValue .)
+    END             reduce using rule 52 (yaccVar -> ID = VarValue .)
+    LEXSTART        reduce using rule 52 (yaccVar -> ID = VarValue .)
+    YACCSTART       reduce using rule 52 (yaccVar -> ID = VarValue .)
+
+
+state 54
+
+    (53) VarValue -> STRING .
+
+    ID              reduce using rule 53 (VarValue -> STRING .)
+    YACCPRECEDENCE  reduce using rule 53 (VarValue -> STRING .)
+    COMERROR        reduce using rule 53 (VarValue -> STRING .)
+    END             reduce using rule 53 (VarValue -> STRING .)
+    LEXSTART        reduce using rule 53 (VarValue -> STRING .)
+    YACCSTART       reduce using rule 53 (VarValue -> STRING .)
+
+
+state 55
+
+    (54) VarValue -> NUMVAL .
+
+    ID              reduce using rule 54 (VarValue -> NUMVAL .)
+    YACCPRECEDENCE  reduce using rule 54 (VarValue -> NUMVAL .)
+    COMERROR        reduce using rule 54 (VarValue -> NUMVAL .)
+    END             reduce using rule 54 (VarValue -> NUMVAL .)
+    LEXSTART        reduce using rule 54 (VarValue -> NUMVAL .)
+    YACCSTART       reduce using rule 54 (VarValue -> NUMVAL .)
+
+
+state 56
+
+    (55) VarValue -> EMPTYLIST .
+
+    ID              reduce using rule 55 (VarValue -> EMPTYLIST .)
+    YACCPRECEDENCE  reduce using rule 55 (VarValue -> EMPTYLIST .)
+    COMERROR        reduce using rule 55 (VarValue -> EMPTYLIST .)
+    END             reduce using rule 55 (VarValue -> EMPTYLIST .)
+    LEXSTART        reduce using rule 55 (VarValue -> EMPTYLIST .)
+    YACCSTART       reduce using rule 55 (VarValue -> EMPTYLIST .)
+
+
+state 57
+
+    (56) VarValue -> EMPTYDIC .
+
+    ID              reduce using rule 56 (VarValue -> EMPTYDIC .)
+    YACCPRECEDENCE  reduce using rule 56 (VarValue -> EMPTYDIC .)
+    COMERROR        reduce using rule 56 (VarValue -> EMPTYDIC .)
+    END             reduce using rule 56 (VarValue -> EMPTYDIC .)
+    LEXSTART        reduce using rule 56 (VarValue -> EMPTYDIC .)
+    YACCSTART       reduce using rule 56 (VarValue -> EMPTYDIC .)
+
+
+state 58
+
+    (57) yaccProd -> ID yaccProdAlias : . yaccProdValue yaccProdCod
+    (61) yaccProdValue -> .
+    (62) yaccProdValue -> . STRING
+
+    CODIGO          reduce using rule 61 (yaccProdValue -> .)
+    ID              reduce using rule 61 (yaccProdValue -> .)
+    YACCPRECEDENCE  reduce using rule 61 (yaccProdValue -> .)
+    COMERROR        reduce using rule 61 (yaccProdValue -> .)
+    END             reduce using rule 61 (yaccProdValue -> .)
+    LEXSTART        reduce using rule 61 (yaccProdValue -> .)
+    YACCSTART       reduce using rule 61 (yaccProdValue -> .)
+    STRING          shift and go to state 71
+
+    yaccProdValue                  shift and go to state 70
+
+state 59
+
+    (59) yaccProdAlias -> ( ID . )
+
+    )               shift and go to state 72
+
+
+state 60
+
+    (46) yaccPrecedence -> YACCPRECEDENCE = ( . yaccPreTuplos )
+    (47) yaccPreTuplos -> . yaccPreTuplo
+    (48) yaccPreTuplos -> . yaccPreTuplos , yaccPreTuplo
+    (49) yaccPreTuplo -> . ( STRING , STRING yaccPreTuploOP
+
+    (               shift and go to state 73
+
+    yaccPreTuplos                  shift and go to state 74
+    yaccPreTuplo                   shift and go to state 75
+
+state 61
+
+    (13) lexToken -> ID context = ER . tokenFunc changeContext
+    (17) tokenFunc -> .
+    (18) tokenFunc -> . FSTR
+    (19) tokenFunc -> . FINT
+    (20) tokenFunc -> . FFLOAT
+
+    CHANGECONTEXT   reduce using rule 17 (tokenFunc -> .)
+    ID              reduce using rule 17 (tokenFunc -> .)
+    LEXIGNORE       reduce using rule 17 (tokenFunc -> .)
+    LEXLITERALS     reduce using rule 17 (tokenFunc -> .)
+    LEXCONTEXT      reduce using rule 17 (tokenFunc -> .)
+    COMERROR        reduce using rule 17 (tokenFunc -> .)
+    END             reduce using rule 17 (tokenFunc -> .)
+    LEXSTART        reduce using rule 17 (tokenFunc -> .)
+    YACCSTART       reduce using rule 17 (tokenFunc -> .)
+    FSTR            shift and go to state 77
+    FINT            shift and go to state 78
+    FFLOAT          shift and go to state 79
+
+    tokenFunc                      shift and go to state 76
+
+state 62
+
+    (15) context -> ( ID ) .
+
+    =               reduce using rule 15 (context -> ( ID ) .)
+    ID              reduce using rule 15 (context -> ( ID ) .)
+    LEXIGNORE       reduce using rule 15 (context -> ( ID ) .)
+    LEXLITERALS     reduce using rule 15 (context -> ( ID ) .)
+    LEXCONTEXT      reduce using rule 15 (context -> ( ID ) .)
+    COMERROR        reduce using rule 15 (context -> ( ID ) .)
+    END             reduce using rule 15 (context -> ( ID ) .)
+    LEXSTART        reduce using rule 15 (context -> ( ID ) .)
+    YACCSTART       reduce using rule 15 (context -> ( ID ) .)
+
+
+state 63
+
+    (27) lexIgnore -> LEXIGNORE context = STRING .
+
+    ID              reduce using rule 27 (lexIgnore -> LEXIGNORE context = STRING .)
+    LEXIGNORE       reduce using rule 27 (lexIgnore -> LEXIGNORE context = STRING .)
+    LEXLITERALS     reduce using rule 27 (lexIgnore -> LEXIGNORE context = STRING .)
+    LEXCONTEXT      reduce using rule 27 (lexIgnore -> LEXIGNORE context = STRING .)
+    COMERROR        reduce using rule 27 (lexIgnore -> LEXIGNORE context = STRING .)
+    END             reduce using rule 27 (lexIgnore -> LEXIGNORE context = STRING .)
+    LEXSTART        reduce using rule 27 (lexIgnore -> LEXIGNORE context = STRING .)
+    YACCSTART       reduce using rule 27 (lexIgnore -> LEXIGNORE context = STRING .)
+
+
+state 64
+
+    (28) lexLiterals -> LEXLITERALS context = STRING .
+
+    ID              reduce using rule 28 (lexLiterals -> LEXLITERALS context = STRING .)
+    LEXIGNORE       reduce using rule 28 (lexLiterals -> LEXLITERALS context = STRING .)
+    LEXLITERALS     reduce using rule 28 (lexLiterals -> LEXLITERALS context = STRING .)
+    LEXCONTEXT      reduce using rule 28 (lexLiterals -> LEXLITERALS context = STRING .)
+    COMERROR        reduce using rule 28 (lexLiterals -> LEXLITERALS context = STRING .)
+    END             reduce using rule 28 (lexLiterals -> LEXLITERALS context = STRING .)
+    LEXSTART        reduce using rule 28 (lexLiterals -> LEXLITERALS context = STRING .)
+    YACCSTART       reduce using rule 28 (lexLiterals -> LEXLITERALS context = STRING .)
+
+
+state 65
+
+    (29) lexContexts -> LEXCONTEXT = [ lexContexTuplos . ]
+    (31) lexContexTuplos -> lexContexTuplos . , lexContexTuplo
+
+    ]               shift and go to state 80
+    ,               shift and go to state 81
+
+
+state 66
+
+    (30) lexContexTuplos -> lexContexTuplo .
+
+    ]               reduce using rule 30 (lexContexTuplos -> lexContexTuplo .)
+    ,               reduce using rule 30 (lexContexTuplos -> lexContexTuplo .)
+
+
+state 67
+
+    (32) lexContexTuplo -> ( . ID , ID )
+
+    ID              shift and go to state 82
+
+
+state 68
+
+    (33) comError -> COMERROR context = comErrorMessage . skipOps
+    (36) skipOps -> . SKIP
+    (37) skipOps -> . NOSKIP
+
+    SKIP            shift and go to state 84
+    NOSKIP          shift and go to state 85
+
+    skipOps                        shift and go to state 83
+
+state 69
+
+    (35) comErrorMessage -> STRING .
+
+    SKIP            reduce using rule 35 (comErrorMessage -> STRING .)
+    NOSKIP          reduce using rule 35 (comErrorMessage -> STRING .)
+
+
+state 70
+
+    (57) yaccProd -> ID yaccProdAlias : yaccProdValue . yaccProdCod
+    (63) yaccProdCod -> .
+    (64) yaccProdCod -> . CODIGO
+
+    ID              reduce using rule 63 (yaccProdCod -> .)
+    YACCPRECEDENCE  reduce using rule 63 (yaccProdCod -> .)
+    COMERROR        reduce using rule 63 (yaccProdCod -> .)
+    END             reduce using rule 63 (yaccProdCod -> .)
+    LEXSTART        reduce using rule 63 (yaccProdCod -> .)
+    YACCSTART       reduce using rule 63 (yaccProdCod -> .)
+    CODIGO          shift and go to state 87
+
+    yaccProdCod                    shift and go to state 86
+
+state 71
+
+    (62) yaccProdValue -> STRING .
+
+    CODIGO          reduce using rule 62 (yaccProdValue -> STRING .)
+    ID              reduce using rule 62 (yaccProdValue -> STRING .)
+    YACCPRECEDENCE  reduce using rule 62 (yaccProdValue -> STRING .)
+    COMERROR        reduce using rule 62 (yaccProdValue -> STRING .)
+    END             reduce using rule 62 (yaccProdValue -> STRING .)
+    LEXSTART        reduce using rule 62 (yaccProdValue -> STRING .)
+    YACCSTART       reduce using rule 62 (yaccProdValue -> STRING .)
+
+
+state 72
+
+    (59) yaccProdAlias -> ( ID ) .
+
+    :               reduce using rule 59 (yaccProdAlias -> ( ID ) .)
+
+
+state 73
+
+    (49) yaccPreTuplo -> ( . STRING , STRING yaccPreTuploOP
+
+    STRING          shift and go to state 88
+
+
+state 74
+
+    (46) yaccPrecedence -> YACCPRECEDENCE = ( yaccPreTuplos . )
+    (48) yaccPreTuplos -> yaccPreTuplos . , yaccPreTuplo
+
+    )               shift and go to state 89
+    ,               shift and go to state 90
+
+
+state 75
+
+    (47) yaccPreTuplos -> yaccPreTuplo .
+
+    )               reduce using rule 47 (yaccPreTuplos -> yaccPreTuplo .)
+    ,               reduce using rule 47 (yaccPreTuplos -> yaccPreTuplo .)
+
+
+state 76
+
+    (13) lexToken -> ID context = ER tokenFunc . changeContext
+    (21) changeContext -> .
+    (22) changeContext -> . CHANGECONTEXT context
+
+    ID              reduce using rule 21 (changeContext -> .)
+    LEXIGNORE       reduce using rule 21 (changeContext -> .)
+    LEXLITERALS     reduce using rule 21 (changeContext -> .)
+    LEXCONTEXT      reduce using rule 21 (changeContext -> .)
+    COMERROR        reduce using rule 21 (changeContext -> .)
+    END             reduce using rule 21 (changeContext -> .)
+    LEXSTART        reduce using rule 21 (changeContext -> .)
+    YACCSTART       reduce using rule 21 (changeContext -> .)
+    CHANGECONTEXT   shift and go to state 92
+
+    changeContext                  shift and go to state 91
+
+state 77
+
+    (18) tokenFunc -> FSTR .
+
+    CHANGECONTEXT   reduce using rule 18 (tokenFunc -> FSTR .)
+    ID              reduce using rule 18 (tokenFunc -> FSTR .)
+    LEXIGNORE       reduce using rule 18 (tokenFunc -> FSTR .)
+    LEXLITERALS     reduce using rule 18 (tokenFunc -> FSTR .)
+    LEXCONTEXT      reduce using rule 18 (tokenFunc -> FSTR .)
+    COMERROR        reduce using rule 18 (tokenFunc -> FSTR .)
+    END             reduce using rule 18 (tokenFunc -> FSTR .)
+    LEXSTART        reduce using rule 18 (tokenFunc -> FSTR .)
+    YACCSTART       reduce using rule 18 (tokenFunc -> FSTR .)
+
+
+state 78
+
+    (19) tokenFunc -> FINT .
+
+    CHANGECONTEXT   reduce using rule 19 (tokenFunc -> FINT .)
+    ID              reduce using rule 19 (tokenFunc -> FINT .)
+    LEXIGNORE       reduce using rule 19 (tokenFunc -> FINT .)
+    LEXLITERALS     reduce using rule 19 (tokenFunc -> FINT .)
+    LEXCONTEXT      reduce using rule 19 (tokenFunc -> FINT .)
+    COMERROR        reduce using rule 19 (tokenFunc -> FINT .)
+    END             reduce using rule 19 (tokenFunc -> FINT .)
+    LEXSTART        reduce using rule 19 (tokenFunc -> FINT .)
+    YACCSTART       reduce using rule 19 (tokenFunc -> FINT .)
+
+
+state 79
+
+    (20) tokenFunc -> FFLOAT .
+
+    CHANGECONTEXT   reduce using rule 20 (tokenFunc -> FFLOAT .)
+    ID              reduce using rule 20 (tokenFunc -> FFLOAT .)
+    LEXIGNORE       reduce using rule 20 (tokenFunc -> FFLOAT .)
+    LEXLITERALS     reduce using rule 20 (tokenFunc -> FFLOAT .)
+    LEXCONTEXT      reduce using rule 20 (tokenFunc -> FFLOAT .)
+    COMERROR        reduce using rule 20 (tokenFunc -> FFLOAT .)
+    END             reduce using rule 20 (tokenFunc -> FFLOAT .)
+    LEXSTART        reduce using rule 20 (tokenFunc -> FFLOAT .)
+    YACCSTART       reduce using rule 20 (tokenFunc -> FFLOAT .)
+
+
+state 80
+
+    (29) lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .
+
+    ID              reduce using rule 29 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
+    LEXIGNORE       reduce using rule 29 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
+    LEXLITERALS     reduce using rule 29 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
+    LEXCONTEXT      reduce using rule 29 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
+    COMERROR        reduce using rule 29 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
+    END             reduce using rule 29 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
+    LEXSTART        reduce using rule 29 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
+    YACCSTART       reduce using rule 29 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
+
+
+state 81
+
+    (31) lexContexTuplos -> lexContexTuplos , . lexContexTuplo
+    (32) lexContexTuplo -> . ( ID , ID )
+
+    (               shift and go to state 67
+
+    lexContexTuplo                 shift and go to state 93
+
+state 82
+
+    (32) lexContexTuplo -> ( ID . , ID )
+
+    ,               shift and go to state 94
+
+
+state 83
+
+    (33) comError -> COMERROR context = comErrorMessage skipOps .
+
+    ID              reduce using rule 33 (comError -> COMERROR context = comErrorMessage skipOps .)
+    LEXIGNORE       reduce using rule 33 (comError -> COMERROR context = comErrorMessage skipOps .)
+    LEXLITERALS     reduce using rule 33 (comError -> COMERROR context = comErrorMessage skipOps .)
+    LEXCONTEXT      reduce using rule 33 (comError -> COMERROR context = comErrorMessage skipOps .)
+    COMERROR        reduce using rule 33 (comError -> COMERROR context = comErrorMessage skipOps .)
+    END             reduce using rule 33 (comError -> COMERROR context = comErrorMessage skipOps .)
+    LEXSTART        reduce using rule 33 (comError -> COMERROR context = comErrorMessage skipOps .)
+    YACCSTART       reduce using rule 33 (comError -> COMERROR context = comErrorMessage skipOps .)
+    YACCPRECEDENCE  reduce using rule 33 (comError -> COMERROR context = comErrorMessage skipOps .)
+
+
+state 84
+
+    (36) skipOps -> SKIP .
+
+    ID              reduce using rule 36 (skipOps -> SKIP .)
+    LEXIGNORE       reduce using rule 36 (skipOps -> SKIP .)
+    LEXLITERALS     reduce using rule 36 (skipOps -> SKIP .)
+    LEXCONTEXT      reduce using rule 36 (skipOps -> SKIP .)
+    COMERROR        reduce using rule 36 (skipOps -> SKIP .)
+    END             reduce using rule 36 (skipOps -> SKIP .)
+    LEXSTART        reduce using rule 36 (skipOps -> SKIP .)
+    YACCSTART       reduce using rule 36 (skipOps -> SKIP .)
+    YACCPRECEDENCE  reduce using rule 36 (skipOps -> SKIP .)
+
+
+state 85
+
+    (37) skipOps -> NOSKIP .
+
+    ID              reduce using rule 37 (skipOps -> NOSKIP .)
+    LEXIGNORE       reduce using rule 37 (skipOps -> NOSKIP .)
+    LEXLITERALS     reduce using rule 37 (skipOps -> NOSKIP .)
+    LEXCONTEXT      reduce using rule 37 (skipOps -> NOSKIP .)
+    COMERROR        reduce using rule 37 (skipOps -> NOSKIP .)
+    END             reduce using rule 37 (skipOps -> NOSKIP .)
+    LEXSTART        reduce using rule 37 (skipOps -> NOSKIP .)
+    YACCSTART       reduce using rule 37 (skipOps -> NOSKIP .)
+    YACCPRECEDENCE  reduce using rule 37 (skipOps -> NOSKIP .)
+
+
+state 86
+
+    (57) yaccProd -> ID yaccProdAlias : yaccProdValue yaccProdCod .
+
+    ID              reduce using rule 57 (yaccProd -> ID yaccProdAlias : yaccProdValue yaccProdCod .)
+    YACCPRECEDENCE  reduce using rule 57 (yaccProd -> ID yaccProdAlias : yaccProdValue yaccProdCod .)
+    COMERROR        reduce using rule 57 (yaccProd -> ID yaccProdAlias : yaccProdValue yaccProdCod .)
+    END             reduce using rule 57 (yaccProd -> ID yaccProdAlias : yaccProdValue yaccProdCod .)
+    LEXSTART        reduce using rule 57 (yaccProd -> ID yaccProdAlias : yaccProdValue yaccProdCod .)
+    YACCSTART       reduce using rule 57 (yaccProd -> ID yaccProdAlias : yaccProdValue yaccProdCod .)
+
+
+state 87
+
+    (64) yaccProdCod -> CODIGO .
+
+    ID              reduce using rule 64 (yaccProdCod -> CODIGO .)
+    YACCPRECEDENCE  reduce using rule 64 (yaccProdCod -> CODIGO .)
+    COMERROR        reduce using rule 64 (yaccProdCod -> CODIGO .)
+    END             reduce using rule 64 (yaccProdCod -> CODIGO .)
+    LEXSTART        reduce using rule 64 (yaccProdCod -> CODIGO .)
+    YACCSTART       reduce using rule 64 (yaccProdCod -> CODIGO .)
+
+
+state 88
+
+    (49) yaccPreTuplo -> ( STRING . , STRING yaccPreTuploOP
+
+    ,               shift and go to state 95
+
+
+state 89
+
+    (46) yaccPrecedence -> YACCPRECEDENCE = ( yaccPreTuplos ) .
+
+    ID              reduce using rule 46 (yaccPrecedence -> YACCPRECEDENCE = ( yaccPreTuplos ) .)
+    YACCPRECEDENCE  reduce using rule 46 (yaccPrecedence -> YACCPRECEDENCE = ( yaccPreTuplos ) .)
+    COMERROR        reduce using rule 46 (yaccPrecedence -> YACCPRECEDENCE = ( yaccPreTuplos ) .)
+    END             reduce using rule 46 (yaccPrecedence -> YACCPRECEDENCE = ( yaccPreTuplos ) .)
+    LEXSTART        reduce using rule 46 (yaccPrecedence -> YACCPRECEDENCE = ( yaccPreTuplos ) .)
+    YACCSTART       reduce using rule 46 (yaccPrecedence -> YACCPRECEDENCE = ( yaccPreTuplos ) .)
+
+
+state 90
+
+    (48) yaccPreTuplos -> yaccPreTuplos , . yaccPreTuplo
+    (49) yaccPreTuplo -> . ( STRING , STRING yaccPreTuploOP
+
+    (               shift and go to state 73
+
+    yaccPreTuplo                   shift and go to state 96
+
+state 91
+
+    (13) lexToken -> ID context = ER tokenFunc changeContext .
+
+    ID              reduce using rule 13 (lexToken -> ID context = ER tokenFunc changeContext .)
+    LEXIGNORE       reduce using rule 13 (lexToken -> ID context = ER tokenFunc changeContext .)
+    LEXLITERALS     reduce using rule 13 (lexToken -> ID context = ER tokenFunc changeContext .)
+    LEXCONTEXT      reduce using rule 13 (lexToken -> ID context = ER tokenFunc changeContext .)
+    COMERROR        reduce using rule 13 (lexToken -> ID context = ER tokenFunc changeContext .)
+    END             reduce using rule 13 (lexToken -> ID context = ER tokenFunc changeContext .)
+    LEXSTART        reduce using rule 13 (lexToken -> ID context = ER tokenFunc changeContext .)
+    YACCSTART       reduce using rule 13 (lexToken -> ID context = ER tokenFunc changeContext .)
+
+
+state 92
+
+    (22) changeContext -> CHANGECONTEXT . context
+    (14) context -> .
+    (15) context -> . ( ID )
+    (16) context -> . ID
+
+  ! shift/reduce conflict for ID resolved as shift
+    LEXIGNORE       reduce using rule 14 (context -> .)
+    LEXLITERALS     reduce using rule 14 (context -> .)
+    LEXCONTEXT      reduce using rule 14 (context -> .)
+    COMERROR        reduce using rule 14 (context -> .)
+    END             reduce using rule 14 (context -> .)
+    LEXSTART        reduce using rule 14 (context -> .)
+    YACCSTART       reduce using rule 14 (context -> .)
+    (               shift and go to state 37
+    ID              shift and go to state 35
+
+  ! ID              [ reduce using rule 14 (context -> .) ]
+
+    context                        shift and go to state 97
+
+state 93
+
+    (31) lexContexTuplos -> lexContexTuplos , lexContexTuplo .
+
+    ]               reduce using rule 31 (lexContexTuplos -> lexContexTuplos , lexContexTuplo .)
+    ,               reduce using rule 31 (lexContexTuplos -> lexContexTuplos , lexContexTuplo .)
+
+
+state 94
+
+    (32) lexContexTuplo -> ( ID , . ID )
+
+    ID              shift and go to state 98
+
+
+state 95
+
+    (49) yaccPreTuplo -> ( STRING , . STRING yaccPreTuploOP
+
+    STRING          shift and go to state 99
+
+
+state 96
+
+    (48) yaccPreTuplos -> yaccPreTuplos , yaccPreTuplo .
+
+    )               reduce using rule 48 (yaccPreTuplos -> yaccPreTuplos , yaccPreTuplo .)
+    ,               reduce using rule 48 (yaccPreTuplos -> yaccPreTuplos , yaccPreTuplo .)
+
+
+state 97
+
+    (22) changeContext -> CHANGECONTEXT context .
+
+    ID              reduce using rule 22 (changeContext -> CHANGECONTEXT context .)
+    LEXIGNORE       reduce using rule 22 (changeContext -> CHANGECONTEXT context .)
+    LEXLITERALS     reduce using rule 22 (changeContext -> CHANGECONTEXT context .)
+    LEXCONTEXT      reduce using rule 22 (changeContext -> CHANGECONTEXT context .)
+    COMERROR        reduce using rule 22 (changeContext -> CHANGECONTEXT context .)
+    END             reduce using rule 22 (changeContext -> CHANGECONTEXT context .)
+    LEXSTART        reduce using rule 22 (changeContext -> CHANGECONTEXT context .)
+    YACCSTART       reduce using rule 22 (changeContext -> CHANGECONTEXT context .)
+
+
+state 98
+
+    (32) lexContexTuplo -> ( ID , ID . )
+
+    )               shift and go to state 100
+
+
+state 99
+
+    (49) yaccPreTuplo -> ( STRING , STRING . yaccPreTuploOP
+    (50) yaccPreTuploOP -> . )
+    (51) yaccPreTuploOP -> . , STRING yaccPreTuploOP
+
+    )               shift and go to state 103
+    ,               shift and go to state 101
+
+    yaccPreTuploOP                 shift and go to state 102
+
+state 100
+
+    (32) lexContexTuplo -> ( ID , ID ) .
+
+    ]               reduce using rule 32 (lexContexTuplo -> ( ID , ID ) .)
+    ,               reduce using rule 32 (lexContexTuplo -> ( ID , ID ) .)
+
+
+state 101
+
+    (51) yaccPreTuploOP -> , . STRING yaccPreTuploOP
+
+    STRING          shift and go to state 104
+
+
+state 102
+
+    (49) yaccPreTuplo -> ( STRING , STRING yaccPreTuploOP .
+
+    )               reduce using rule 49 (yaccPreTuplo -> ( STRING , STRING yaccPreTuploOP .)
+    ,               reduce using rule 49 (yaccPreTuplo -> ( STRING , STRING yaccPreTuploOP .)
+
+
+state 103
+
+    (50) yaccPreTuploOP -> ) .
+
+    )               reduce using rule 50 (yaccPreTuploOP -> ) .)
+    ,               reduce using rule 50 (yaccPreTuploOP -> ) .)
+
+
+state 104
+
+    (51) yaccPreTuploOP -> , STRING . yaccPreTuploOP
+    (50) yaccPreTuploOP -> . )
+    (51) yaccPreTuploOP -> . , STRING yaccPreTuploOP
+
+    )               shift and go to state 103
+    ,               shift and go to state 101
+
+    yaccPreTuploOP                 shift and go to state 105
+
+state 105
+
+    (51) yaccPreTuploOP -> , STRING yaccPreTuploOP .
+
+    )               reduce using rule 51 (yaccPreTuploOP -> , STRING yaccPreTuploOP .)
+    ,               reduce using rule 51 (yaccPreTuploOP -> , STRING yaccPreTuploOP .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for ID in state 92 resolved as shift
