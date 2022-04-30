@@ -32,7 +32,8 @@ tokenFunc :
           | FFLOAT
 
 changeContext : 
-              | CHANGECONTEXT context
+              | CHANGECONTEXT '(' ID ')'
+              | CHANGECONTEXT ID
 
 lexRegra : lexIgnore
          | lexLiterals
