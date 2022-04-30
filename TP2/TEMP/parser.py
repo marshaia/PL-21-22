@@ -1,8 +1,8 @@
-from select import error
 import ply.yacc as yacc
+import re
 from lexer import getLexer
 from lexer import tokens
-import re
+
 
 
 
@@ -150,19 +150,12 @@ def p_lexIgnore(p):
 
 def p_lexLiterals(p):
     "lexLiterals : LEXLITERALS context '=' STRING"
-    #Verifica existência do contexto
-    if p[2] not in p.parser.mylex:
-        p.parser.mylex[p[2]] = generateLexContextDic()
-    #Verifica se o Literals não é repetido nesse contexto
-    if p.parser.mylex[p[2]]["literalsRead"]:
-        msg = "Parâmetro Literals repetido"
-        if p[2] != "INITIAL":
-            msg += " no contexto '"+p[2]+"'"
-        msg += " na linha "+str(p.lineno(1))
-        raise Exception(msg)
+    #Verifica se o Literals não é repetido
+    if p.parser.mycontents["literalsRead"]:
+        raise Exception("Parâmetro Literals repetido na linha "+str(p.lineno(1)))
     #Adição
-    p.parser.mylex[p[2]]["literals"] = p[4]
-    p.parser.mylex[p[2]]["literalsRead"] = True
+    p.parser.mycontents["literals"] = p[4]
+    p.parser.mycontents["literalsRead"] = True
     #Adição à lista de literais
     for chr in p[4]:
         if chr not in p.parser.mycontents["literalslist"]:
@@ -209,7 +202,7 @@ def p_comErrorMessage_empty(p):
     p[0] = "None"
 def p_comErrorMessage_singl(p):
     "comErrorMessage : STRING"
-    p[0] = p[1]
+    p[0] = p[1].strip("\"")
 
 
 def p_skipOps_skip(p):
@@ -388,8 +381,6 @@ def p_error(p):
 #             ["funcao"] = "int"
 #             ["begin"] = "banana"
 #         }]
-#         ["literals"] = "blabla"
-#         ["literalsRead"] = False
 #         ["ignore"] = "blabla"
 #         ["ignoreRead"] = False
 #         ["error"] = {
@@ -403,8 +394,6 @@ def generateLexContextDic():
     dic = {}
     dic["tipo"] = "None"
     dic["tokens"] = []
-    dic["literals"] = ""
-    dic["literalsRead"] = False
     dic["ignore"] = ""
     dic["ignoreRead"] = False
     error = {"mensagem":"Erro léxico","comando":"skip"}
@@ -446,6 +435,28 @@ def generateYaccDefaultDic():
     return dic
 
 
+# parser.mycontents = {
+#     ["tokenlist"] = []
+#     ["literals"] = ""
+#     ["literalslist"] = []
+#     ["literalsRead"] = False
+#     ["lexContextRead"] = False
+#     ["lexRead"] = False
+#     ["yaccRead"] = False    
+#     ["prodlist"] = []
+# }
+def generateContentDic():
+    dic = {}
+    dic["tokenlist"] = []
+    dic["literals"] = ""
+    dic["literalslist"] = []
+    dic["literalsRead"] = False
+    dic["lexContextRead"] = False
+    dic["lexRead"] = False
+    dic["yaccRead"] = False    
+    dic["prodlist"] = []
+    return dic
+
 
 def getParser():
     parser = yacc.yacc()
@@ -454,8 +465,7 @@ def getParser():
     parser.mylex = {}
     parser.myyacc = {}
 
-    parser.mycontents = {"lexRead":False,"yaccRead":False,
-    "lexContextRead":False,"tokenlist":[],"prodlist":[],"literalslist":[]}
+    parser.mycontents = generateContentDic()
     dic = generateLexContextDic()
     dic["tipo"] = "exclusive"
     parser.mylex["INITIAL"] = dic

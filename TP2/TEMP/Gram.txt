@@ -41,7 +41,7 @@ lexRegra : lexIgnore
 
 lexIgnore : LEXIGNORE context '=' STRING
 
-lexLiterals : LEXLITERALS context '=' STRING
+lexLiterals : LEXLITERALS '=' STRING
 
 lexContexts : LEXCONTEXT '=' '[' lexContexTuplos ']'
 

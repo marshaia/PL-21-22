@@ -9,11 +9,10 @@ dsjahdkjashdka
 %%end 
 
 %%LEX
-%ignore = " \n\t\r"
+
 %literals = "+-*/()=;"
-%literals (banana) = ".!"
 
-
+%ignore = " \n\t\r"
 %contexts = [(banana,inclusive),(laranja,exclusive)]
 
 
@@ -68,7 +67,7 @@ exp : "aexp"
 aexp : "termo"            
 {p[0] = p[1]}
 
-aexp : "aexp + termo"     
+aexp : "aexp '+' termo"     
 {p[0] = p[1] + p[3]}
 
 aexp : "aexp - termo"     
@@ -92,7 +91,7 @@ fator : "ID"
 fator : "( exp )"         
 {p[0] = p[2]}
 
-%error = %noskip
+%error = %skip
 
 %%end
 
