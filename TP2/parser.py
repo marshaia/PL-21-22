@@ -97,9 +97,12 @@ def p_tokenFunc_float(p):
 def p_changeContext_empty(p):
     "changeContext : "
     p[0] = ""
-def p_changeContext_singl(p):
-    "changeContext : CHANGECONTEXT context"
+def p_changeContext_singlNoPar(p):
+    "changeContext : CHANGECONTEXT ID"
     p[0] = p[2] 
+def p_changeContext_singl(p):
+    "changeContext : CHANGECONTEXT '(' ID ')'"
+    p[0] = p[3] 
 
 
 def p_lexRegra_ignore(p):

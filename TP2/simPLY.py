@@ -1,7 +1,9 @@
+from pprint import pprint
 import sys
+import re
 from parser import getParser
 from lexer import getLexer
-from strFormatter import strFinalFile
+from strFormatter import strContexts, strFinalFile
 from auxiliary import *    
 
 
@@ -12,6 +14,8 @@ global args
 #------------READ ARGS
 try:
     args = readArguments(sys.argv)
+    if args["-output"] == "":
+        args["-output"] = re.sub(r'.\w+$',r'-SimPLY.py',args["-input"])
 except Exception as e:
     print("ERROR-ARGS: "+str(e))
     exit(1)
@@ -55,4 +59,10 @@ if args["-debug"]:
 
 #-------------WRITE
 
-print(strFinalFile(parser))
+if args["-verbose"]:
+    print("Escrevendo no ficheiro output: "+args["-output"])
+
+foutput = open(args["-output"],"w+")
+foutput.write(strFinalFile(parser))
+
+print("Compilação terminada com Sucesso! (Output: "+args["-output"]+")")

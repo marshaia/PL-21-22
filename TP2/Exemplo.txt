@@ -22,7 +22,7 @@ ID laranja = r'[a-zA-Z_]\w*'
 Print = r'(print|PRINT)' %begin banana    
 Print (banana) = r'(print|PRINT)' %begin INITIAL 
 Read = r'(read|READ)'
-DUMP = r'(dump|DUMP)' %begin
+DUMP = r'(dump|DUMP)'
 
 %error = "Mensagem de erro" %skip
 %error (laranja) = %noskip

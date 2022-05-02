@@ -21,6 +21,17 @@ def strToken(context,tokenDic):
     return msg
 
 
+def strContexts(parser):
+    msg = "states = ("
+    for context in parser.mylex:
+        if context != "INITIAL":
+            tuplo = (context,parser.mylex[context]["tipo"])
+            msg += str(tuplo)+",\n\t\t  "
+    msg = msg.strip("\n\t\t  ")
+    msg += ")"
+    return msg
+
+
 def strLexIgnore(context,contextDic):
     ignore = contextDic["ignore"]
     if ignore == "":
@@ -36,9 +47,9 @@ def strLexError(context,contextDic):
     if contextDic["tipo"] == "exclusive":
         msg = ""
         if context != "INITIAL":
-            msg += "t_"+context+"_error(t):\n\t"
+            msg += "def t_"+context+"_error(t):\n\t"
         else:
-            msg += "t_error(t):\n\t"
+            msg += "def t_error(t):\n\t"
 
         msg += "print(\""+contextDic["error"]["mensagem"]+"\")\n\t"
         
@@ -68,6 +79,8 @@ def strAllLex(parser):
     msg += "import ply.lex as lex\n\n"
     msg += strTokenList(parser)
     msg += strLiterals(parser)
+    msg += "\n"
+    msg += strContexts(parser)
     msg += "\n"
     msg += strAllLexContexts(parser)
     msg += "lexer = lex.lex()\n\n"

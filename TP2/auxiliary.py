@@ -62,7 +62,7 @@ def verifyData(parser,warning):
 
     if not parser.mycontents["lexRead"]:
         if warning:
-            print("Nenhum bloco LEX lido, impossível verificar as produções")
+            print("WARNING: Nenhum bloco LEX lido, impossível verificar as produções")
         return
 
     for context in parser.mylex:
@@ -73,7 +73,7 @@ def verifyData(parser,warning):
         if parser.mylex[context]["tipo"] == "exclusive":
             #CHECK Regra IGNORE
             if not parser.mylex[context]["ignoreRead"] and warning:
-                msg = "Parâmetro Ignore em falta"
+                msg = "WARNING: Parâmetro Ignore em falta"
                 if context != "INITIAL":
                     msg += " no contexto exclusivo '"+str(context)+"'"
                 msg += ". Valor por defeito utilizado"
@@ -81,7 +81,7 @@ def verifyData(parser,warning):
 
             #CHECK Regra ERROR
             if not parser.mylex[context]["errorRead"] and warning:
-                msg = "Parâmetro Error em falta (Lex)"
+                msg = "WARNING: Parâmetro Error em falta (Lex)"
                 if context != "INITIAL":
                     msg += " no contexto exclusivo '"+str(context)+"'"
                 msg += ". Valor por defeito utilizado"
