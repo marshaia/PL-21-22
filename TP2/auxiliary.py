@@ -1,8 +1,10 @@
 import json
+import re
+from strFormatter import strFinalFile
 
 
 def readArguments(argv):
-    flagList = ["-input","-output","-help","-divide","-debug","-wall","-verbose"]
+    flagList = ["-input","-output","-help","-tmp","-debug","-wall","-verbose"]
     arguments = {}
     arguments["-input"] = ""
     arguments["-output"] = ""
@@ -104,3 +106,52 @@ def verifyData(parser,warning):
             
     
     
+def write_file(filename,parser,flag,inputfilename):
+
+    foutput = open(filename,"w+")
+
+    if not flag:
+        foutput.write(strFinalFile(parser))
+        return
+    
+    list = parser.mycontents["fileIntervals"]
+    intervalList = []
+    for l in list:
+        intervalList.append(l[0])
+        intervalList.append(l[1])
+    intervalList.reverse()
+
+    finput = open(inputfilename,"r")
+    resultWrite = False
+    writeMode = True
+    end = False
+    lineno = 1
+    target = intervalList.pop()
+
+    for line in finput.readlines():
+
+        if (lineno == target) and not end:
+
+            if writeMode:
+                writeMode = False
+                if not resultWrite:
+                    foutput.write(str(strFinalFile(parser)))
+                    resultWrite = True
+            else: 
+                writeMode = True
+
+            if intervalList:
+                target = intervalList.pop()
+            else:
+                end = True
+        
+
+        elif writeMode:
+            foutput.write(str(line))
+
+        lineno += 1
+
+    finput.close()
+    foutput.close()
+
+

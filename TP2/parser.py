@@ -8,24 +8,35 @@ from lexer import tokens
 
 def p_prog(p):
     "prog : seccoes"
+    final = []
+    for list in p[1]:
+        tupl = (list[0],list.pop())
+        final.append(tupl)
+    p.parser.mycontents["fileIntervals"] = final
 
 
 def p_seccoes_singl(p):
     "seccoes : seccao"
+    p[0] = [p[1]]
 def p_seccoes_multi(p):
     "seccoes : seccoes seccao"
+    p[0] = p[1] + [p[2]]
 
 
 def p_seccao_lex(p):
     "seccao : LEXSTART lex termino"
+    p[0] = [p.lineno(1)] + p[3]
 def p_seccao_yacc(p):
     "seccao : YACCSTART yacc termino"
+    p[0] = [p.lineno(1)] + p[3]
 
 
 def p_termino_END(p):
     "termino : END"
+    p[0] = [p.lineno(1)]
 def p_termino_seccao(p):
     "termino : seccao"
+    p[0] = p[1]
 
 
 
@@ -444,6 +455,7 @@ def generateYaccDefaultDic():
 #     ["lexRead"] = False
 #     ["yaccRead"] = False    
 #     ["prodlist"] = []
+#     ["fileIntervals"] = []
 # }
 def generateContentDic():
     dic = {}
@@ -455,6 +467,7 @@ def generateContentDic():
     dic["lexRead"] = False
     dic["yaccRead"] = False    
     dic["prodlist"] = []
+    dic["fileIntervals"] = []
     return dic
 
 
