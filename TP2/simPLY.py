@@ -9,71 +9,67 @@ from auxiliary import *
 
 global args
 
-#------------READ ARGS
 try:
+    
+    #------------READ ARGS
     args = readArguments(sys.argv)
 
+
+    #------------HELP FLAG
+    if args["-help"]:
+        print(progHelp())
+        exit(0)
+
+
+    #OutPut File must be .py
     if args["-output"] != "":
         args["-output"] = re.sub(r'\.\w+$',r'.py',args["-output"])
         if ".py" not in args["-output"]:
             args["-output"] += ".py"
 
+    #Default Output File
     if args["-output"] == "":
         args["-output"] = re.sub(r'\.\w+$',r'-simPLY.py',args["-input"])
 
+    #Check Input and output
     if args["-output"] == args["-input"]:
-        raise Exception("Ficheiro de Input e Output com o mesmo nome")
-except Exception as e:
-    print("ERROR-ARGS: "+str(e))
-    exit(1)
+        raise Exception("Ficheiro de Input e Output com o mesmo nome.")
 
 
-#------------HELP FLAG
-if args["-help"]:
-    print(progHelp())
-    exit(0)
 
-#------------READ & PARSE
-if args["-verbose"]:
-    print("Iniciando a leitura do ficheiro "+args["-input"])
+    #------------READ & PARSE
+    if args["-verbose"]:
+        print("Iniciando a leitura do ficheiro "+args["-input"])
 
-try:
     finput = open(args["-input"],"r")
     rinput = finput.read()
     parser = getParser()
     parser.parse(rinput)
     finput.close()
-except Exception as e:
-    print("ERROR: "+str(e))
-    exit(1)
 
-if args["-verbose"]:
-    print("Ficheiro lido com sucesso")
+    if args["-verbose"]:
+        print("Ficheiro lido com sucesso")
 
-#-------------VERIFIER
-try:
+    #-------------VERIFIER
     verifyData(parser,args["-wall"])
-except Exception as e:
-    print("ERROR: "+str(e))
-    exit(1)
-
-if args["-verbose"]:
-    print("Verificado!")
-
-#-------------DEBUG FLAG
-if args["-debug"]:
-    debugDump(parser)
 
 
-#-------------WRITE
+    if args["-verbose"]:
+        print("Verificado!")
 
-if args["-verbose"]:
-    print("Escrevendo no ficheiro output: "+args["-output"])
+    #-------------DEBUG FLAG
+    if args["-debug"]:
+        debugDump(parser)
 
-try:
+
+    #-------------WRITE
+
+    if args["-verbose"]:
+        print("Escrevendo no ficheiro output: "+args["-output"])
+
     writeFile(args["-output"],parser,args["-plyonly"],args["-input"])
+    print("Compilação terminada com Sucesso! (Output: "+args["-output"]+")")
+
 except Exception as e:
     print("ERROR: "+str(e))
     exit(1)
-
-print("Compilação terminada com Sucesso! (Output: "+args["-output"]+")")

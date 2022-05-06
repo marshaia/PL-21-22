@@ -24,7 +24,7 @@ def readArguments(argv):
         elif arg[0] == '-':
 
             if arg not in flagList:
-                raise Exception("Opção desconhecida "+str(argv[i]))
+                raise Exception("Opção desconhecida "+str(argv[i])+".\nUse a flag -help para mais informação")
 
             if arg == "-input" or arg == "-output":
                 if i+1 >= argslen or argv[i+1][0] == "-":
@@ -41,17 +41,33 @@ def readArguments(argv):
                     raise Exception("Ficheiro de input repetido")
             arguments["-input"] = argv[i]
     
-    if arguments["-input"] == "":
-        raise Exception("Ficheiro de input em falta")
+    if arguments["-input"] == "" and not arguments["-help"]:
+        raise Exception("Ficheiro de input em falta.\nUse a flag -help para mais informação")
 
     return arguments
 
 
+
+
 def progHelp():
-    help = """Help
-I helped
-Yay"""
+    help = """-------------------Bem vindo ao simPLY!--------------------
+Um compilador de linguagem "sply" para Python, de forma a simplificar a escrita de código da biblioteca PLY
+
+Modo de utilização:
+$python simPLY.py [FLAGS]
+
+Flags:
+-input [nome] -> Ficheiro de input a ser lido. Também pode ser escrito sem a flag.
+-ouput [nome] -> Ficheiro de output gerado. Este será sempre um ficheiro do formato .py e não pode ser igual ao ficheiro de input
+-help         -> Menu de ajuda
+-debug        -> Depois do ficheiro input ser lido e verificado, será criada um ficheiro "debug.JSON" com a informação lida
+-wall         -> Aviso de todos os erros possíveis encontrados.
+-verbose      -> Escrita no terminal dos vários processos a ocorrer
+-plyonly      -> Escrita no ficheiro de output apenas o conteúdo SPLY lido"""
     return help
+
+
+
 
 def debugDump(parser):
     print("DEBUG: A descarregar os conteúdos do parser em 'debug.JSON'")
