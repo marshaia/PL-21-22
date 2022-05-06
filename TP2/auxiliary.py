@@ -50,13 +50,15 @@ def readArguments(argv):
 
 
 def progHelp():
-    help = """-------------------Bem vindo ao simPLY!--------------------
+    help = """
+-------------------------------- BEM-VINDO AO SIMPLY! --------------------------------------
+
 Um compilador de linguagem "sply" para Python, de forma a simplificar a escrita de código da biblioteca PLY
 
 Modo de utilização:
-$python simPLY.py [FLAGS]
+$ python simPLY.py [FLAGS]
 
-Flags:
+FLAGS:
 -input [nome] -> Ficheiro de input a ser lido. Também pode ser escrito sem a flag.
 -ouput [nome] -> Ficheiro de output gerado. Este será sempre um ficheiro do formato .py e não pode ser igual ao ficheiro de input
 -help         -> Menu de ajuda
