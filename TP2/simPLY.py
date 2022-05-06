@@ -12,8 +12,15 @@ global args
 #------------READ ARGS
 try:
     args = readArguments(sys.argv)
+
+    if args["-output"] != "":
+        args["-output"] = re.sub(r'\.\w+$',r'.py',args["-output"])
+        if ".py" not in args["-output"]:
+            args["-output"] += ".py"
+
     if args["-output"] == "":
-        args["-output"] = re.sub(r'.\w+$',r'-SimPLY.py',args["-input"])
+        args["-output"] = re.sub(r'\.\w+$',r'-simPLY.py',args["-input"])
+
     if args["-output"] == args["-input"]:
         raise Exception("Ficheiro de Input e Output com o mesmo nome")
 except Exception as e:
@@ -64,7 +71,7 @@ if args["-verbose"]:
     print("Escrevendo no ficheiro output: "+args["-output"])
 
 try:
-    write_file(args["-output"],parser,args["-tmp"],args["-input"])
+    writeFile(args["-output"],parser,args["-plyonly"],args["-input"])
 except Exception as e:
     print("ERROR: "+str(e))
     exit(1)

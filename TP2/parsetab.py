@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "CHANGECONTEXT CODIGO COMERROR COMMENT EMPTYDIC EMPTYLIST END ER FFLOAT FINT FSTR ID LEXCONTEXT LEXIGNORE LEXLITERALS LEXSTART NEWLINE NOSKIP NUMVAL SKIP STRING YACCPRECEDENCE YACCSTARTprog : seccoesseccoes : seccaoseccoes : seccoes seccaoseccao : LEXSTART lex terminoseccao : YACCSTART yacc terminotermino : ENDtermino : seccaolex : lexParametroslexParametros : lexParametros : lexParametros lexParametrolexParametro : lexTokenlexParametro : lexRegralexToken :  ID context '=' ER tokenFunc changeContextcontext : context : '(' ID ')'context : IDtokenFunc : tokenFunc : FSTRtokenFunc : FINTtokenFunc : FFLOATchangeContext : changeContext : CHANGECONTEXT contextlexRegra : lexIgnorelexRegra : lexLiteralslexRegra : lexContextslexRegra : comErrorlexIgnore : LEXIGNORE context '=' STRINGlexLiterals : LEXLITERALS context '=' STRINGlexContexts : LEXCONTEXT '=' '[' lexContexTuplos ']'lexContexTuplos : lexContexTuplolexContexTuplos : lexContexTuplos ',' lexContexTuplolexContexTuplo : '(' ID ',' ID ')'comError : COMERROR context '=' comErrorMessage skipOpscomErrorMessage : comErrorMessage : STRINGskipOps : SKIPskipOps : NOSKIPyacc : yaccParametrosyaccParametros : yaccParametros : yaccParametros yaccParametroyaccParametro : yaccVaryaccParametro : yaccRegrayaccParametro : yaccProdyaccRegra : yaccPrecedenceyaccRegra : comErroryaccPrecedence : YACCPRECEDENCE '=' '(' yaccPreTuplos ')'yaccPreTuplos : yaccPreTuployaccPreTuplos : yaccPreTuplos ',' yaccPreTuployaccPreTuplo : '(' STRING ',' STRING yaccPreTuploOPyaccPreTuploOP : ')'yaccPreTuploOP : ',' STRING yaccPreTuploOPyaccVar : ID '=' VarValueVarValue : STRINGVarValue : NUMVALVarValue : EMPTYLISTVarValue : EMPTYDICyaccProd : ID yaccProdAlias ':' yaccProdValue yaccProdCodyaccProdAlias : yaccProdAlias : '(' ID ')'yaccProdAlias : IDyaccProdValue : yaccProdValue : STRINGyaccProdCod : yaccProdCod : CODIGO"
+_lr_signature = "CHANGECONTEXT CODIGO COMERROR COMMENT EMPTYDIC EMPTYLIST END ER FFLOAT FINT FSTR ID LEXCONTEXT LEXIGNORE LEXLITERALS LEXSTART NEWLINE NOSKIP NUMVAL SKIP STRING YACCPRECEDENCE YACCSTARTprog : seccoesseccoes : seccaoseccoes : seccoes seccaoseccao : LEXSTART lex terminoseccao : YACCSTART yacc terminotermino : ENDtermino : seccaolex : lexParametroslexParametros : lexParametros : lexParametros lexParametrolexParametro : lexTokenlexParametro : lexRegralexToken :  ID context '=' ER tokenFunc changeContextcontext : context : '(' ID ')'context : IDtokenFunc : tokenFunc : FSTRtokenFunc : FINTtokenFunc : FFLOATchangeContext : changeContext : CHANGECONTEXT IDchangeContext : CHANGECONTEXT '(' ID ')'lexRegra : lexIgnorelexRegra : lexLiteralslexRegra : lexContextslexRegra : comErrorlexIgnore : LEXIGNORE context '=' STRINGlexLiterals : LEXLITERALS context '=' STRINGlexContexts : LEXCONTEXT '=' '[' lexContexTuplos ']'lexContexTuplos : lexContexTuplolexContexTuplos : lexContexTuplos ',' lexContexTuplolexContexTuplo : '(' ID ',' ID ')'comError : COMERROR context '=' comErrorMessage skipOpscomErrorMessage : comErrorMessage : STRINGskipOps : SKIPskipOps : NOSKIPyacc : yaccParametrosyaccParametros : yaccParametros : yaccParametros yaccParametroyaccParametro : yaccVaryaccParametro : yaccRegrayaccParametro : yaccProdyaccRegra : yaccPrecedenceyaccRegra : comErroryaccPrecedence : YACCPRECEDENCE '=' '(' yaccPreTuplos ')'yaccPreTuplos : yaccPreTuployaccPreTuplos : yaccPreTuplos ',' yaccPreTuployaccPreTuplo : '(' STRING ',' STRING yaccPreTuploOPyaccPreTuploOP : ')'yaccPreTuploOP : ',' STRING yaccPreTuploOPyaccVar : ID '=' VarValueVarValue : STRINGVarValue : NUMVALVarValue : EMPTYLISTVarValue : EMPTYDICyaccProd : ID yaccProdAlias ':' yaccProdValue yaccProdCodyaccProdAlias : yaccProdAlias : '(' ID ')'yaccProdAlias : IDyaccProdValue : yaccProdValue : STRINGyaccProdCod : yaccProdCod : CODIGO"
     
-_lr_action_items = {'LEXSTART':([0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,19,20,21,26,27,28,29,30,32,33,35,53,54,55,56,57,58,61,62,63,64,70,71,76,77,78,79,80,83,84,85,86,87,89,91,92,97,],[4,4,-2,-9,-39,-3,4,-8,4,-38,-4,-6,-7,-10,-11,-12,-23,-24,-25,-26,-5,-40,-41,-42,-43,-44,-45,-16,-52,-53,-54,-55,-56,-61,-17,-15,-27,-28,-63,-62,-21,-18,-19,-20,-29,-33,-36,-37,-57,-64,-46,-13,-14,-22,]),'YACCSTART':([0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,19,20,21,26,27,28,29,30,32,33,35,53,54,55,56,57,58,61,62,63,64,70,71,76,77,78,79,80,83,84,85,86,87,89,91,92,97,],[5,5,-2,-9,-39,-3,5,-8,5,-38,-4,-6,-7,-10,-11,-12,-23,-24,-25,-26,-5,-40,-41,-42,-43,-44,-45,-16,-52,-53,-54,-55,-56,-61,-17,-15,-27,-28,-63,-62,-21,-18,-19,-20,-29,-33,-36,-37,-57,-64,-46,-13,-14,-22,]),'$end':([1,2,3,6,11,12,13,26,],[0,-1,-2,-3,-4,-6,-7,-5,]),'ID':([4,5,8,10,14,15,16,17,18,19,20,21,22,23,25,27,28,29,30,31,32,33,35,37,45,53,54,55,56,57,58,61,62,63,64,67,70,71,76,77,78,79,80,83,84,85,86,87,89,91,92,94,97,],[-9,-39,17,31,-10,-11,-12,35,-23,-24,-25,-26,35,35,35,-40,-41,-42,-43,42,-44,-45,-16,48,59,-52,-53,-54,-55,-56,-61,-17,-15,-27,-28,82,-63,-62,-21,-18,-19,-20,-29,-33,-36,-37,-57,-64,-46,-13,35,98,-22,]),'LEXIGNORE':([4,8,14,15,16,18,19,20,21,35,61,62,63,64,76,77,78,79,80,83,84,85,91,92,97,],[-9,22,-10,-11,-12,-23,-24,-25,-26,-16,-17,-15,-27,-28,-21,-18,-19,-20,-29,-33,-36,-37,-13,-14,-22,]),'LEXLITERALS':([4,8,14,15,16,18,19,20,21,35,61,62,63,64,76,77,78,79,80,83,84,85,91,92,97,],[-9,23,-10,-11,-12,-23,-24,-25,-26,-16,-17,-15,-27,-28,-21,-18,-19,-20,-29,-33,-36,-37,-13,-14,-22,]),'LEXCONTEXT':([4,8,14,15,16,18,19,20,21,35,61,62,63,64,76,77,78,79,80,83,84,85,91,92,97,],[-9,24,-10,-11,-12,-23,-24,-25,-26,-16,-17,-15,-27,-28,-21,-18,-19,-20,-29,-33,-36,-37,-13,-14,-22,]),'COMERROR':([4,5,8,10,14,15,16,18,19,20,21,27,28,29,30,32,33,35,53,54,55,56,57,58,61,62,63,64,70,71,76,77,78,79,80,83,84,85,86,87,89,91,92,97,],[-9,-39,25,25,-10,-11,-12,-23,-24,-25,-26,-40,-41,-42,-43,-44,-45,-16,-52,-53,-54,-55,-56,-61,-17,-15,-27,-28,-63,-62,-21,-18,-19,-20,-29,-33,-36,-37,-57,-64,-46,-13,-14,-22,]),'END':([4,5,7,8,9,10,14,15,16,18,19,20,21,27,28,29,30,32,33,35,53,54,55,56,57,58,61,62,63,64,70,71,76,77,78,79,80,83,84,85,86,87,89,91,92,97,],[-9,-39,12,-8,12,-38,-10,-11,-12,-23,-24,-25,-26,-40,-41,-42,-43,-44,-45,-16,-52,-53,-54,-55,-56,-61,-17,-15,-27,-28,-63,-62,-21,-18,-19,-20,-29,-33,-36,-37,-57,-64,-46,-13,-14,-22,]),'YACCPRECEDENCE':([5,10,27,28,29,30,32,33,53,54,55,56,57,58,70,71,83,84,85,86,87,89,],[-39,34,-40,-41,-42,-43,-44,-45,-52,-53,-54,-55,-56,-61,-63,-62,-33,-36,-37,-57,-64,-46,]),'=':([17,22,23,24,25,31,34,35,36,38,39,41,62,],[-14,-14,-14,40,-14,43,46,-16,47,49,50,52,-15,]),'(':([17,22,23,25,31,46,51,60,81,90,92,],[37,37,37,37,45,60,67,73,67,73,37,]),':':([31,42,44,72,],[-58,-60,58,-59,]),'[':([40,],[51,]),'STRING':([43,49,50,52,58,73,95,101,],[54,63,64,69,71,88,99,104,]),'NUMVAL':([43,],[55,]),'EMPTYLIST':([43,],[56,]),'EMPTYDIC':([43,],[57,]),'ER':([47,],[61,]),')':([48,59,74,75,96,98,99,102,103,104,105,],[62,72,89,-47,-48,100,103,-49,-50,103,-51,]),'SKIP':([52,68,69,],[-34,84,-35,]),'NOSKIP':([52,68,69,],[-34,85,-35,]),'CODIGO':([58,70,71,],[-61,87,-62,]),'CHANGECONTEXT':([61,76,77,78,79,],[-17,92,-18,-19,-20,]),'FSTR':([61,],[77,]),'FINT':([61,],[78,]),'FFLOAT':([61,],[79,]),']':([65,66,93,100,],[80,-30,-31,-32,]),',':([65,66,74,75,82,88,93,96,99,100,102,103,104,105,],[81,-30,90,-47,94,95,-31,-48,101,-32,-49,-50,101,-51,]),}
+_lr_action_items = {'LEXSTART':([0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,19,20,21,26,27,28,29,30,32,33,53,54,55,56,57,58,61,63,64,70,71,76,77,78,79,80,83,84,85,86,87,89,91,97,106,],[4,4,-2,-9,-40,-3,4,-8,4,-39,-4,-6,-7,-10,-11,-12,-24,-25,-26,-27,-5,-41,-42,-43,-44,-45,-46,-53,-54,-55,-56,-57,-62,-17,-28,-29,-64,-63,-21,-18,-19,-20,-30,-34,-37,-38,-58,-65,-47,-13,-22,-23,]),'YACCSTART':([0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,19,20,21,26,27,28,29,30,32,33,53,54,55,56,57,58,61,63,64,70,71,76,77,78,79,80,83,84,85,86,87,89,91,97,106,],[5,5,-2,-9,-40,-3,5,-8,5,-39,-4,-6,-7,-10,-11,-12,-24,-25,-26,-27,-5,-41,-42,-43,-44,-45,-46,-53,-54,-55,-56,-57,-62,-17,-28,-29,-64,-63,-21,-18,-19,-20,-30,-34,-37,-38,-58,-65,-47,-13,-22,-23,]),'$end':([1,2,3,6,11,12,13,26,],[0,-1,-2,-3,-4,-6,-7,-5,]),'ID':([4,5,8,10,14,15,16,17,18,19,20,21,22,23,25,27,28,29,30,31,32,33,37,45,53,54,55,56,57,58,61,63,64,67,70,71,76,77,78,79,80,83,84,85,86,87,89,91,92,94,97,98,106,],[-9,-40,17,31,-10,-11,-12,35,-24,-25,-26,-27,35,35,35,-41,-42,-43,-44,42,-45,-46,48,59,-53,-54,-55,-56,-57,-62,-17,-28,-29,82,-64,-63,-21,-18,-19,-20,-30,-34,-37,-38,-58,-65,-47,-13,97,99,-22,101,-23,]),'LEXIGNORE':([4,8,14,15,16,18,19,20,21,61,63,64,76,77,78,79,80,83,84,85,91,97,106,],[-9,22,-10,-11,-12,-24,-25,-26,-27,-17,-28,-29,-21,-18,-19,-20,-30,-34,-37,-38,-13,-22,-23,]),'LEXLITERALS':([4,8,14,15,16,18,19,20,21,61,63,64,76,77,78,79,80,83,84,85,91,97,106,],[-9,23,-10,-11,-12,-24,-25,-26,-27,-17,-28,-29,-21,-18,-19,-20,-30,-34,-37,-38,-13,-22,-23,]),'LEXCONTEXT':([4,8,14,15,16,18,19,20,21,61,63,64,76,77,78,79,80,83,84,85,91,97,106,],[-9,24,-10,-11,-12,-24,-25,-26,-27,-17,-28,-29,-21,-18,-19,-20,-30,-34,-37,-38,-13,-22,-23,]),'COMERROR':([4,5,8,10,14,15,16,18,19,20,21,27,28,29,30,32,33,53,54,55,56,57,58,61,63,64,70,71,76,77,78,79,80,83,84,85,86,87,89,91,97,106,],[-9,-40,25,25,-10,-11,-12,-24,-25,-26,-27,-41,-42,-43,-44,-45,-46,-53,-54,-55,-56,-57,-62,-17,-28,-29,-64,-63,-21,-18,-19,-20,-30,-34,-37,-38,-58,-65,-47,-13,-22,-23,]),'END':([4,5,7,8,9,10,14,15,16,18,19,20,21,27,28,29,30,32,33,53,54,55,56,57,58,61,63,64,70,71,76,77,78,79,80,83,84,85,86,87,89,91,97,106,],[-9,-40,12,-8,12,-39,-10,-11,-12,-24,-25,-26,-27,-41,-42,-43,-44,-45,-46,-53,-54,-55,-56,-57,-62,-17,-28,-29,-64,-63,-21,-18,-19,-20,-30,-34,-37,-38,-58,-65,-47,-13,-22,-23,]),'YACCPRECEDENCE':([5,10,27,28,29,30,32,33,53,54,55,56,57,58,70,71,83,84,85,86,87,89,],[-40,34,-41,-42,-43,-44,-45,-46,-53,-54,-55,-56,-57,-62,-64,-63,-34,-37,-38,-58,-65,-47,]),'=':([17,22,23,24,25,31,34,35,36,38,39,41,62,],[-14,-14,-14,40,-14,43,46,-16,47,49,50,52,-15,]),'(':([17,22,23,25,31,46,51,60,81,90,92,],[37,37,37,37,45,60,67,73,67,73,98,]),':':([31,42,44,72,],[-59,-61,58,-60,]),'[':([40,],[51,]),'STRING':([43,49,50,52,58,73,95,103,],[54,63,64,69,71,88,100,107,]),'NUMVAL':([43,],[55,]),'EMPTYLIST':([43,],[56,]),'EMPTYDIC':([43,],[57,]),'ER':([47,],[61,]),')':([48,59,74,75,96,99,100,101,104,105,107,108,],[62,72,89,-48,-49,102,105,106,-50,-51,105,-52,]),'SKIP':([52,68,69,],[-35,84,-36,]),'NOSKIP':([52,68,69,],[-35,85,-36,]),'CODIGO':([58,70,71,],[-62,87,-63,]),'CHANGECONTEXT':([61,76,77,78,79,],[-17,92,-18,-19,-20,]),'FSTR':([61,],[77,]),'FINT':([61,],[78,]),'FFLOAT':([61,],[79,]),']':([65,66,93,102,],[80,-31,-32,-33,]),',':([65,66,74,75,82,88,93,96,100,102,104,105,107,108,],[81,-31,90,-48,94,95,-32,-49,103,-33,-50,-51,103,-52,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'prog':([0,],[1,]),'seccoes':([0,],[2,]),'seccao':([0,2,7,9,],[3,6,13,13,]),'lex':([4,],[7,]),'lexParametros':([4,],[8,]),'yacc':([5,],[9,]),'yaccParametros':([5,],[10,]),'termino':([7,9,],[11,26,]),'lexParametro':([8,],[14,]),'lexToken':([8,],[15,]),'lexRegra':([8,],[16,]),'lexIgnore':([8,],[18,]),'lexLiterals':([8,],[19,]),'lexContexts':([8,],[20,]),'comError':([8,10,],[21,33,]),'yaccParametro':([10,],[27,]),'yaccVar':([10,],[28,]),'yaccRegra':([10,],[29,]),'yaccProd':([10,],[30,]),'yaccPrecedence':([10,],[32,]),'context':([17,22,23,25,92,],[36,38,39,41,97,]),'yaccProdAlias':([31,],[44,]),'VarValue':([43,],[53,]),'lexContexTuplos':([51,],[65,]),'lexContexTuplo':([51,81,],[66,93,]),'comErrorMessage':([52,],[68,]),'yaccProdValue':([58,],[70,]),'yaccPreTuplos':([60,],[74,]),'yaccPreTuplo':([60,90,],[75,96,]),'tokenFunc':([61,],[76,]),'skipOps':([68,],[83,]),'yaccProdCod':([70,],[86,]),'changeContext':([76,],[91,]),'yaccPreTuploOP':([99,104,],[102,105,]),}
+_lr_goto_items = {'prog':([0,],[1,]),'seccoes':([0,],[2,]),'seccao':([0,2,7,9,],[3,6,13,13,]),'lex':([4,],[7,]),'lexParametros':([4,],[8,]),'yacc':([5,],[9,]),'yaccParametros':([5,],[10,]),'termino':([7,9,],[11,26,]),'lexParametro':([8,],[14,]),'lexToken':([8,],[15,]),'lexRegra':([8,],[16,]),'lexIgnore':([8,],[18,]),'lexLiterals':([8,],[19,]),'lexContexts':([8,],[20,]),'comError':([8,10,],[21,33,]),'yaccParametro':([10,],[27,]),'yaccVar':([10,],[28,]),'yaccRegra':([10,],[29,]),'yaccProd':([10,],[30,]),'yaccPrecedence':([10,],[32,]),'context':([17,22,23,25,],[36,38,39,41,]),'yaccProdAlias':([31,],[44,]),'VarValue':([43,],[53,]),'lexContexTuplos':([51,],[65,]),'lexContexTuplo':([51,81,],[66,93,]),'comErrorMessage':([52,],[68,]),'yaccProdValue':([58,],[70,]),'yaccPreTuplos':([60,],[74,]),'yaccPreTuplo':([60,90,],[75,96,]),'tokenFunc':([61,],[76,]),'skipOps':([68,],[83,]),'yaccProdCod':([70,],[86,]),'changeContext':([76,],[91,]),'yaccPreTuploOP':([100,107,],[104,108,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -48,47 +48,48 @@ _lr_productions = [
   ('tokenFunc -> FINT','tokenFunc',1,'p_tokenFunc_int','parser.py',90),
   ('tokenFunc -> FFLOAT','tokenFunc',1,'p_tokenFunc_float','parser.py',93),
   ('changeContext -> <empty>','changeContext',0,'p_changeContext_empty','parser.py',98),
-  ('changeContext -> CHANGECONTEXT context','changeContext',2,'p_changeContext_singl','parser.py',101),
-  ('lexRegra -> lexIgnore','lexRegra',1,'p_lexRegra_ignore','parser.py',106),
-  ('lexRegra -> lexLiterals','lexRegra',1,'p_lexRegra_literals','parser.py',108),
-  ('lexRegra -> lexContexts','lexRegra',1,'p_lexRegra_contexts','parser.py',110),
-  ('lexRegra -> comError','lexRegra',1,'p_lexRegra_error','parser.py',112),
-  ('lexIgnore -> LEXIGNORE context = STRING','lexIgnore',4,'p_lexIgnore','parser.py',132),
-  ('lexLiterals -> LEXLITERALS context = STRING','lexLiterals',4,'p_lexLiterals','parser.py',149),
-  ('lexContexts -> LEXCONTEXT = [ lexContexTuplos ]','lexContexts',5,'p_lexContexts','parser.py',163),
-  ('lexContexTuplos -> lexContexTuplo','lexContexTuplos',1,'p_lexContexTuplos_singl','parser.py',171),
-  ('lexContexTuplos -> lexContexTuplos , lexContexTuplo','lexContexTuplos',3,'p_lexContexTuplos_multi','parser.py',173),
-  ('lexContexTuplo -> ( ID , ID )','lexContexTuplo',5,'p_lexContexTuplo','parser.py',177),
-  ('comError -> COMERROR context = comErrorMessage skipOps','comError',5,'p_comError','parser.py',188),
-  ('comErrorMessage -> <empty>','comErrorMessage',0,'p_comErrorMessage_empty','parser.py',198),
-  ('comErrorMessage -> STRING','comErrorMessage',1,'p_comErrorMessage_singl','parser.py',201),
-  ('skipOps -> SKIP','skipOps',1,'p_skipOps_skip','parser.py',206),
-  ('skipOps -> NOSKIP','skipOps',1,'p_skipOps_noskip','parser.py',209),
-  ('yacc -> yaccParametros','yacc',1,'p_yacc','parser.py',220),
-  ('yaccParametros -> <empty>','yaccParametros',0,'p_yaccParametros_empty','parser.py',224),
-  ('yaccParametros -> yaccParametros yaccParametro','yaccParametros',2,'p_yaccParametros_multi','parser.py',226),
-  ('yaccParametro -> yaccVar','yaccParametro',1,'p_yaccParametro_var','parser.py',231),
-  ('yaccParametro -> yaccRegra','yaccParametro',1,'p_yaccParametro_regra','parser.py',233),
-  ('yaccParametro -> yaccProd','yaccParametro',1,'p_yaccParametro_gram','parser.py',235),
-  ('yaccRegra -> yaccPrecedence','yaccRegra',1,'p_yaccRegra_precedence','parser.py',239),
-  ('yaccRegra -> comError','yaccRegra',1,'p_yaccRegra_error','parser.py',241),
-  ('yaccPrecedence -> YACCPRECEDENCE = ( yaccPreTuplos )','yaccPrecedence',5,'p_yaccPrecedence','parser.py',253),
-  ('yaccPreTuplos -> yaccPreTuplo','yaccPreTuplos',1,'p_PreTuplos_single','parser.py',261),
-  ('yaccPreTuplos -> yaccPreTuplos , yaccPreTuplo','yaccPreTuplos',3,'p_PreTuplos_multi','parser.py',264),
-  ('yaccPreTuplo -> ( STRING , STRING yaccPreTuploOP','yaccPreTuplo',5,'p_PreTuplo','parser.py',269),
-  ('yaccPreTuploOP -> )','yaccPreTuploOP',1,'p_yaccPreTuploOP_close','parser.py',278),
-  ('yaccPreTuploOP -> , STRING yaccPreTuploOP','yaccPreTuploOP',3,'p_yaccPreTuploOP_rec','parser.py',281),
-  ('yaccVar -> ID = VarValue','yaccVar',3,'p_yaccVar','parser.py',286),
-  ('VarValue -> STRING','VarValue',1,'p_VarValue_String','parser.py',295),
-  ('VarValue -> NUMVAL','VarValue',1,'p_VarValue_NumVal','parser.py',298),
-  ('VarValue -> EMPTYLIST','VarValue',1,'p_VarValue_EmptyList','parser.py',301),
-  ('VarValue -> EMPTYDIC','VarValue',1,'p_VarValue_EmptyDic','parser.py',304),
-  ('yaccProd -> ID yaccProdAlias : yaccProdValue yaccProdCod','yaccProd',5,'p_yaccProd','parser.py',309),
-  ('yaccProdAlias -> <empty>','yaccProdAlias',0,'p_yaccProdAlias_empty','parser.py',332),
-  ('yaccProdAlias -> ( ID )','yaccProdAlias',3,'p_yaccProdAlias_singl','parser.py',335),
-  ('yaccProdAlias -> ID','yaccProdAlias',1,'p_yaccProdAlias_singlNoPar','parser.py',338),
-  ('yaccProdValue -> <empty>','yaccProdValue',0,'p_yaccProdValue_empty','parser.py',343),
-  ('yaccProdValue -> STRING','yaccProdValue',1,'p_yaccProdValue_singl','parser.py',346),
-  ('yaccProdCod -> <empty>','yaccProdCod',0,'p_yaccProdCod_empty','parser.py',351),
-  ('yaccProdCod -> CODIGO','yaccProdCod',1,'p_yaccProdCod_singl','parser.py',354),
+  ('changeContext -> CHANGECONTEXT ID','changeContext',2,'p_changeContext_singlNoPar','parser.py',101),
+  ('changeContext -> CHANGECONTEXT ( ID )','changeContext',4,'p_changeContext_singl','parser.py',104),
+  ('lexRegra -> lexIgnore','lexRegra',1,'p_lexRegra_ignore','parser.py',109),
+  ('lexRegra -> lexLiterals','lexRegra',1,'p_lexRegra_literals','parser.py',111),
+  ('lexRegra -> lexContexts','lexRegra',1,'p_lexRegra_contexts','parser.py',113),
+  ('lexRegra -> comError','lexRegra',1,'p_lexRegra_error','parser.py',115),
+  ('lexIgnore -> LEXIGNORE context = STRING','lexIgnore',4,'p_lexIgnore','parser.py',135),
+  ('lexLiterals -> LEXLITERALS context = STRING','lexLiterals',4,'p_lexLiterals','parser.py',152),
+  ('lexContexts -> LEXCONTEXT = [ lexContexTuplos ]','lexContexts',5,'p_lexContexts','parser.py',166),
+  ('lexContexTuplos -> lexContexTuplo','lexContexTuplos',1,'p_lexContexTuplos_singl','parser.py',174),
+  ('lexContexTuplos -> lexContexTuplos , lexContexTuplo','lexContexTuplos',3,'p_lexContexTuplos_multi','parser.py',176),
+  ('lexContexTuplo -> ( ID , ID )','lexContexTuplo',5,'p_lexContexTuplo','parser.py',180),
+  ('comError -> COMERROR context = comErrorMessage skipOps','comError',5,'p_comError','parser.py',191),
+  ('comErrorMessage -> <empty>','comErrorMessage',0,'p_comErrorMessage_empty','parser.py',201),
+  ('comErrorMessage -> STRING','comErrorMessage',1,'p_comErrorMessage_singl','parser.py',204),
+  ('skipOps -> SKIP','skipOps',1,'p_skipOps_skip','parser.py',209),
+  ('skipOps -> NOSKIP','skipOps',1,'p_skipOps_noskip','parser.py',212),
+  ('yacc -> yaccParametros','yacc',1,'p_yacc','parser.py',223),
+  ('yaccParametros -> <empty>','yaccParametros',0,'p_yaccParametros_empty','parser.py',227),
+  ('yaccParametros -> yaccParametros yaccParametro','yaccParametros',2,'p_yaccParametros_multi','parser.py',229),
+  ('yaccParametro -> yaccVar','yaccParametro',1,'p_yaccParametro_var','parser.py',234),
+  ('yaccParametro -> yaccRegra','yaccParametro',1,'p_yaccParametro_regra','parser.py',236),
+  ('yaccParametro -> yaccProd','yaccParametro',1,'p_yaccParametro_gram','parser.py',238),
+  ('yaccRegra -> yaccPrecedence','yaccRegra',1,'p_yaccRegra_precedence','parser.py',242),
+  ('yaccRegra -> comError','yaccRegra',1,'p_yaccRegra_error','parser.py',244),
+  ('yaccPrecedence -> YACCPRECEDENCE = ( yaccPreTuplos )','yaccPrecedence',5,'p_yaccPrecedence','parser.py',256),
+  ('yaccPreTuplos -> yaccPreTuplo','yaccPreTuplos',1,'p_PreTuplos_single','parser.py',264),
+  ('yaccPreTuplos -> yaccPreTuplos , yaccPreTuplo','yaccPreTuplos',3,'p_PreTuplos_multi','parser.py',267),
+  ('yaccPreTuplo -> ( STRING , STRING yaccPreTuploOP','yaccPreTuplo',5,'p_PreTuplo','parser.py',272),
+  ('yaccPreTuploOP -> )','yaccPreTuploOP',1,'p_yaccPreTuploOP_close','parser.py',281),
+  ('yaccPreTuploOP -> , STRING yaccPreTuploOP','yaccPreTuploOP',3,'p_yaccPreTuploOP_rec','parser.py',284),
+  ('yaccVar -> ID = VarValue','yaccVar',3,'p_yaccVar','parser.py',289),
+  ('VarValue -> STRING','VarValue',1,'p_VarValue_String','parser.py',298),
+  ('VarValue -> NUMVAL','VarValue',1,'p_VarValue_NumVal','parser.py',301),
+  ('VarValue -> EMPTYLIST','VarValue',1,'p_VarValue_EmptyList','parser.py',304),
+  ('VarValue -> EMPTYDIC','VarValue',1,'p_VarValue_EmptyDic','parser.py',307),
+  ('yaccProd -> ID yaccProdAlias : yaccProdValue yaccProdCod','yaccProd',5,'p_yaccProd','parser.py',312),
+  ('yaccProdAlias -> <empty>','yaccProdAlias',0,'p_yaccProdAlias_empty','parser.py',335),
+  ('yaccProdAlias -> ( ID )','yaccProdAlias',3,'p_yaccProdAlias_singl','parser.py',338),
+  ('yaccProdAlias -> ID','yaccProdAlias',1,'p_yaccProdAlias_singlNoPar','parser.py',341),
+  ('yaccProdValue -> <empty>','yaccProdValue',0,'p_yaccProdValue_empty','parser.py',346),
+  ('yaccProdValue -> STRING','yaccProdValue',1,'p_yaccProdValue_singl','parser.py',349),
+  ('yaccProdCod -> <empty>','yaccProdCod',0,'p_yaccProdCod_empty','parser.py',354),
+  ('yaccProdCod -> CODIGO','yaccProdCod',1,'p_yaccProdCod_singl','parser.py',357),
 ]

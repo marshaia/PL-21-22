@@ -4,7 +4,7 @@ from strFormatter import strFinalFile
 
 
 def readArguments(argv):
-    flagList = ["-input","-output","-help","-tmp","-debug","-wall","-verbose"]
+    flagList = ["-input","-output","-help","-plyonly","-debug","-wall","-verbose"]
     arguments = {}
     arguments["-input"] = ""
     arguments["-output"] = ""
@@ -106,11 +106,11 @@ def verifyData(parser,warning):
             
     
     
-def write_file(filename,parser,flag,inputfilename):
+def writeFile(filename,parser,flag,inputfilename):
 
     foutput = open(filename,"w+")
 
-    if not flag:
+    if flag:
         foutput.write(strFinalFile(parser))
         return
     
