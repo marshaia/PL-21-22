@@ -1,0 +1,22 @@
+
+%%LEX
+
+INT = r'\d+' %int
+VERAO = r'(?i:verao)' %begin verao
+WORD = r'[a-zA-Z]+'
+
+YAY verao = r'(?i:yay)' %begin INITIAL 
+
+%ignore = " \n\t\r"
+%error = "Erro léxico" %skip
+
+%contexts = (("verao","exclusive"))
+%ignore verao = " "
+
+%%END
+
+teste = "20 ola boas 50 verao yay 20"
+
+lexer.input(teste)
+for tok in lexer:
+    print(tok)

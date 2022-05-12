@@ -37,10 +37,10 @@ Rule 26    lexRegra -> lexContexts
 Rule 27    lexRegra -> comError
 Rule 28    lexIgnore -> LEXIGNORE context = STRING
 Rule 29    lexLiterals -> LEXLITERALS context = STRING
-Rule 30    lexContexts -> LEXCONTEXT = [ lexContexTuplos ]
+Rule 30    lexContexts -> LEXCONTEXT = ( lexContexTuplos )
 Rule 31    lexContexTuplos -> lexContexTuplo
 Rule 32    lexContexTuplos -> lexContexTuplos , lexContexTuplo
-Rule 33    lexContexTuplo -> ( ID , ID )
+Rule 33    lexContexTuplo -> ( STRING , STRING )
 Rule 34    comError -> COMERROR context = comErrorMessage skipOps
 Rule 35    comErrorMessage -> <empty>
 Rule 36    comErrorMessage -> STRING
@@ -76,8 +76,8 @@ Rule 65    yaccProdCod -> CODIGO
 
 Terminals, with rules where they appear
 
-(                    : 15 23 33 47 50 60
-)                    : 15 23 33 47 51 60
+(                    : 15 23 30 33 47 50 60
+)                    : 15 23 30 33 47 51 60
 ,                    : 32 33 49 50 52
 :                    : 58
 =                    : 13 28 29 30 34 47 53
@@ -92,7 +92,7 @@ ER                   : 13
 FFLOAT               : 20
 FINT                 : 19
 FSTR                 : 18
-ID                   : 13 15 16 22 23 33 33 53 58 60 61
+ID                   : 13 15 16 22 23 53 58 60 61
 LEXCONTEXT           : 30
 LEXIGNORE            : 28
 LEXLITERALS          : 29
@@ -101,11 +101,9 @@ NEWLINE              :
 NOSKIP               : 38
 NUMVAL               : 55
 SKIP                 : 37
-STRING               : 28 29 36 50 50 52 54 63
+STRING               : 28 29 33 33 36 50 50 52 54 63
 YACCPRECEDENCE       : 47
 YACCSTART            : 5
-[                    : 30
-]                    : 30
 error                : 
 
 Nonterminals, with rules where they appear
@@ -253,7 +251,7 @@ state 7
     (27) lexRegra -> . comError
     (28) lexIgnore -> . LEXIGNORE context = STRING
     (29) lexLiterals -> . LEXLITERALS context = STRING
-    (30) lexContexts -> . LEXCONTEXT = [ lexContexTuplos ]
+    (30) lexContexts -> . LEXCONTEXT = ( lexContexTuplos )
     (34) comError -> . COMERROR context = comErrorMessage skipOps
 
     END             reduce using rule 8 (lex -> lexParametros .)
@@ -482,7 +480,7 @@ state 22
 
 state 23
 
-    (30) lexContexts -> LEXCONTEXT . = [ lexContexTuplos ]
+    (30) lexContexts -> LEXCONTEXT . = ( lexContexTuplos )
 
     =               shift and go to state 39
 
@@ -640,9 +638,9 @@ state 38
 
 state 39
 
-    (30) lexContexts -> LEXCONTEXT = . [ lexContexTuplos ]
+    (30) lexContexts -> LEXCONTEXT = . ( lexContexTuplos )
 
-    [               shift and go to state 50
+    (               shift and go to state 50
 
 
 state 40
@@ -725,15 +723,15 @@ state 49
 
 state 50
 
-    (30) lexContexts -> LEXCONTEXT = [ . lexContexTuplos ]
+    (30) lexContexts -> LEXCONTEXT = ( . lexContexTuplos )
     (31) lexContexTuplos -> . lexContexTuplo
     (32) lexContexTuplos -> . lexContexTuplos , lexContexTuplo
-    (33) lexContexTuplo -> . ( ID , ID )
+    (33) lexContexTuplo -> . ( STRING , STRING )
 
-    (               shift and go to state 66
+    (               shift and go to state 64
 
-    lexContexTuplos                shift and go to state 64
-    lexContexTuplo                 shift and go to state 65
+    lexContexTuplos                shift and go to state 65
+    lexContexTuplo                 shift and go to state 66
 
 state 51
 
@@ -903,26 +901,26 @@ state 63
 
 state 64
 
-    (30) lexContexts -> LEXCONTEXT = [ lexContexTuplos . ]
-    (32) lexContexTuplos -> lexContexTuplos . , lexContexTuplo
+    (33) lexContexTuplo -> ( . STRING , STRING )
 
-    ]               shift and go to state 79
-    ,               shift and go to state 80
+    STRING          shift and go to state 79
 
 
 state 65
 
-    (31) lexContexTuplos -> lexContexTuplo .
+    (30) lexContexts -> LEXCONTEXT = ( lexContexTuplos . )
+    (32) lexContexTuplos -> lexContexTuplos . , lexContexTuplo
 
-    ]               reduce using rule 31 (lexContexTuplos -> lexContexTuplo .)
-    ,               reduce using rule 31 (lexContexTuplos -> lexContexTuplo .)
+    )               shift and go to state 80
+    ,               shift and go to state 81
 
 
 state 66
 
-    (33) lexContexTuplo -> ( . ID , ID )
+    (31) lexContexTuplos -> lexContexTuplo .
 
-    ID              shift and go to state 81
+    )               reduce using rule 31 (lexContexTuplos -> lexContexTuplo .)
+    ,               reduce using rule 31 (lexContexTuplos -> lexContexTuplo .)
 
 
 state 67
@@ -1070,33 +1068,33 @@ state 78
 
 state 79
 
-    (30) lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .
+    (33) lexContexTuplo -> ( STRING . , STRING )
 
-    ID              reduce using rule 30 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
-    LEXIGNORE       reduce using rule 30 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
-    LEXLITERALS     reduce using rule 30 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
-    LEXCONTEXT      reduce using rule 30 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
-    COMERROR        reduce using rule 30 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
-    END             reduce using rule 30 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
-    LEXSTART        reduce using rule 30 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
-    YACCSTART       reduce using rule 30 (lexContexts -> LEXCONTEXT = [ lexContexTuplos ] .)
+    ,               shift and go to state 92
 
 
 state 80
 
-    (32) lexContexTuplos -> lexContexTuplos , . lexContexTuplo
-    (33) lexContexTuplo -> . ( ID , ID )
+    (30) lexContexts -> LEXCONTEXT = ( lexContexTuplos ) .
 
-    (               shift and go to state 66
+    ID              reduce using rule 30 (lexContexts -> LEXCONTEXT = ( lexContexTuplos ) .)
+    LEXIGNORE       reduce using rule 30 (lexContexts -> LEXCONTEXT = ( lexContexTuplos ) .)
+    LEXLITERALS     reduce using rule 30 (lexContexts -> LEXCONTEXT = ( lexContexTuplos ) .)
+    LEXCONTEXT      reduce using rule 30 (lexContexts -> LEXCONTEXT = ( lexContexTuplos ) .)
+    COMERROR        reduce using rule 30 (lexContexts -> LEXCONTEXT = ( lexContexTuplos ) .)
+    END             reduce using rule 30 (lexContexts -> LEXCONTEXT = ( lexContexTuplos ) .)
+    LEXSTART        reduce using rule 30 (lexContexts -> LEXCONTEXT = ( lexContexTuplos ) .)
+    YACCSTART       reduce using rule 30 (lexContexts -> LEXCONTEXT = ( lexContexTuplos ) .)
 
-    lexContexTuplo                 shift and go to state 92
 
 state 81
 
-    (33) lexContexTuplo -> ( ID . , ID )
+    (32) lexContexTuplos -> lexContexTuplos , . lexContexTuplo
+    (33) lexContexTuplo -> . ( STRING , STRING )
 
-    ,               shift and go to state 93
+    (               shift and go to state 64
 
+    lexContexTuplo                 shift and go to state 93
 
 state 82
 
@@ -1220,17 +1218,17 @@ state 91
 
 state 92
 
-    (32) lexContexTuplos -> lexContexTuplos , lexContexTuplo .
+    (33) lexContexTuplo -> ( STRING , . STRING )
 
-    ]               reduce using rule 32 (lexContexTuplos -> lexContexTuplos , lexContexTuplo .)
-    ,               reduce using rule 32 (lexContexTuplos -> lexContexTuplos , lexContexTuplo .)
+    STRING          shift and go to state 98
 
 
 state 93
 
-    (33) lexContexTuplo -> ( ID , . ID )
+    (32) lexContexTuplos -> lexContexTuplos , lexContexTuplo .
 
-    ID              shift and go to state 98
+    )               reduce using rule 32 (lexContexTuplos -> lexContexTuplos , lexContexTuplo .)
+    ,               reduce using rule 32 (lexContexTuplos -> lexContexTuplos , lexContexTuplo .)
 
 
 state 94
@@ -1271,7 +1269,7 @@ state 97
 
 state 98
 
-    (33) lexContexTuplo -> ( ID , ID . )
+    (33) lexContexTuplo -> ( STRING , STRING . )
 
     )               shift and go to state 101
 
@@ -1296,10 +1294,10 @@ state 100
 
 state 101
 
-    (33) lexContexTuplo -> ( ID , ID ) .
+    (33) lexContexTuplo -> ( STRING , STRING ) .
 
-    ]               reduce using rule 33 (lexContexTuplo -> ( ID , ID ) .)
-    ,               reduce using rule 33 (lexContexTuplo -> ( ID , ID ) .)
+    )               reduce using rule 33 (lexContexTuplo -> ( STRING , STRING ) .)
+    ,               reduce using rule 33 (lexContexTuplo -> ( STRING , STRING ) .)
 
 
 state 102

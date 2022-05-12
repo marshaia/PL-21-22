@@ -1,0 +1,54 @@
+
+%%LEX
+
+#------------Tokens--------------
+INT = r'\d+' %int
+VERAO = r'(?i:verao)' %begin verao
+WORD = r'[a-zA-Z]+'
+
+YAY verao = r'(?i:yay)' %begin INITIAL 
+
+%ignore = " \n\t\r"
+%error = "Erro léxico" %skip
+
+%contexts = (("verao","exclusive"))
+%ignore verao = " "
+
+
+#---------------------YACC-----------------------
+%%YACC
+
+#-------------VARS------------
+somatorio = 0
+wordlist = []
+
+#-----------PROD-------------
+prog : "termos"
+
+termos (vazio) :
+termos (rec) : "termos termo"
+
+termo (num) : "INT" 
+{p.parser.somatorio += p[1]}
+termo (word) : "WORD" {p.parser.wordlist.append(p[1])}
+termo (verao) : "VERAO YAY" {
+    print("YAY")
+}
+
+%error = %noskip
+
+%%END
+
+
+
+teste = "20 ola boas 50 verao yay 20"
+
+lexer.input(teste)
+for tok in lexer:
+    print(tok)
+
+print("\n\n\nPARSE\n")
+
+parser.parse(teste)
+print("somatorio: "+str(parser.somatorio))
+print("lista: "+str(parser.wordlist))

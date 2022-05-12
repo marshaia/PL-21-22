@@ -177,7 +177,7 @@ def p_lexLiterals(p):
 
 
 def p_lexContexts(p):
-    "lexContexts : LEXCONTEXT '=' '[' lexContexTuplos ']'"
+    "lexContexts : LEXCONTEXT '=' '(' lexContexTuplos ')'"
     #Verifica duplicação de contextos
     if p.parser.mycontents["lexContextRead"]:
         raise Exception("Parâmetro Contexts repetido na linha "+str(p.lineno(1)))
@@ -191,14 +191,16 @@ def p_lexContexTuplos_multi(p):
 
 
 def p_lexContexTuplo(p):
-    "lexContexTuplo : '(' ID ',' ID ')'"
+    "lexContexTuplo : '(' STRING ',' STRING ')'"
+    nomeCont = p[2].strip("\"\'")
+    tipoCont = p[4].strip("\"\'")
     #Verifica tipo de contexto
-    if p[4] != "exclusive" and p[4] != "inclusive":
-        raise Exception("Tipo de contexto inválido no contexto '"+p[2]+"' ("+p[4]+") na linha "+str(p.lineno(4)))
+    if tipoCont != "exclusive" and tipoCont != "inclusive":
+        raise Exception("Tipo de contexto inválido no contexto '"+nomeCont+"' ("+tipoCont+") na linha "+str(p.lineno(4)))
     #Verifica existência do contexto
-    if p[2] not in p.parser.mylex:
-        p.parser.mylex[p[2]] = generateLexContextDic()
-    p.parser.mylex[p[2]]["tipo"] = p[4]
+    if nomeCont not in p.parser.mylex:
+        p.parser.mylex[nomeCont] = generateLexContextDic()
+    p.parser.mylex[nomeCont]["tipo"] = tipoCont
 
 
 def p_comError(p):
@@ -371,7 +373,7 @@ def p_yaccProdCod_singl(p):
     "yaccProdCod : CODIGO"
     code = p[1]
     if code != "":
-        code = code.strip("}{\n")
+        code = code.strip("}{\n\t ")
         code = re.sub(r';',r'\n',code)
         code = re.sub(r'\n',r'\n\t',code)
     p[0] = code

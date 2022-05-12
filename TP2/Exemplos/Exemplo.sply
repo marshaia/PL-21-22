@@ -14,7 +14,7 @@ pass
 %literals = "+-*/()=;"
 
 %ignore = " \n\t\r"
-%contexts = [(banana,inclusive),(laranja,exclusive)]
+%contexts = (("banana",'inclusive'),("laranja",'exclusive'))
 
 
 #Tokens
@@ -59,6 +59,10 @@ comando : "Print exp"
 comando (Read): "Read exp" {
 r = int(input())
 p.parser.tabelaIDs[p[2]] = r
+
+
+
+print("lol")
 }
 
 comando : "DUMP"          

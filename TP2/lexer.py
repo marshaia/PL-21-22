@@ -2,7 +2,7 @@ import re
 import ply.lex as lex
 from urllib3 import Retry
 
-literals = ["=","(",")",",",":","[","]"]
+literals = ["=","(",")",",",":"]
 tokens = ["LEXSTART","YACCSTART","END","ID","COMERROR","SKIP","NOSKIP","STRING","COMMENT","NEWLINE",
         "ER","FSTR","FINT","FFLOAT","LEXIGNORE","LEXLITERALS","LEXCONTEXT","CHANGECONTEXT",
         "NUMVAL","EMPTYLIST","EMPTYDIC","CODIGO","YACCPRECEDENCE"]
@@ -29,7 +29,7 @@ def t_outside_NEWLINE(t):
     r'\n'
     t.lexer.lineno += 1
 
-t_outside_ignore = "=,():[]"
+t_outside_ignore = "=,():"
 
 def t_outside_error(t):
     t.lexer.skip(1)
@@ -78,7 +78,11 @@ t_yacc_EMPTYLIST = r'\[\ *\]'
 
 t_yacc_EMPTYDIC = r'%((?i:newdict)|(?i:dict)|(?i:dic)|(?i:newdic))'
 
-t_yacc_CODIGO = r'\{(.|\n)*?\}'
+def t_yacc_CODIGO(t):
+    r'\{(.|\n)*?\}'
+    numPar = str(t.value).count("\n")
+    t.lexer.lineno += numPar
+    return t
 
 t_yacc_YACCPRECEDENCE = r'%(?i:precedence)'
 
