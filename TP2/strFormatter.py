@@ -1,11 +1,15 @@
 #--------------------------LEX-----------------------
 
 def strLiterals(parser):
+    if not parser.mycontents["literalsRead"]:
+        return ""
     return "literals = "+parser.mycontents["literals"]+"\n"
 
 
 def strTokenList(parser):
-     return "tokens = "+str(parser.mycontents["tokenlist"])+"\n"
+    if not parser.mycontents["tokenlist"]:
+        return ""
+    return "tokens = "+str(parser.mycontents["tokenlist"])+"\n"
 
 
 def strToken(context,tokenDic):
@@ -22,6 +26,8 @@ def strToken(context,tokenDic):
 
 
 def strContexts(parser):
+    if not parser.mycontents["lexContextRead"]:
+        return ""
     msg = "states = ("
     for context in parser.mylex:
         if context != "INITIAL":

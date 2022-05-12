@@ -1,5 +1,6 @@
 import sys
 import re
+import traceback
 from parser import getParser
 from lexer import getLexer
 from auxiliary import *    
@@ -72,4 +73,6 @@ try:
 
 except Exception as e:
     print("ERROR: "+str(e))
+    if args["-debug"]:
+        traceback.print_tb(e.__traceback__)
     exit(1)

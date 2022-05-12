@@ -1,0 +1,16 @@
+
+%%LEX
+
+INT = r'\d+' %int
+WORD = r'[a-zA-Z]+'
+
+%ignore = " \n\t\r"
+%error = "Erro léxico" %skip
+
+%%END
+
+teste = "20 ola boas 50"
+
+lexer.input(teste)
+for tok in lexer:
+    print(tok)

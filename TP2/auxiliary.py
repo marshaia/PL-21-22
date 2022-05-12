@@ -82,8 +82,7 @@ def debugDump(parser):
 def verifyData(parser,warning):
 
     if not parser.mycontents["lexRead"] and not parser.mycontents["yaccRead"]:
-        if warning:
-            raise Exception("WARNING: Ficheiro Input Vazio - Nenhum bloco lido")
+        raise Exception("Ficheiro Input Vazio - Nenhum bloco lido")
 
     if not parser.mycontents["lexRead"]:
         if warning:

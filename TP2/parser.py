@@ -371,7 +371,7 @@ def p_yaccProdCod_singl(p):
     "yaccProdCod : CODIGO"
     code = p[1]
     if code != "":
-        code = code.strip("}{")
+        code = code.strip("}{\n")
         code = re.sub(r';',r'\n',code)
         code = re.sub(r'\n',r'\n\t',code)
     p[0] = code

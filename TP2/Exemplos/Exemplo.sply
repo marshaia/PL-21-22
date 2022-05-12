@@ -56,8 +56,10 @@ comando : "ID = exp"
 comando : "Print exp"     
 {print(p[2])}
 
-comando (Read): "Read exp" 
-{r = int(input());p.parser.tabelaIDs[p[2]] = r}
+comando (Read): "Read exp" {
+r = int(input())
+p.parser.tabelaIDs[p[2]] = r
+}
 
 comando : "DUMP"          
 {print(p.parser.tabelaIDs)}

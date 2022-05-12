@@ -80,7 +80,7 @@ t_yacc_EMPTYDIC = r'%((?i:newdict)|(?i:dict)|(?i:dic)|(?i:newdic))'
 
 t_yacc_CODIGO = r'\{(.|\n)*?\}'
 
-t_yacc_YACCPRECEDENCE = r'%precedence'
+t_yacc_YACCPRECEDENCE = r'%(?i:precedence)'
 
 
 
