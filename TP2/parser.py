@@ -15,12 +15,15 @@ def p_prog(p):
     p.parser.mycontents["fileIntervals"] = final
 
 
-def p_seccoes_singl(p):
-    "seccoes : seccao"
-    p[0] = [p[1]]
+
 def p_seccoes_multi(p):
     "seccoes : seccoes seccao"
     p[0] = p[1] + [p[2]]
+
+def p_seccoes_empty(p):
+    "seccoes : "
+    p[0] = []
+
 
 
 def p_seccao_lex(p):
@@ -375,7 +378,7 @@ def p_yaccProdCod_singl(p):
 
 
 def p_error(p):
-    raise Exception("Erro Sintáxico: '"+p.value+"' na linha "+str(p.lineno))
+    raise Exception("Erro Sintático: '"+p.value+"' na linha "+str(p.lineno))
 
 
 
@@ -439,7 +442,7 @@ def generateYaccDefaultDic():
     dic["precedenceRead"] = False
     dic["variables"] = []
     dic["productions"] = []
-    error = {"mensagem":"Erro Sintáxico","comando":"skip"}
+    error = {"mensagem":"Erro Sintático","comando":"skip"}
     dic["error"] = error
     dic["errorRead"] = False
     dic["aliascounter"] = {}

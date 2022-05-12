@@ -1,6 +1,6 @@
 prog : seccoes
 
-seccoes : seccao
+seccoes : 
         | seccoes seccao
 
 seccao : LEXSTART lex termino
