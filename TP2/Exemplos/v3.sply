@@ -11,7 +11,8 @@ YAY verao = r'(?i:yay)' %begin INITIAL
 %ignore = " \n\t\r"
 %error = "Erro léxico" %skip
 
-%contexts = (("verao","exclusive"))
+%literals = "->"
+%contexts = (("verao",'exclusive'))
 %ignore verao = " "
 
 
@@ -31,7 +32,7 @@ termos (rec) : "termos termo"
 termo (num) : "INT" 
 {p.parser.somatorio += p[1]}
 termo (word) : "WORD" {p.parser.wordlist.append(p[1])}
-termo (verao) : "VERAO YAY" {
+termo (verao) : "VERAO '-' > YAY" {
     print("YAY")
 }
 

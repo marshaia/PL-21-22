@@ -11,10 +11,14 @@ from auxiliary import *
 global args
 
 try:
-    
     #------------READ ARGS
     args = readArguments(sys.argv)
+except Exception as e:
+    print("ERROR-ARGS: "+str(e))
+    exit(1)
 
+
+try:
 
     #------------HELP FLAG
     if args["-help"]:
@@ -74,5 +78,6 @@ try:
 except Exception as e:
     print("ERROR: "+str(e))
     if args["-debug"]:
+        print("\n----- DEBUG TRACEBACK -----\n")
         traceback.print_tb(e.__traceback__)
     exit(1)
