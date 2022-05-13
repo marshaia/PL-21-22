@@ -44,12 +44,12 @@ lexIgnore : LEXIGNORE context '=' STRING
 
 lexLiterals : LEXLITERALS '=' STRING
 
-lexContexts : LEXCONTEXT '=' '[' lexContexTuplos ']'
+lexContexts : LEXCONTEXT '=' '(' lexContexTuplos ')'
 
 lexContexTuplos : lexContexTuplo
                 | lexContexTuplos ',' lexContexTuplo
 
-lexContexTuplo : '(' ID ',' ID ')'
+lexContexTuplo : '(' STRING ',' STRING ')'
 
 
 comError : COMERROR context '=' comErrorMessage skipOps
