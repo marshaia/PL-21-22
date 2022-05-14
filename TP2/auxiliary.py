@@ -1,6 +1,7 @@
 import json
 import re
 from strFormatter import strFinalFile
+from lexer import getTokenList
 
 
 def readArguments(argv):
@@ -8,6 +9,7 @@ def readArguments(argv):
     arguments = {}
     arguments["-input"] = ""
     arguments["-output"] = ""
+    #Todas as flags a FALSE
     for flag in flagList:
         if flag != "-input" and flag != "-output":
             arguments[flag] = False
@@ -71,10 +73,11 @@ FLAGS:
 
 
 
-def debugDump(parser):
+def debugDump(parser,filename):
+    tokens = getTokenList(filename)
     print("DEBUG: A descarregar os conteúdos do parser em 'debug.JSON'")
     debugfile = open("debug.JSON","w+")
-    json.dump([parser.mylex,parser.myyacc,parser.mycontents],debugfile,indent = 4)
+    json.dump([parser.mylex,parser.myyacc,parser.mycontents,tokens],debugfile,indent = 4)
     debugfile.close()
 
 
@@ -134,6 +137,7 @@ def writeFile(filename,parser,flag,inputfilename):
 
     if flag:
         foutput.write(strFinalFile(parser))
+        foutput.close()
         return
     
     list = parser.mycontents["fileIntervals"]

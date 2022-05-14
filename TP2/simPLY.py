@@ -29,12 +29,14 @@ try:
     #OutPut File must be .py
     if args["-output"] != "":
         args["-output"] = re.sub(r'\.\w+$',r'.py',args["-output"])
-        if ".py" not in args["-output"]:
-            args["-output"] += ".py"
 
     #Default Output File
     if args["-output"] == "":
         args["-output"] = re.sub(r'\.\w+$',r'-simPLY.py',args["-input"])
+
+    #Force add .py
+    if ".py" not in args["-output"]:
+        args["-output"] += ".py"
 
     #Check Input and output
     if args["-output"] == args["-input"]:
@@ -64,7 +66,7 @@ try:
 
     #-------------DEBUG FLAG
     if args["-debug"]:
-        debugDump(parser)
+        debugDump(parser,args["-input"])
 
 
     #-------------WRITE

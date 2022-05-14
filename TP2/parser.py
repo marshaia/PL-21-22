@@ -8,6 +8,7 @@ from lexer import tokens
 
 def p_prog(p):
     "prog : seccoes"
+    #Cria lista de tuplos com os números das linhas dos "blocos" SPLY
     final = []
     for list in p[1]:
         tupl = (list[0],list.pop())
@@ -205,10 +206,7 @@ def p_lexContexTuplo(p):
 
 def p_comError(p):
     "comError : COMERROR context '=' comErrorMessage skipOps"
-    error = {}
-    error["contexto"] = p[2]
-    error["mensagem"] = p[4]
-    error["comando"] = p[5]
+    error = {"contexto": p[2],"mensagem": p[4],"comando": p[5]}
     p[0] = error
 
 
@@ -270,8 +268,10 @@ def p_yaccRegra_error(p):
 
 def p_yaccPrecedence(p):
     "yaccPrecedence : YACCPRECEDENCE '=' '(' yaccPreTuplos ')'"
+    #Check Flag
     if p.parser.myyacc["precedenceRead"]:
         raise Exception("Parâmetro Precedence repetido na linha "+str(p.lineno(1)))
+    #Adição
     p.parser.myyacc["precedence"] = p[4]
     p.parser.myyacc["precedenceRead"] = True
 
@@ -288,6 +288,7 @@ def p_PreTuplo(p):
     "yaccPreTuplo : '(' STRING ',' STRING yaccPreTuploOP"
     tipo = p[2].lower().strip("\"'")
     fst = p[4].lower().strip("\"'")
+    #Verifica tipagem
     if tipo != "left" and tipo != "right":
         raise Exception("Tipo de precedência inválido ("+p[2]+") na linha "+str(p.lineno(2)))
     p[0] = tuple([tipo,fst] + p[5])
@@ -303,9 +304,11 @@ def p_yaccPreTuploOP_rec(p):
 
 def p_yaccVar(p):
     "yaccVar : ID '=' VarValue"
+    #Verifica repetição
     for var in p.parser.myyacc["variables"]:
         if var[0] == p[1]:
             raise Exception("Nome de variável "+p[1]+" repetido na linha "+str(p.lineno(1)))
+    #Adição
     var = (p[1],p[3])
     p.parser.myyacc["variables"].append(var)
 
@@ -331,7 +334,7 @@ def p_yaccProd(p):
         for prod in p.parser.myyacc["productions"]:
             if prod["nome"] == p[1] and prod["alias"] == p[2]:
                 raise Exception("Duas produções com alias repetido ("+p[1]+"/"+p[2]+") na linha "+str(p.lineno(1)))
-    #incrementa contador da producao
+    #Incrementa contador da producao
     if p[1] not in p.parser.myyacc["aliascounter"]:
         p.parser.myyacc["aliascounter"][p[1]] = 0
     p.parser.myyacc["aliascounter"][p[1]] += 1

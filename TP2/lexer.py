@@ -120,20 +120,22 @@ def t_error(t):
 t_ignore = " \t\r"
 
 
-
-
+#Função para gerar o Lexer
 def getLexer():
     lexer = lex.lex()
     lexer.begin("outside")
     return lexer
 
+#Função de DEBUG. Gera uma lista de tokens lido no ficheiro
+def getTokenList(filename):
+    lexer = getLexer()
+    fin = open(filename,"r")
+    rin = fin.read()
+    lexer.input(rin)
+    list = []
+    
+    for tok in lexer:
+        list.append(str(tok))
 
-# DEBUG LEXER
-# finput = open("Exemplo.txt","r")
-# rinput = finput.read()
-
-# lexer = getLexer()
-# lexer.input(rinput)
-
-# for tok in lexer:
-#     print(tok)
+    fin.close()
+    return list
