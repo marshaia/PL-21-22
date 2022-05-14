@@ -159,7 +159,7 @@ def strAllYacc(parser):
 
 
 def strFinalFile(parser):
-    msg = "#------------------- Iníco da Compilação --------------------\n"
+    msg = "#------------------- Início da Compilação --------------------\n"
     if parser.mycontents["lexRead"]:
         msg += strAllLex(parser)
     if parser.mycontents["yaccRead"]:

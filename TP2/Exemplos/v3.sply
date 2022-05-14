@@ -31,7 +31,7 @@ termos (rec) : "termos termo"
 
 termo (num) : "INT" 
 {p.parser.somatorio += p[1]}
-termo (word) : "WORD" {p.parser.wordlist.append(p[1])}
+termo word : "WORD" {p.parser.wordlist.append(p[1])}
 termo (verao) : "VERAO '-' > YAY" {
     print("YAY")
 }
