@@ -6,7 +6,7 @@ Trabalhos Práticos da unidade curricular de Processamento de Linguagens
 - [A93264 - Maria Cunha](https://github.com/stellaechild) 
 - [A93296 - Vicente Moreira](https://github.com/VicShadow) 
 
-#
+
 ## __TP1__
 Este primeiro projeto tem como objetivo converter ficheiros CSV em JSON utilizando expressões regulares.
 
