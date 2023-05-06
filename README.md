@@ -1,7 +1,6 @@
 # __PL-21-22__
 Trabalhos Práticos da unidade curricular de Processamento de Linguagens
 
-#
 ## __Autores:__
 - [A93290 - Joana Alves](https://github.com/marshaia) 
 - [A93264 - Maria Cunha](https://github.com/stellaechild) 
