@@ -10,6 +10,6 @@ Trabalhos Práticos da unidade curricular de Processamento de Linguagens
 ## __TP1__
 Este primeiro projeto tem como objetivo converter ficheiros CSV em JSON utilizando expressões regulares.
 
-# 
+
 ## __TP2__
 O segundo projeto tem como objetivo criar uma nova sintaxe para a biblioteca PLY (Python), assim como desenvolver um compilador que interprete, analise e gere o código Python correspondente.
